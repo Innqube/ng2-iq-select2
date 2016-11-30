@@ -7,7 +7,7 @@ import { IqSelect2Item } from './iq-select2/iq-select2-item';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
+  selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

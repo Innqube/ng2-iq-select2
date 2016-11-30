@@ -5,18 +5,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "noEmitHelpers": true,
     "outDir": "./lib",
     "removeComments": true,
     "moduleResolution": "node",
     "declaration": true
-    /*"typeRoots": [
-      "../node_modules/@types"
-    ],
-    "types": [
-      "core-js"
-    ]
-    */
   },
   "files": [
     "component.d.ts",
