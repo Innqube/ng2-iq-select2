@@ -1,4 +1,4 @@
-<div class="select2-results-container">
+<div class="select2-results-container" *ngIf="searchFocused">
   <div *ngFor="let item of items">
     <div class="select2-result" (click)="onItemSelected(item)">{{item.text}}</div>
   </div>

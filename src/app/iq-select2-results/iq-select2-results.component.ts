@@ -9,10 +9,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class IqSelect2ResultsComponent implements OnInit {
 
-  @Input()
-  private items: Observable<IqSelect2Item[]>;
-  @Output()
-  itemSelected: EventEmitter<any> = new EventEmitter();
+  @Input() private items: Observable<IqSelect2Item[]>;
+  @Input() searchFocused: boolean;
+  @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 

@@ -25,6 +25,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Output() private requestData = new EventEmitter();
   @Input() inputData: Observable<IqSelect2Item[]>;
   private listData: IqSelect2Item[];
+  private searchFocused = false;
   propagateChange = (_: any) => { };
 
   constructor() { }
@@ -105,5 +106,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   loadData(pattern: string) {
     this.requestData.emit(pattern);
+  }
+
+  onFocus() {
+    this.searchFocused = true;
+  }
+
+  onBlur() {
+    /*this.searchFocused = false;*/
   }
 }

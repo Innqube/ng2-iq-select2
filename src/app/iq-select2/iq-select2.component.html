@@ -1,5 +1,5 @@
 <div class="select2-container">  
   <iq-select2-selected [items]="selectedItems" (itemRemoved)="onItemRemoved($event);"></iq-select2-selected>
-  <input class="form-control" type="text" [formControl]="term" />
-  <iq-select2-results [items]="listData" (itemSelected)="onItemSelected($event);"></iq-select2-results>
+  <input class="form-control" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" />
+  <iq-select2-results [items]="listData" (itemSelected)="onItemSelected($event);" [searchFocused]="searchFocused"></iq-select2-results>
 </div>
