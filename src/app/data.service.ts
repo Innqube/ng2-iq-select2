@@ -29,9 +29,9 @@ export class DataService {
           let item: IqSelect2Item = {
             id: element,
             text: element
-          }
+          };
           items.push(item);
-        });       
+        });
 
         return items;
       })

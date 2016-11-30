@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
   requestData(pattern: string) {
     this.dataService.listData(pattern).subscribe(result => {
-      this.dataObserver.next(result)
+      this.dataObserver.next(result);
     });
   }
 

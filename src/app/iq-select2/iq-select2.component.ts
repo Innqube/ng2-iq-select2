@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
-const SEARCH_DELAY: number = 150;
+const SEARCH_DELAY = 150;
 
 @Component({
   selector: 'iq-select2',
@@ -58,7 +58,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   alreadySelected(item: IqSelect2Item): boolean {
-    let result: boolean = false;
+    let result = false;
     this.selectedItems.forEach(selectedItem => {
       if (selectedItem.id === item.id) {
         result = true;
@@ -70,8 +70,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   onItemSelected(item: IqSelect2Item) {
     this.selectedItems.push(item);
 
-    var index = this.listData.indexOf(item, 0);
-  
+    let index = this.listData.indexOf(item, 0);
+
     if (index > -1) {
       this.listData.splice(index, 1);
     }
@@ -90,7 +90,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   onItemRemoved(item: IqSelect2Item) {
-    var index = this.selectedItems.indexOf(item, 0);
+    let index = this.selectedItems.indexOf(item, 0);
 
     if (index > -1) {
       this.selectedItems.splice(index, 1);
