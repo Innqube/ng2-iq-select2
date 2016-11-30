@@ -1,0 +1,11 @@
+<a class="form-group has-feedback">
+  <ul class="form-control select2-selection-container">
+      <li *ngFor="let item of items" class="select2-selected">
+        {{item.text}}
+        <a class="select2-selection-remove" (click)="onItemRemoved(item)">
+          <i class="glyphicon glyphicon-remove"></i>
+        </a>
+      </li>
+  </ul>
+  <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
+</a>

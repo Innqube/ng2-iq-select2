@@ -1,0 +1,24 @@
+.select2-selected {
+    border: 1px solid #ddd;
+    padding: 2px 5px;
+    margin: 0 2px;
+    float: left;
+    list-style-type: none;
+}
+
+.select2-selection-container {
+    display: block;
+    overflow: hidden;
+    padding: 3px;
+    background-clip: border-box;
+    background-attachment: scroll;
+}
+
+.select2-selection-remove {
+    color: #aaa;
+    font-size: 0.8em;
+}
+
+.select2-selection-remove:hover {
+    cursor: pointer;
+}

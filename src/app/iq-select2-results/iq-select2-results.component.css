@@ -1,0 +1,15 @@
+.select2-results-container {
+    border: 1px solid #ddd;    
+    width: 100%;
+}
+
+.select2-result {
+    padding: 5px;
+    position: relative;
+    width: 100%;
+}
+
+.select2-result:hover {
+    background: #337ab7;
+    color: #fff;
+}

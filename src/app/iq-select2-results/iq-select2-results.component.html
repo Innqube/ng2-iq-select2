@@ -1,0 +1,5 @@
+<div class="select2-results-container">
+  <div *ngFor="let item of items">
+    <div class="select2-result" (click)="onItemSelected(item)">{{item.text}}</div>
+  </div>
+</div>
