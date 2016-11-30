@@ -1,6 +1,10 @@
 .select2-results-container {
     border: 1px solid #ddd;    
     width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
 }
 
 .select2-result {

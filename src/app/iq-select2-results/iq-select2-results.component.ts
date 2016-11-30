@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 import { Observable } from 'rxjs/Observable';
 
