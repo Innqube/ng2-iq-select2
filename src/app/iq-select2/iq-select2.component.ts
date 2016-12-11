@@ -90,7 +90,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     this.propagateChange(this.getSelectedIds());
-    this.termInput.nativeElement.value = '';
+    this.term.patchValue('');
     this.termInput.nativeElement.focus();
     this.recalulateResultsVisibility();
   }

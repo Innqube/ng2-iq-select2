@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'iq-select2-results',
@@ -9,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class IqSelect2ResultsComponent implements OnInit {
 
-  @Input() private items: Observable<IqSelect2Item[]>;
+  @Input() private items: IqSelect2Item[];
   @Input() searchFocused: boolean;
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
   private selectedIndex: number = 0;
@@ -24,16 +23,28 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   selectNext() {
-    this.selectedIndex++;
+    if (this.selectedIndex + 1 === this.items.length) {
+      this.selectedIndex = 0;
+    } else {
+      this.selectedIndex++;
+    }
   }
 
   selectPrevious() {
-    this.selectedIndex--;
+    if (this.selectedIndex - 1 < 0) {
+      this.selectedIndex = this.items.length - 1;
+    } else {
+      this.selectedIndex--;
+    }
   }
 
   selectCurrentItem() {
-    console.log('Selecting item ' + this.selectedIndex);
-    // this.onItemSelected(this.items[]);
+    this.onItemSelected(this.items[this.selectedIndex]);
+    this.selectedIndex = 0;
+  }
+
+  onMouseOver(index: number) {
+    this.selectedIndex = index;
   }
 
 }
