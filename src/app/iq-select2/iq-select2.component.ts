@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -27,6 +27,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   private listData: IqSelect2Item[];
   private searchFocused = false;
   propagateChange = (_: any) => { };
+  @ViewChild('termInput')
+  private termInput;
 
   constructor() { }
 
@@ -78,6 +80,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     this.propagateChange(this.getSelectedIds());
+    this.termInput.nativeElement.focus();
   }
 
   getSelectedIds(): number[] {
