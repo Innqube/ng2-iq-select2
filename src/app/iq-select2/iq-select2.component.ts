@@ -29,6 +29,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   propagateChange = (_: any) => { };
   @ViewChild('termInput')
   private termInput;
+  private resultsVisible = false;
 
   constructor() { }
 
@@ -36,7 +37,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     this.term.valueChanges
       .debounceTime(SEARCH_DELAY)
       .distinctUntilChanged()
-      .subscribe(term => this.loadData(term));
+      .subscribe(term => { 
+        this.resultsVisible = term.length > 0;
+        this.loadData(term);
+      });
 
     this.inputData.subscribe((items: IqSelect2Item[]) => {
       this.listData = [];
@@ -80,7 +84,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     this.propagateChange(this.getSelectedIds());
+    this.termInput.nativeElement.value = '';
     this.termInput.nativeElement.focus();
+    this.recalulateResultsVisibility();
+  }
+
+  recalulateResultsVisibility() {
+    this.resultsVisible = this.termInput.nativeElement.value.length > 0;
   }
 
   getSelectedIds(): number[] {
@@ -116,7 +126,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   onBlur() {
-    /*this.searchFocused = false;*/
+    this.recalulateResultsVisibility();
   }
 
   getInputWidth(): string {

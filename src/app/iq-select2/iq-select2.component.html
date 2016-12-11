@@ -8,10 +8,10 @@
           </a>
         </li>
         <li class="select2-input">
-          <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()" />
+          <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()"/>
         </li>
     </ul>
     <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
   </a>
-  <iq-select2-results [items]="listData" (itemSelected)="onItemSelected($event);" [searchFocused]="searchFocused"></iq-select2-results>
+  <iq-select2-results [items]="listData" (itemSelected)="onItemSelected($event);" [searchFocused]="searchFocused" *ngIf="resultsVisible"></iq-select2-results>
 </div>
