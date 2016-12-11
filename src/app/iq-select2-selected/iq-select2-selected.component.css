@@ -1,7 +1,7 @@
 .select2-selected {
     border: 1px solid #ddd;
-    padding: 2px 5px;
-    margin: 0 2px;
+    padding: 0 5px;
+    margin: 2px;
     float: left;
     list-style-type: none;
 }
@@ -12,6 +12,8 @@
     padding: 3px;
     background-clip: border-box;
     background-attachment: scroll;
+    height: inherit;
+    min-height: 34px;
 }
 
 .select2-selection-remove {
@@ -20,5 +22,6 @@
 }
 
 .select2-selection-remove:hover {
+    color: #666;
     cursor: pointer;
 }

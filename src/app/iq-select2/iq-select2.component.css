@@ -1,6 +1,6 @@
 .select2-container {
     position: relative;
-    width: 300px;
+    width: 100%;
 }
 
 .select2-container input {
