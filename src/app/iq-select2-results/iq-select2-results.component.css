@@ -14,7 +14,12 @@
     width: 100%;
 }
 
-.select2-result:hover {
+/* .select2-result:hover {
+    background: #337ab7;
+    color: #fff;
+} */
+
+.selected {
     background: #337ab7;
     color: #fff;
 }

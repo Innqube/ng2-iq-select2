@@ -12,6 +12,7 @@ export class IqSelect2ResultsComponent implements OnInit {
   @Input() private items: Observable<IqSelect2Item[]>;
   @Input() searchFocused: boolean;
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
+  private selectedIndex: number = 0;
 
   constructor() { }
 
@@ -20,6 +21,19 @@ export class IqSelect2ResultsComponent implements OnInit {
 
   onItemSelected(item: IqSelect2Item) {
     this.itemSelected.emit(item);
+  }
+
+  selectNext() {
+    this.selectedIndex++;
+  }
+
+  selectPrevious() {
+    this.selectedIndex--;
+  }
+
+  selectCurrentItem() {
+    console.log('Selecting item ' + this.selectedIndex);
+    // this.onItemSelected(this.items[]);
   }
 
 }

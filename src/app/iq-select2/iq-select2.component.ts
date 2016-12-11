@@ -1,10 +1,14 @@
 import { Component, OnInit, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
+import { IqSelect2ResultsComponent } from '../iq-select2-results/iq-select2-results.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 const SEARCH_DELAY = 150;
+const KEY_CODE_DOWN_ARROW = 40;
+const KEY_CODE_UP_ARROW = 38;
+const KEY_CODE_ENTER = 13;
 
 @Component({
   selector: 'iq-select2',
@@ -26,10 +30,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() inputData: Observable<IqSelect2Item[]>;
   private listData: IqSelect2Item[];
   private searchFocused = false;
-  propagateChange = (_: any) => { };
   @ViewChild('termInput')
   private termInput;
+  @ViewChild('results')
+  private results: IqSelect2ResultsComponent;
   private resultsVisible = false;
+  propagateChange = (_: any) => { };
 
   constructor() { }
 
@@ -37,7 +43,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     this.term.valueChanges
       .debounceTime(SEARCH_DELAY)
       .distinctUntilChanged()
-      .subscribe(term => { 
+      .subscribe(term => {
         this.resultsVisible = term.length > 0;
         this.loadData(term);
       });
@@ -131,5 +137,16 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   getInputWidth(): string {
     return this.term.value === null ? '0.75em' : (1 + this.term.value.length * .5) + 'em';
+  }
+
+  onKeyUp(ev) {
+    if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
+      this.results.selectNext();
+    } else if (ev.keyCode === KEY_CODE_UP_ARROW) {
+      this.results.selectPrevious();
+    } else if (ev.keyCode === KEY_CODE_ENTER) {
+      this.results.selectCurrentItem();
+      return false;
+    }
   }
 }
