@@ -5,6 +5,7 @@
     overflow-y: auto;
     position: absolute;
     background: #fff;
+    margin-top: -11px;
 }
 
 .select2-result {

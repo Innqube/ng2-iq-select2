@@ -115,4 +115,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   onBlur() {
     /*this.searchFocused = false;*/
   }
+
+  getInputWidth(): string {
+    return this.term.value === null ? '0.75em' : (1 + this.term.value.length * .5) + 'em';
+  }
 }

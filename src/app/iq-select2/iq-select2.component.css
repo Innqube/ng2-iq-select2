@@ -3,6 +3,44 @@
     width: 100%;
 }
 
-.select2-container input {
-    width: 100%;
+.select2-input {
+    list-style-type: none;
+}
+
+.select2-input input {
+    border: none;
+    outline: none;
+    width: 2em;
+}
+
+.select2-selected {
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    margin: 2px;
+    float: left;
+    list-style-type: none;
+}
+
+.select2-selection-container {
+    display: block;
+    overflow: hidden;
+    padding: 3px;
+    background-clip: border-box;
+    background-attachment: scroll;
+    height: inherit;
+    min-height: 34px;
+}
+
+.select2-selection-container:hover {
+    cursor: text;
+}
+
+.select2-selection-remove {
+    color: #aaa;
+    font-size: 0.8em;
+}
+
+.select2-selection-remove:hover {
+    color: #666;
+    cursor: pointer;
 }

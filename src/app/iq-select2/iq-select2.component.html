@@ -1,5 +1,17 @@
 <div class="select2-container">  
-  <iq-select2-selected [items]="selectedItems" (itemRemoved)="onItemRemoved($event);"></iq-select2-selected>
-  <input class="form-control" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" />
+  <a class="form-group">
+    <ul class="form-control select2-selection-container" (click)="termInput.focus();">
+        <li *ngFor="let item of selectedItems" class="select2-selected">
+          {{item.text}}
+          <a class="select2-selection-remove" (click)="onItemRemoved(item)">
+            <i class="glyphicon glyphicon-remove"></i>
+          </a>
+        </li>
+        <li class="select2-input">
+          <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()" />
+        </li>
+    </ul>
+    <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
+  </a>
   <iq-select2-results [items]="listData" (itemSelected)="onItemSelected($event);" [searchFocused]="searchFocused"></iq-select2-results>
 </div>
