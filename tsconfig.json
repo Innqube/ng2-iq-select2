@@ -12,7 +12,7 @@
     "declaration": true
   },
   "files": [
-    "component.d.ts",
+    "component.ts",
     "src/app/app.component.ts",
     "src/app/data.service.ts",
     "src/app/iq-select2.module.ts",
