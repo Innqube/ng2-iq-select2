@@ -129,7 +129,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     this.searchFocused = true;
   }
 
-  onBlur() {    
+  onBlur() {
     this.recalulateResultsVisibility();
     this.term.patchValue('');
   }
