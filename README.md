@@ -35,12 +35,11 @@ requestData(pattern: string) {
 
 Configuration options
 =====================
----
 
 **referenceMode**: 'id' | 'entity'
 **multiple**: 'true' | 'false'
 
-```json
+```javascript
 // form.value example with referenceMode === 'id':
 {
     'item': 1
