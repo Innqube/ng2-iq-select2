@@ -29,6 +29,7 @@
     background-attachment: scroll;
     height: inherit;
     min-height: 34px;
+    padding-right: 30px;
 }
 
 .select2-selection-container:hover {

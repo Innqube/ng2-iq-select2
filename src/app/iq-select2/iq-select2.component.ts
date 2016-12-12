@@ -24,16 +24,14 @@ const KEY_CODE_ENTER = 13;
 })
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
-  private selectedItems: IqSelect2Item[] = [];
-  private term = new FormControl();
   @Output() private requestData = new EventEmitter();
   @Input() inputData: Observable<IqSelect2Item[]>;
+  @ViewChild('termInput') private termInput;
+  @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
+  private selectedItems: IqSelect2Item[] = [];
+  private term = new FormControl();
   private searchFocused = false;
-  @ViewChild('termInput')
-  private termInput;
-  @ViewChild('results')
-  private results: IqSelect2ResultsComponent;
   private resultsVisible = false;
   propagateChange = (_: any) => { };
 

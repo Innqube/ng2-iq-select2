@@ -8,13 +8,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { IqSelect2Component } from './iq-select2/iq-select2.component';
 import { IqSelect2ResultsComponent } from './iq-select2-results/iq-select2-results.component';
-import { IqSelect2SelectedComponent } from './iq-select2-selected/iq-select2-selected.component';
 
 @NgModule({
   declarations: [
     IqSelect2Component,
-    IqSelect2ResultsComponent,
-    IqSelect2SelectedComponent
+    IqSelect2ResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,8 +22,7 @@ import { IqSelect2SelectedComponent } from './iq-select2-selected/iq-select2-sel
   ],
   exports: [
     IqSelect2Component,
-    IqSelect2ResultsComponent,
-    IqSelect2SelectedComponent
+    IqSelect2ResultsComponent
   ]
 })
 export class IqSelect2Module { }

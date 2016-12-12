@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { IqSelect2ResultsComponent } from '../iq-select2-results/iq-select2-results.component';
-import { IqSelect2SelectedComponent } from '../iq-select2-selected/iq-select2-selected.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
@@ -16,7 +15,7 @@ describe('IqSelect2Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IqSelect2Component, IqSelect2ResultsComponent, IqSelect2SelectedComponent ],
+      declarations: [ IqSelect2Component, IqSelect2ResultsComponent ],
       imports: [
         ReactiveFormsModule
       ]

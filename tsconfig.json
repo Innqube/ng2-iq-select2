@@ -17,8 +17,7 @@
     "src/app/iq-select2.module.ts",
     "src/app/iq-select2/iq-select2.component.ts",
     "src/app/iq-select2/iq-select2-item.ts",
-    "src/app/iq-select2-results/iq-select2-results.component.ts",
-    "src/app/iq-select2-selected/iq-select2-selected.component.ts"
+    "src/app/iq-select2-results/iq-select2-results.component.ts"
   ],
   "exclude": [
     "node_modules",
