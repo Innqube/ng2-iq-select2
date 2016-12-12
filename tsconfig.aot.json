@@ -5,6 +5,7 @@
     "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
+    "noEmitHelpers":false,
     "removeComments": true,
     "sourceMap": true,
     "declaration": true,

@@ -1,1 +1,0 @@
-{"__symbolic":"module","version":1,"metadata":{},"exports":[{"from":"./src/app/iq-select2.module","export":["IqSelect2Module"]},{"from":"./src/app/iq-select2/iq-select2.component","export":["IqSelect2Component"]}]}

@@ -5,7 +5,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "noEmitHelpers": true,
+    "noEmitHelpers":false,
     "outDir": "./lib",
     "removeComments": true,
     "moduleResolution": "node",
