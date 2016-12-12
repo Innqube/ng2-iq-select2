@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       firstname: '',
       lastname: '',
       option: '',
-      category: ''
+      country: ''
     });
   }
 

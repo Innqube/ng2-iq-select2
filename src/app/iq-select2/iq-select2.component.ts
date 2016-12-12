@@ -26,13 +26,14 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   @Output() private requestData = new EventEmitter();
   @Input() inputData: Observable<IqSelect2Item[]>;
+  @Input() mode: 'id' | 'entity' = 'id';
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
   private selectedItems: IqSelect2Item[] = [];
   private term = new FormControl();
   private searchFocused = false;
-  private resultsVisible = false;
+  private resultsVisible = false;  
   propagateChange = (_: any) => { };
 
   constructor() { }
@@ -87,7 +88,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       this.listData.splice(index, 1);
     }
 
-    this.propagateChange(this.getSelectedIds());
+    this.propagateChange('id' === this.mode ? this.getSelectedIds() : this.getEntities());
     this.term.patchValue('');
     this.termInput.nativeElement.focus();
     this.recalulateResultsVisibility();
@@ -107,6 +108,16 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     return ids;
   }
 
+  getEntities() {
+    let entities = [];
+
+    this.selectedItems.forEach(item => {
+      entities.push(item.entity);
+    });
+
+    return entities;
+  }
+
   onItemRemoved(item: IqSelect2Item) {
     let index = this.selectedItems.indexOf(item, 0);
 
@@ -118,7 +129,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       this.listData.push(item);
     }
 
-    this.propagateChange(this.getSelectedIds());
+    this.propagateChange('id' === this.mode ? this.getSelectedIds() : this.getEntities());
   }
 
   loadData(pattern: string) {

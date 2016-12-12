@@ -9,26 +9,32 @@ export class DataService {
   private headers: Headers = new Headers({ 'Content-Type': 'application/json' });
   private options: RequestOptions = new RequestOptions({ headers: this.headers });
   private list: IqSelect2Item[] = [
-    { 'id': 1, 'text': 'Indonesia' },
-    { 'id': 2, 'text': 'Spain' },
-    { 'id': 3, 'text': 'Portugal' },
-    { 'id': 4, 'text': 'Myanmar' },
-    { 'id': 5, 'text': 'Czech Republic' },
-    { 'id': 6, 'text': 'Germany' },
-    { 'id': 7, 'text': 'Mexico' },
-    { 'id': 8, 'text': 'Argentina' },
-    { 'id': 9, 'text': 'Sweden' },
-    { 'id': 10, 'text': 'Yemen' },
-    { 'id': 11, 'text': 'Philippines' },
-    { 'id': 12, 'text': 'China' },
-    { 'id': 13, 'text': 'France' },
-    { 'id': 14, 'text': 'Brazil' },
-    { 'id': 15, 'text': 'Denmark' },
-    { 'id': 16, 'text': 'Finland' },
-    { 'id': 17, 'text': 'Colombia' },
-    { 'id': 18, 'text': 'Russia' },
-    { 'id': 19, 'text': 'Ethiopia' },
-    { 'id': 20, 'text': 'Italy' }
+    { 'id': 1, 'text': 'Indonesia', 'entity': undefined },
+    { 'id': 2, 'text': 'Spain', 'entity': undefined },
+    { 'id': 3, 'text': 'Portugal', 'entity': undefined },
+    { 'id': 4, 'text': 'Myanmar', 'entity': undefined },
+    { 'id': 5, 'text': 'Czech Republic', 'entity': undefined },
+    { 'id': 6, 'text': 'Germany', 'entity': undefined },
+    { 'id': 7, 'text': 'Mexico', 'entity': undefined },
+    {
+      'id': 8, 'text': 'Argentina', 'entity': {
+        'id': 8,
+        'name': 'Argentina',
+        'money': 'ARS'
+      }
+    },
+    { 'id': 9, 'text': 'Sweden', 'entity': undefined },
+    { 'id': 10, 'text': 'Yemen', 'entity': undefined },
+    { 'id': 11, 'text': 'Philippines', 'entity': undefined },
+    { 'id': 12, 'text': 'China', 'entity': undefined },
+    { 'id': 13, 'text': 'France', 'entity': undefined },
+    { 'id': 14, 'text': 'Brazil', 'entity': undefined },
+    { 'id': 15, 'text': 'Denmark', 'entity': undefined },
+    { 'id': 16, 'text': 'Finland', 'entity': undefined },
+    { 'id': 17, 'text': 'Colombia', 'entity': undefined },
+    { 'id': 18, 'text': 'Russia', 'entity': undefined },
+    { 'id': 19, 'text': 'Ethiopia', 'entity': undefined },
+    { 'id': 20, 'text': 'Italy', 'entity': undefined }
   ];
 
   constructor(
