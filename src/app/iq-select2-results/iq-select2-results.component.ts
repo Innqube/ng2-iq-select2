@@ -8,7 +8,7 @@ import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 })
 export class IqSelect2ResultsComponent implements OnInit {
 
-  @Input() private items: IqSelect2Item[];
+  @Input() items: IqSelect2Item[];
   @Input() searchFocused: boolean;
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
   private selectedIndex: number = 0;
