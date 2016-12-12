@@ -3,11 +3,17 @@ import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 import { ControlValueAccessor } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 export declare class IqSelect2Component implements OnInit, ControlValueAccessor {
-    private selectedItems;
-    private term;
     private requestData;
     inputData: Observable<IqSelect2Item[]>;
+    referenceMode: 'id' | 'entity';
+    multiple: boolean;
+    private termInput;
+    private results;
     private listData;
+    private selectedItems;
+    private term;
+    private searchFocused;
+    private resultsVisible;
     propagateChange: (_: any) => void;
     constructor();
     ngOnInit(): void;
@@ -16,7 +22,14 @@ export declare class IqSelect2Component implements OnInit, ControlValueAccessor 
     registerOnTouched(value: any): void;
     alreadySelected(item: IqSelect2Item): boolean;
     onItemSelected(item: IqSelect2Item): void;
-    getSelectedIds(): number[];
+    recalulateResultsVisibility(): void;
+    getSelectedIds(): any;
+    getEntities(): any;
     onItemRemoved(item: IqSelect2Item): void;
     loadData(pattern: string): void;
+    onFocus(): void;
+    onBlur(): void;
+    getInputWidth(): string;
+    onKeyUp(ev: any): boolean;
+    focusInput(): void;
 }

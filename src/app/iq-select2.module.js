@@ -8,15 +8,13 @@ require('rxjs/add/operator/debounceTime');
 require('rxjs/add/operator/distinctUntilChanged');
 const iq_select2_component_1 = require('./iq-select2/iq-select2.component');
 const iq_select2_results_component_1 = require('./iq-select2-results/iq-select2-results.component');
-const iq_select2_selected_component_1 = require('./iq-select2-selected/iq-select2-selected.component');
 class IqSelect2Module {
 }
 IqSelect2Module.decorators = [
     { type: core_1.NgModule, args: [{
                 declarations: [
                     iq_select2_component_1.IqSelect2Component,
-                    iq_select2_results_component_1.IqSelect2ResultsComponent,
-                    iq_select2_selected_component_1.IqSelect2SelectedComponent
+                    iq_select2_results_component_1.IqSelect2ResultsComponent
                 ],
                 imports: [
                     platform_browser_1.BrowserModule,
@@ -26,8 +24,7 @@ IqSelect2Module.decorators = [
                 ],
                 exports: [
                     iq_select2_component_1.IqSelect2Component,
-                    iq_select2_results_component_1.IqSelect2ResultsComponent,
-                    iq_select2_selected_component_1.IqSelect2SelectedComponent
+                    iq_select2_results_component_1.IqSelect2ResultsComponent
                 ]
             },] },
 ];
