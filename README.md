@@ -1,6 +1,8 @@
 # ng2-iq-select2
 
 [![InnQUbe](http://www.innqube.com/powered-by-innqube.png)](http://www.innqube.com/)
+[![Build Status](https://travis-ci.org/Innqube/ng2-iq-select2.svg?branch=master)](https://travis-ci.org/Innqube/ng2-iq-select2)
+
 Angular 2 native select 2 implementation based on bootstrap 3
 
 * Easily filter on a remote webservice (can be used with a local list too)
