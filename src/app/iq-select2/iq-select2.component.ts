@@ -26,7 +26,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   @Output() private requestData = new EventEmitter();
   @Input() inputData: Observable<IqSelect2Item[]>;
-  @Input() mode: 'id' | 'entity' = 'id';
+  @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
@@ -94,9 +94,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       this.selectedItems.push(item);
     }
 
-    this.propagateChange('id' === this.mode ? this.getSelectedIds() : this.getEntities());
+    this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
     this.term.patchValue('');
-    // this.termInput.nativeElement.focus();
     this.recalulateResultsVisibility();
   }
 
@@ -104,24 +103,32 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     this.resultsVisible = this.termInput.nativeElement.value.length > 0;
   }
 
-  getSelectedIds(): number[] {
-    let ids: number[] = [];
+  getSelectedIds(): any {
+    if (this.multiple) {
+      let ids: number[] = [];
 
-    this.selectedItems.forEach(item => {
-      ids.push(item.id);
-    });
+      this.selectedItems.forEach(item => {
+        ids.push(item.id);
+      });
 
-    return ids;
+      return ids;
+    } else {
+      return this.selectedItems.length === 0 ? null : this.selectedItems[0].id;
+    }
   }
 
-  getEntities() {
-    let entities = [];
+  getEntities(): any {
+    if (this.multiple) {
+      let entities = [];
 
-    this.selectedItems.forEach(item => {
-      entities.push(item.entity);
-    });
+      this.selectedItems.forEach(item => {
+        entities.push(item.entity);
+      });
 
-    return entities;
+      return entities;
+    } else {
+      return this.selectedItems.length === 0 ? null : this.selectedItems[0].entity;
+    }
   }
 
   onItemRemoved(item: IqSelect2Item) {
@@ -135,7 +142,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       this.listData.push(item);
     }
 
-    this.propagateChange('id' === this.mode ? this.getSelectedIds() : this.getEntities());
+    this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
   }
 
   loadData(pattern: string) {
@@ -156,13 +163,15 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   onKeyUp(ev) {
-    if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
-      this.results.selectNext();
-    } else if (ev.keyCode === KEY_CODE_UP_ARROW) {
-      this.results.selectPrevious();
-    } else if (ev.keyCode === KEY_CODE_ENTER) {
-      this.results.selectCurrentItem();
-      return false;
+    if (this.results) {
+      if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
+        this.results.selectNext();
+      } else if (ev.keyCode === KEY_CODE_UP_ARROW) {
+        this.results.selectPrevious();
+      } else if (ev.keyCode === KEY_CODE_ENTER) {
+        this.results.selectCurrentItem();
+        return false;
+      }
     }
   }
 
