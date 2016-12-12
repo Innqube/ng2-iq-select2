@@ -1,13 +1,13 @@
 <div class="select2-container">  
   <a class="form-group">
-    <ul class="form-control select2-selection-container" (click)="termInput.focus();">
+    <ul class="form-control select2-selection-container" (click)="focusInput()" [class.simple-selection]="!multiple">
         <li *ngFor="let item of selectedItems" class="select2-selected">
           {{item.text}}
           <a class="select2-selection-remove" (click)="onItemRemoved(item)">
             <i class="glyphicon glyphicon-remove"></i>
           </a>
         </li>
-        <li class="select2-input">
+        <li class="select2-input" *ngIf="multiple || selectedItems.length === 0">
           <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()" (keyup)="onKeyUp($event)"/>
         </li>
     </ul>

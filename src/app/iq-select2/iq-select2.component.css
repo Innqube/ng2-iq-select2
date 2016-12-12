@@ -21,6 +21,11 @@
     list-style-type: none;
 }
 
+.simple-selection .select2-selected {
+    border: none;
+    width: 100%;
+}
+
 .select2-selection-container {
     display: block;
     overflow: hidden;

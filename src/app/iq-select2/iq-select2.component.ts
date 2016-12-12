@@ -27,13 +27,14 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Output() private requestData = new EventEmitter();
   @Input() inputData: Observable<IqSelect2Item[]>;
   @Input() mode: 'id' | 'entity' = 'id';
+  @Input() multiple = false;
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
   private selectedItems: IqSelect2Item[] = [];
   private term = new FormControl();
   private searchFocused = false;
-  private resultsVisible = false;  
+  private resultsVisible = false;
   propagateChange = (_: any) => { };
 
   constructor() { }
@@ -80,17 +81,22 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   onItemSelected(item: IqSelect2Item) {
-    this.selectedItems.push(item);
+    if (this.multiple) {
+      this.selectedItems.push(item);
 
-    let index = this.listData.indexOf(item, 0);
+      let index = this.listData.indexOf(item, 0);
 
-    if (index > -1) {
-      this.listData.splice(index, 1);
+      if (index > -1) {
+        this.listData.splice(index, 1);
+      }
+    } else {
+      this.selectedItems.length = 0;
+      this.selectedItems.push(item);
     }
 
     this.propagateChange('id' === this.mode ? this.getSelectedIds() : this.getEntities());
     this.term.patchValue('');
-    this.termInput.nativeElement.focus();
+    // this.termInput.nativeElement.focus();
     this.recalulateResultsVisibility();
   }
 
@@ -159,4 +165,11 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       return false;
     }
   }
+
+  focusInput() {
+    if (this.multiple || this.selectedItems.length === 0) {
+      this.termInput.nativeElement.focus();
+    }
+  }
+
 }
