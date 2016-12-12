@@ -1,4 +1,4 @@
-<div class="select2-results-container" *ngIf="searchFocused">
+<div class="select2-results-container" *ngIf="items.length > 0">
   <div *ngFor="let item of items; let i = index;">
     <div class="select2-result" (click)="onItemSelected(item)" [class.selected]="i === selectedIndex" (mouseover)="onMouseOver(i)">{{item.text}}</div>
   </div>
