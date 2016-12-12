@@ -15,18 +15,38 @@ describe('IqSelect2Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IqSelect2Component, IqSelect2ResultsComponent ],
+      declarations: [IqSelect2Component, IqSelect2ResultsComponent],
       imports: [
         ReactiveFormsModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IqSelect2Component);
     component = fixture.componentInstance;
-    component.inputData = Observable.of([]);
+    component.inputData = Observable.of([
+      {
+        'id': 1, 'text': 'Argentina', 'entity': {
+          'id': 1,
+          'name': 'Argentina',
+          'money': 'ARS'
+        }
+      }, {
+        'id': 2, 'text': 'Chile', 'entity': {
+          'id': 2,
+          'name': 'Chile',
+          'money': 'CLP'
+        }
+      }, {
+        'id': 3, 'text': 'Brazil', 'entity': {
+          'id': 3,
+          'name': 'Brazil',
+          'money': 'BRL'
+        }
+      }
+    ]);
     fixture.detectChanges();
   });
 
