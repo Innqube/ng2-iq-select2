@@ -1,5 +1,5 @@
 export interface IqSelect2Item {
-    id: number;
+    id: string;
     text: string;
     entity: any;
 }

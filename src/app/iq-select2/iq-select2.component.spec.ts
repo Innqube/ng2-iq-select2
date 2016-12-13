@@ -26,27 +26,6 @@ describe('IqSelect2Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(IqSelect2Component);
     component = fixture.componentInstance;
-    component.inputData = Observable.of([
-      {
-        'id': 1, 'text': 'Argentina', 'entity': {
-          'id': 1,
-          'name': 'Argentina',
-          'money': 'ARS'
-        }
-      }, {
-        'id': 2, 'text': 'Chile', 'entity': {
-          'id': 2,
-          'name': 'Chile',
-          'money': 'CLP'
-        }
-      }, {
-        'id': 3, 'text': 'Brazil', 'entity': {
-          'id': 3,
-          'name': 'Brazil',
-          'money': 'BRL'
-        }
-      }
-    ]);
     fixture.detectChanges();
   });
 

@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
-const SEARCH_DELAY = 150;
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
 const KEY_CODE_ENTER = 13;
@@ -26,6 +25,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() dataCallback: (term: string) => Observable<IqSelect2Item[]>;
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
+  @Input() searchDelay = 250;
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
@@ -39,7 +39,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.term.valueChanges
-      .debounceTime(SEARCH_DELAY)
+      .debounceTime(this.searchDelay)
       .distinctUntilChanged()
       .subscribe(term => {
         this.resultsVisible = term.length > 0;
@@ -102,7 +102,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   getSelectedIds(): any {
     if (this.multiple) {
-      let ids: number[] = [];
+      let ids: string[] = [];
 
       this.selectedItems.forEach(item => {
         ids.push(item.id);

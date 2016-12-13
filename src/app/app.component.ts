@@ -12,7 +12,6 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private callback: (term: string) => Observable<IqSelect2Item[]>;
   private form: FormGroup;
 
   constructor(
@@ -21,8 +20,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.callback = this.dataService.listData;
-
     this.form = this.formBuilder.group({
       firstname: '',
       lastname: '',
