@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 import { IqSelect2ResultsComponent } from '../iq-select2-results/iq-select2-results.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,9 +23,7 @@ const VALUE_ACCESSOR = {
 })
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
-  @Output() private requestData = new EventEmitter();
-  @Input() dataFunction: (term: string) => Observable<IqSelect2Item[]>;
-  /* private inputData: Observable<IqSelect2Item[]>;*/
+  @Input() dataCallback: (term: string) => Observable<IqSelect2Item[]>;
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @ViewChild('termInput') private termInput;
@@ -46,7 +44,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       .subscribe(term => {
         this.resultsVisible = term.length > 0;
 
-        this.dataFunction.call(this.dataFunction, term).subscribe((items: IqSelect2Item[]) => {
+        this.dataCallback.call(this.dataCallback, term).subscribe((items: IqSelect2Item[]) => {
           this.listData = [];
           items.forEach(item => {
             if (!this.alreadySelected(item)) {
@@ -54,7 +52,6 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
             }
           });
         });
-        // this.loadData(term);
       });
   }
 
@@ -143,10 +140,6 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
-  }
-
-  loadData(pattern: string) {
-    this.requestData.emit(pattern);
   }
 
   onFocus() {
