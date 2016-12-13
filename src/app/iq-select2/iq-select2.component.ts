@@ -9,18 +9,17 @@ const SEARCH_DELAY = 150;
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
 const KEY_CODE_ENTER = 13;
+const VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => IqSelect2Component),
+  multi: true
+};
 
 @Component({
   selector: 'iq-select2',
   templateUrl: './iq-select2.component.html',
   styleUrls: ['./iq-select2.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IqSelect2Component),
-      multi: true
-    }
-  ]
+  providers: [VALUE_ACCESSOR]
 })
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
