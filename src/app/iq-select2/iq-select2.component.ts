@@ -24,7 +24,8 @@ const VALUE_ACCESSOR = {
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   @Output() private requestData = new EventEmitter();
-  @Input() inputData: Observable<IqSelect2Item[]>;
+  @Input() dataFunction: (term: string) => Observable<IqSelect2Item[]>;
+  /* private inputData: Observable<IqSelect2Item[]>;*/
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @ViewChild('termInput') private termInput;
@@ -44,17 +45,17 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       .distinctUntilChanged()
       .subscribe(term => {
         this.resultsVisible = term.length > 0;
-        this.loadData(term);
-      });
 
-    this.inputData.subscribe((items: IqSelect2Item[]) => {
-      this.listData = [];
-      items.forEach(item => {
-        if (!this.alreadySelected(item)) {
-          this.listData.push(item);
-        }
+        this.dataFunction.call(this.dataFunction, term).subscribe((items: IqSelect2Item[]) => {
+          this.listData = [];
+          items.forEach(item => {
+            if (!this.alreadySelected(item)) {
+              this.listData.push(item);
+            }
+          });
+        });
+        // this.loadData(term);
       });
-    });
   }
 
   writeValue(value: any): void {
