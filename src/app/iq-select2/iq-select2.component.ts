@@ -164,7 +164,6 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         this.results.selectPrevious();
       } else if (ev.keyCode === KEY_CODE_ENTER) {
         this.results.selectCurrentItem();
-        return false;
       }
     }
   }
@@ -172,6 +171,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   focusInput() {
     if (this.multiple || this.selectedItems.length === 0) {
       this.termInput.nativeElement.focus();
+    }
+  }
+
+  onKeyPress(ev) {
+    if (ev.keyCode === KEY_CODE_ENTER) {
+      ev.preventDefault();
     }
   }
 
