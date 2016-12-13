@@ -8,7 +8,7 @@
           </a>
         </li>
         <li class="select2-input" *ngIf="multiple || selectedItems.length === 0">
-          <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()" (keypress)="onKeyPress($event)"/>
+          <input #termInput class="select2-selected select2-input" type="text" [formControl]="term" (focus)="onFocus()" (blur)="onBlur()" [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"/>
         </li>
     </ul>
     <span class="glyphicon glyphicon-triangle-bottom form-control-feedback"></span>
