@@ -27,6 +27,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() multiple = false;
   @Input() searchDelay = 250;
   @Input() css: string;
+  @Input() placeholder: string;
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
@@ -154,7 +155,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   getInputWidth(): string {
-    return this.term.value === null ? '0.75em' : (1 + this.term.value.length * .6) + 'em';
+    let searchEmpty = this.selectedItems.length === 0 && (this.term.value === null || this.term.value.length === 0);
+    return searchEmpty ? '100%' : (1 + this.term.value.length * .6) + 'em';
   }
 
   onKeyUp(ev) {
@@ -188,6 +190,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   getMinHeight(): string {
     let isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('input-sm') !== -1;
     return isInputSm ? '30px' : '34px';
+  }
+
+  getPlaceholder(): string {
+    return this.selectedItems.length > 0 ? '' : this.placeholder;
   }
 
 }

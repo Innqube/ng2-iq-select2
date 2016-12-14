@@ -36,8 +36,12 @@ Configuration options
 =====================
 
 **referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
+
 **multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
+
 **searchDelay**: ms until request is effectively triggered
+
+**placeholder**: text to show until a search is performed
 
 ```javascript
 // form.value example with referenceMode === 'id':
