@@ -13,33 +13,31 @@ Angular 2 native select 2 implementation based on bootstrap 3
 Usage example:
 
 ```html
-<iq-select2 formControlName="item" [inputData]="inputData" (requestData)="requestData($event)" referenceMode='id' [multiple]='true'></iq-select2>
+<iq-select2 css="form-control input-sm" formControlName="country" [dataCallback]="dataService.listData" referenceMode='id' [multiple]='true' [searchDelay]="200"></iq-select2>
 ```
 
+*DataService*
 ```javascript
-private inputData: Observable<IqSelect2Item[]>;
+public listData(pattern: string): Observable<IqSelect2Item[]> {
+    ...
+}
+```
 
-requestData(pattern: string) {
-    this.webservice.list(pattern).subscribe(results => {
-        let items: IqSelect2Item[] = [];
-        results.forEach(result => {
-            items.push({
-                'id': result.id,
-                'text': result.name,
-                'entity': result
-            });
-        });
-        
-        this.inputData = items;
-    });
+*IqSelect2Item*
+```javascript
+interface IqSelect2Item {
+    id: string;
+    text: string;
+    entity: any; // only needed when referenceMode === 'entity'
 }
 ```
 
 Configuration options
 =====================
 
-**referenceMode**: 'id' | 'entity'
-**multiple**: 'true' | 'false'
+**referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
+**multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
+**searchDelay**: ms until request is effectively triggered
 
 ```javascript
 // form.value example with referenceMode === 'id':
