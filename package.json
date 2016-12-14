@@ -1,6 +1,6 @@
 {
   "name": "ng2-iq-select2",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Angular 2 native select 2 implementation based on bootstrap 3",
   "repository": {
     "url": "https://github.com/Innqube/ng2-iq-select2"
