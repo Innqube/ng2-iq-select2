@@ -5,6 +5,8 @@
 
 .select2-input {
     list-style-type: none;
+    margin-left: 5px;
+    margin-top: 2px;
 }
 
 .select2-input input {
@@ -29,12 +31,10 @@
 .select2-selection-container {
     display: block;
     overflow: hidden;
-    padding: 3px;
     background-clip: border-box;
     background-attachment: scroll;
     height: inherit;
-    min-height: 34px;
-    padding-right: 30px;
+    padding: 2px 30px 2px 2px;
 }
 
 .select2-selection-container:hover {

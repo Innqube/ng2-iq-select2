@@ -26,6 +26,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @Input() searchDelay = 250;
+  @Input() css: string;
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
@@ -178,6 +179,15 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     if (ev.keyCode === KEY_CODE_ENTER) {
       ev.preventDefault();
     }
+  }
+
+  getCss(): string {
+    return 'select2-selection-container ' + (this.css === undefined ? '' : this.css);
+  }
+
+  getMinHeight(): string {
+    let isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('input-sm') !== -1;
+    return isInputSm ? '30px' : '34px';
   }
 
 }

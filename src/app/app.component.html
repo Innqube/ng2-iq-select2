@@ -2,14 +2,14 @@
     <form [formGroup]="form">
         <div class="form-group">
             <label>Nombre</label>
-            <input class="form-control" type="text" formControlName="firstname" />
+            <input class="form-control input-sm" type="text" formControlName="firstname" />
         </div>
         <div class="form-group">
             <label>Apellido</label>
-            <input class="form-control" type="text" formControlName="lastname" />
+            <input class="form-control input-sm" type="text" formControlName="lastname" />
         </div>
         <div class="form-group">
-            <label>Opcion</label><select class="form-control" formControlName="option">
+            <label>Opcion</label><select class="form-control input-sm" formControlName="option">
         <option>Opcion 1</option>
         <option>Opcion 2</option>
         <option>Opcion 3</option>
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label>Country</label>
-            <iq-select2 formControlName="country" [dataCallback]="dataService.listData" referenceMode='entity' [multiple]='false'></iq-select2>
+            <iq-select2 css="form-control input-sm" formControlName="country" [dataCallback]="dataService.listData" referenceMode='entity' [multiple]='true'></iq-select2>
         </div>
         <button class="btn btn-primary" type="submit" (click)="send(form.value)">Enviar</button>
     </form>
