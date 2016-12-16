@@ -18,7 +18,9 @@
 .select2-selected {
     margin: 2px;
     float: left;
-    list-style-type: none;
+    list-style-type: none;    
+    font-size: 100%;
+    padding: 5px;
 }
 
 .simple-selection .select2-selected {
