@@ -13,6 +13,7 @@
     border: none;
     outline: none;
     width: 2em;
+    float: left;
 }
 
 .select2-selected {
@@ -20,12 +21,24 @@
     float: left;
     list-style-type: none;    
     font-size: 100%;
+}
+
+.multiple-selection .select2-selected {
     padding: 5px;
 }
 
 .simple-selection .select2-selected {
     border: none;
     width: 100%;
+    padding-left: 5px;
+    padding-top: 1px;
+}
+
+.simple-selection a.select2-selection-remove {
+    text-align: right;
+    right: 25px;
+    top: 9px;
+    position: absolute;
 }
 
 .select2-selection-container {
