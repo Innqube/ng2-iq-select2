@@ -39,8 +39,10 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   selectCurrentItem() {
-    this.onItemSelected(this.items[this.selectedIndex]);
-    this.selectedIndex = 0;
+    if (this.items[this.selectedIndex]) {
+      this.onItemSelected(this.items[this.selectedIndex]);
+      this.selectedIndex = 0;
+    }
   }
 
   onMouseOver(index: number) {

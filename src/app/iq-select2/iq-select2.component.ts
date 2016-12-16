@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
 const KEY_CODE_ENTER = 13;
+const KEY_CODE_DELETE = 8;
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => IqSelect2Component),
@@ -130,7 +131,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
   }
 
-  onItemRemoved(item: IqSelect2Item) {
+  removeItem(item: IqSelect2Item) {
     let index = this.selectedItems.indexOf(item, 0);
 
     if (index > -1) {
@@ -167,6 +168,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         this.results.selectPrevious();
       } else if (ev.keyCode === KEY_CODE_ENTER) {
         this.results.selectCurrentItem();
+      }
+    } else {
+      if (ev.keyCode === KEY_CODE_DELETE) {
+        if (this.selectedItems.length > 0) {
+          this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
+        }
       }
     }
   }
