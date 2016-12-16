@@ -1,25 +1,35 @@
 <div class="container">
     <form [formGroup]="form">
         <div class="form-group">
-            <label>Nombre</label>
+            <label>Name</label>
             <input class="form-control input-sm" type="text" formControlName="firstname" />
         </div>
         <div class="form-group">
-            <label>Apellido</label>
+            <label>Lastname</label>
             <input class="form-control input-sm" type="text" formControlName="lastname" />
         </div>
         <div class="form-group">
-            <label>Opcion</label><select class="form-control input-sm" formControlName="option">
-        <option>Opcion 1</option>
-        <option>Opcion 2</option>
-        <option>Opcion 3</option>
-        <option>Opcion 4</option>
-    </select>
+            <label>Options (standard select)</label>
+            <select class="form-control input-sm" formControlName="option">
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Country (Single)</label>
+            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingle" [dataCallback]="dataService.listData"
+                referenceMode='entity' [multiple]='false'></iq-select2>
         </div>
         <div class="form-group">
-            <label>Country</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="country" [dataCallback]="dataService.listData" referenceMode='entity' [multiple]='true'></iq-select2>
+            <label>Country (Multiple)</label>
+            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultiple" [dataCallback]="dataService.listData"
+                referenceMode='entity' [multiple]='true'></iq-select2>
         </div>
+
+
         <button class="btn btn-primary" type="submit" (click)="send(form.value)">Enviar</button>
     </form>
-</div>  
+</div>

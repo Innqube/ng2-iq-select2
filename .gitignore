@@ -5,6 +5,9 @@
 /tmp
 /lib
 /aot
+*.js.map
+*.d.ts
+/src/app/*.js
 
 # dependencies
 /node_modules
