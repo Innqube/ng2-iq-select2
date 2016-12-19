@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 import { IqSelect2ResultsComponent } from '../iq-select2-results/iq-select2-results.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +29,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() searchDelay = 250;
   @Input() css: string;
   @Input() placeholder: string;
+  @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
+  @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
   private listData: IqSelect2Item[];
@@ -97,6 +99,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
     this.term.patchValue('');
     this.recalulateResultsVisibility();
+    this.onSelect.emit(item);
   }
 
   recalulateResultsVisibility() {
@@ -143,6 +146,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
+    this.onRemove.emit(item);
   }
 
   onFocus() {

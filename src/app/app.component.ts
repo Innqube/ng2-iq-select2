@@ -33,4 +33,12 @@ export class AppComponent implements OnInit {
     console.log(formJson);
   }
 
+  onSelect(item: IqSelect2Item) {
+    console.log('Item selected: ' + item.text);
+  }
+
+  onRemove(item: IqSelect2Item) {
+    console.log('Item removed: ' + item.text);
+  }
+
 }
