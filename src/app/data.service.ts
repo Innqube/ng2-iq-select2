@@ -68,9 +68,11 @@ export class DataService {
     let selectedItems: IqSelect2Item[] = [];
 
     this.list.forEach(item => {
-      if (ids.includes(item.id)) {
-        selectedItems.push(item);
-      }
+      ids.forEach(id => {
+        if (item.id === id) {
+          selectedItems.push(item);
+        }
+      });
     });
 
     return Observable.of(selectedItems);
