@@ -62,12 +62,14 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   writeValue(idsParameter: any): void {
-    let ids: [any] = idsParameter.constructor === Array ? idsParameter : [idsParameter];
+    if (idsParameter !== null) {
+      let ids: [any] = idsParameter.constructor === Array ? idsParameter : [idsParameter];
 
-    if (idsParameter !== undefined && this.selectedCallback !== undefined) {
-      this.selectedCallback
-        .call(this.selectedCallback, ids)
-        .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+      if (idsParameter !== undefined && this.selectedCallback !== undefined) {
+        this.selectedCallback
+          .call(this.selectedCallback, ids)
+          .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+      }
     }
   }
 
