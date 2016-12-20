@@ -61,15 +61,37 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       });
   }
 
-  writeValue(idsParameter: any): void {
-    if (idsParameter !== null) {
-      let ids: [any] = idsParameter.constructor === Array ? idsParameter : [idsParameter];
-
-      if (idsParameter !== undefined && this.selectedCallback !== undefined) {
-        this.selectedCallback
-          .call(this.selectedCallback, ids)
-          .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+  writeValue(selectedValues: any): void {
+    if (selectedValues !== null) {
+      if (this.referenceMode === 'id') {
+        this.requestSelectedItems(selectedValues);
+      } else {
+        this.selectedItems = this.multiple ? selectedValues : [selectedValues];
       }
+    }
+  }
+
+  requestSelectedItems(selectedValues: any) {
+    if (this.multiple) {
+      this.handleMultipleWithIds(selectedValues);
+    } else {
+      this.handleSingleWithId(selectedValues);
+    }
+  }
+
+  handleMultipleWithIds(selectedValues: any) {
+    if (selectedValues !== undefined && this.selectedCallback !== undefined) {
+      this.selectedCallback
+        .call(this.selectedCallback, selectedValues)
+        .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+    }
+  }
+
+  handleSingleWithId(id: any) {
+    if (id !== undefined && this.selectedCallback !== undefined) {
+      this.selectedCallback
+        .call(this.selectedCallback, [id])
+        .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
     }
   }
 
