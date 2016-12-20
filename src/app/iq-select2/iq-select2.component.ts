@@ -63,7 +63,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
           let value: string = this.term.value;
           this.listData = [];
           this.fullListData.forEach(item => {
-            if (!this.alreadySelected(item) && item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+            if ((!this.alreadySelected(item) || !this.multiple) && item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) {
               this.listData.push(item);
             }
           });
@@ -242,9 +242,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       }
 
       if (this.minimumInputLength === 0) {
-        if (ev.keyCode === KEY_CODE_ENTER) {
-          this.resultsVisible = true;
-        } else if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
+        if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
           this.resultsVisible = true;
         }
       }
