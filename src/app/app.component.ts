@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
       firstname: '',
       lastname: '',
       option: '',
-      countrySingle: '',
-      countryMultiple: ''
+      countrySingle: null,
+      countryMultiple: null
     });
 
     this.listItems = this.listData().bind(this.dataService);
