@@ -14,6 +14,8 @@
     </ul>
     <span class="caret"></span>
   </a>
+  <span>
   <iq-select2-results #results [items]="listData" (itemSelected)="onItemSelected($event);" [searchFocused]="searchFocused"
     *ngIf="resultsVisible"></iq-select2-results>
+  </span>
 </div>

@@ -30,10 +30,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   @Input() searchDelay = 250;
   @Input() css: string;
   @Input() placeholder: string;
+  @Input() minimumInputLength = 2; // Default value, at least two chars to start searching options
   @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
   @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
   @ViewChild('termInput') private termInput;
   @ViewChild('results') private results: IqSelect2ResultsComponent;
+  private fullListData: IqSelect2Item[];
   private listData: IqSelect2Item[];
   private selectedItems: IqSelect2Item[] = [];
   private term = new FormControl();
@@ -44,21 +46,45 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   constructor() { }
 
   ngOnInit() {
-    this.term.valueChanges
-      .debounceTime(this.searchDelay)
-      .distinctUntilChanged()
-      .subscribe(term => {
-        this.resultsVisible = term.length > 0;
+    if (this.minimumInputLength === 0) {
+      this.dataCallback.call(this.dataCallback, '').subscribe((items: IqSelect2Item[]) => {
+        this.fullListData = [];
+        items.forEach(item => {
+          this.fullListData.push(item);
+        });
+        this.listData = this.fullListData;
+      });
 
-        this.dataCallback.call(this.dataCallback, term).subscribe((items: IqSelect2Item[]) => {
+      this.term.valueChanges
+        .debounceTime(this.searchDelay)
+        .distinctUntilChanged()
+        .subscribe(term => {
+          this.resultsVisible = term.length > 0;
+          let value: string = this.term.value;
           this.listData = [];
-          items.forEach(item => {
-            if (!this.alreadySelected(item)) {
+          this.fullListData.forEach(item => {
+            if (!this.alreadySelected(item) && item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) {
               this.listData.push(item);
             }
           });
         });
-      });
+    } else {
+      this.term.valueChanges
+        .debounceTime(this.searchDelay)
+        .distinctUntilChanged()
+        .subscribe(term => {
+          this.resultsVisible = term.length > 0;
+
+          this.dataCallback.call(this.dataCallback, term).subscribe((items: IqSelect2Item[]) => {
+            this.listData = [];
+            items.forEach(item => {
+              if (!this.alreadySelected(item)) {
+                this.listData.push(item);
+              }
+            });
+          });
+        });
+    }
   }
 
   writeValue(idsParameter: any): void {
@@ -110,7 +136,11 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   recalulateResultsVisibility() {
-    this.resultsVisible = this.termInput.nativeElement.value.length > 0;
+    if (this.termInput) {
+      this.resultsVisible = this.termInput.nativeElement.value.length > 0;
+    } else {
+      this.resultsVisible = false;
+    }
   }
 
   getSelectedIds(): any {
@@ -157,9 +187,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   onBlur() {
-    this.recalulateResultsVisibility();
-    this.term.patchValue('');
-    this.searchFocused = false;
+    setTimeout(() => {
+      this.recalulateResultsVisibility();
+      this.term.patchValue('');
+      this.searchFocused = false;
+    }, 200);
+
   }
 
   getInputWidth(): string {
@@ -183,12 +216,24 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
           this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
         }
       }
+
+      if (this.minimumInputLength === 0) {
+        if (ev.keyCode === KEY_CODE_ENTER) {
+          this.resultsVisible = true;
+        } else if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
+          this.resultsVisible = true;
+        }
+      }
     }
   }
 
   focusInput() {
     if (this.multiple || this.selectedItems.length === 0) {
       this.termInput.nativeElement.focus();
+      this.searchFocused = true;
+    }
+    if (this.minimumInputLength === 0) {
+      this.resultsVisible = true;
     }
   }
 

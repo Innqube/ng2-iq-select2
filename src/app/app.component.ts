@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -27,7 +27,9 @@ export class AppComponent implements OnInit {
       lastname: '',
       option: '',
       countrySingle: '',
-      countryMultiple: ''
+      countryMultiple: '',
+      countrySingleMin0: '',
+      countryMultipleMin0: ''
     });
 
     this.listItems = this.listData().bind(this.dataService);
