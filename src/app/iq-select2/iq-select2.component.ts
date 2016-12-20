@@ -24,6 +24,7 @@ const VALUE_ACCESSOR = {
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   @Input() dataCallback: (term: string) => Observable<IqSelect2Item[]>;
+  @Input() selectedCallback: (ids: string[]) => Observable<IqSelect2Item[]>;
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @Input() searchDelay = 250;
@@ -60,8 +61,14 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       });
   }
 
-  writeValue(value: any): void {
+  writeValue(idsParameter: any): void {
+    let ids: [any] = idsParameter.constructor === Array ? idsParameter : [idsParameter];
 
+    if (idsParameter !== undefined && this.selectedCallback !== undefined) {
+      this.selectedCallback
+        .call(this.selectedCallback, ids)
+        .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -141,10 +148,6 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
       this.selectedItems.splice(index, 1);
     }
 
-    if (item.text.toUpperCase().indexOf(this.term.value.toUpperCase()) !== -1) {
-      this.listData.push(item);
-    }
-
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
     this.onRemove.emit(item);
   }
@@ -161,7 +164,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   getInputWidth(): string {
     let searchEmpty = this.selectedItems.length === 0 && (this.term.value === null || this.term.value.length === 0);
-    return searchEmpty ? '100%' : (1 + this.term.value.length * .6) + 'em';
+    let length = this.term.value === null ? 0 : this.term.value.length;
+    return searchEmpty ? '100%' : (1 + length * .6) + 'em';
   }
 
   onKeyUp(ev) {

@@ -12,7 +12,9 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private form: FormGroup;
+  public form: FormGroup;
+  public listItems: (term: string) => Observable<IqSelect2Item[]>;
+  public getItems: (ids: string[]) => Observable<IqSelect2Item[]>;
 
   constructor(
     private dataService: DataService,
@@ -27,6 +29,17 @@ export class AppComponent implements OnInit {
       countrySingle: '',
       countryMultiple: ''
     });
+
+    this.listItems = this.listData().bind(this.dataService);
+    this.getItems = this.getCurrentItems().bind(this.dataService);
+  }
+
+  listData(): (term: string) => Observable<IqSelect2Item[]> {
+    return this.dataService.listData;
+  }
+
+  getCurrentItems(): (ids: string[]) => Observable<IqSelect2Item[]> {
+    return this.dataService.getItems;
   }
 
   send(formJson: string) {
