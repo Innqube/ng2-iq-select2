@@ -256,6 +256,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
     if (this.minimumInputLength === 0) {
       this.resultsVisible = true;
+      this.searchFocused = true;
     }
   }
 

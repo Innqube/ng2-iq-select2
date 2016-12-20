@@ -19,7 +19,12 @@
     cursor: pointer;
 }
 
-.selected {
+.active {
     background: #337ab7;
     color: #fff;
+}
+
+.selected {
+    background: #EEE;
+    color: black;
 }

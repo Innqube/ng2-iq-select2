@@ -10,8 +10,9 @@ export class IqSelect2ResultsComponent implements OnInit {
 
   @Input() items: IqSelect2Item[];
   @Input() searchFocused: boolean;
-  @Output() itemSelected: EventEmitter<any> = new EventEmitter();
-  private selectedIndex: number = 0;
+  @Input() selectedItems: IqSelect2Item[];
+  @Output() itemSelectedEvent: EventEmitter<any> = new EventEmitter();
+  private activeIndex: number = 0;
 
   constructor() { }
 
@@ -19,34 +20,40 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   onItemSelected(item: IqSelect2Item) {
-    this.itemSelected.emit(item);
+    this.itemSelectedEvent.emit(item);
   }
 
-  selectNext() {
-    if (this.selectedIndex + 1 === this.items.length) {
-      this.selectedIndex = 0;
+  activeNext() {
+    if (this.activeIndex + 1 === this.items.length) {
+      this.activeIndex = 0;
     } else {
-      this.selectedIndex++;
+      this.activeIndex++;
     }
   }
 
-  selectPrevious() {
-    if (this.selectedIndex - 1 < 0) {
-      this.selectedIndex = this.items.length - 1;
+  activePrevious() {
+    if (this.activeIndex - 1 < 0) {
+      this.activeIndex = this.items.length - 1;
     } else {
-      this.selectedIndex--;
+      this.activeIndex--;
     }
   }
 
   selectCurrentItem() {
-    if (this.items[this.selectedIndex]) {
-      this.onItemSelected(this.items[this.selectedIndex]);
-      this.selectedIndex = 0;
+    if (this.items[this.activeIndex]) {
+      this.onItemSelected(this.items[this.activeIndex]);
+      this.activeIndex = 0;
     }
   }
 
   onMouseOver(index: number) {
-    this.selectedIndex = index;
+    this.activeIndex = index;
+  }
+
+  isSelected(item) {
+    if (this.selectedItems.includes(item)) {
+      return true;
+    }
   }
 
 }
