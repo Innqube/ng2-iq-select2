@@ -43,7 +43,9 @@ export class IqSelect2ResultsComponent implements OnInit {
 
   scrollToElement() {
     let element = document.getElementById('item_' + this.activeIndex);
-    element.scrollIntoView(false);
+    if (element !== null) {
+      element.scrollIntoView(false);
+    }
   }
 
   selectCurrentItem() {
