@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { IqSelect2ResultsComponent } from './iq-select2-results.component';
+import { IqSelect2Item } from '../iq-select2/iq-select2-item';
 
 describe('IqSelect2ResultsComponent', () => {
   let component: IqSelect2ResultsComponent;
