@@ -46,7 +46,6 @@ export class IqSelect2ResultsComponent implements OnInit {
     element.scrollIntoView(false);
   }
 
-
   selectCurrentItem() {
     if (this.items[this.activeIndex]) {
       this.onItemSelected(this.items[this.activeIndex]);
