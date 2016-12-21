@@ -41,6 +41,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   private term = new FormControl();
   private searchFocused = false;
   private resultsVisible = false;
+  private forceVisibility = false;
   propagateChange = (_: any) => { };
 
   constructor() { }
@@ -61,12 +62,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         .subscribe(term => {
           this.resultsVisible = term.length > 0;
           let value: string = this.term.value;
-          this.listData = [];
-          this.fullListData.forEach(item => {
-            if ((!this.alreadySelected(item) || !this.multiple) && item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) {
-              this.listData.push(item);
-            }
-          });
+          this.filterData(value);
         });
     } else {
       this.term.valueChanges
@@ -85,6 +81,15 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
           });
         });
     }
+  }
+
+  filterData(filterText: string) {
+    this.listData = [];
+    this.fullListData.forEach(item => {
+      if ((!this.alreadySelected(item) || !this.multiple) && item.text.toLowerCase().indexOf(filterText.toLowerCase()) > -1) {
+        this.listData.push(item);
+      }
+    });
   }
 
   writeValue(selectedValues: any): void {
@@ -143,11 +148,16 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     if (this.multiple) {
       this.selectedItems.push(item);
 
-      let index = this.listData.indexOf(item, 0);
+      if (this.minimumInputLength !== 0) {
+        let index = this.listData.indexOf(item, 0);
 
-      if (index > -1) {
-        this.listData.splice(index, 1);
+        if (index > -1) {
+          this.listData.splice(index, 1);
+        }
+      } else {
+        this.filterData('');
       }
+
     } else {
       this.selectedItems.length = 0;
       this.selectedItems.push(item);
@@ -155,12 +165,15 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
     this.term.patchValue('');
+    this.focusInput(false);
     this.recalulateResultsVisibility();
     this.onSelect.emit(item);
   }
 
   recalulateResultsVisibility() {
-    if (this.termInput) {
+    if (this.searchFocused && this.minimumInputLength === 0 && this.forceVisibility) {
+      this.resultsVisible = true;
+    } else if (this.termInput) {
       this.resultsVisible = this.termInput.nativeElement.value.length > 0;
     } else {
       this.resultsVisible = false;
@@ -204,19 +217,23 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
     this.onRemove.emit(item);
+    if (this.minimumInputLength === 0) {
+      this.filterData('');
+    }
   }
 
   onFocus() {
     this.searchFocused = true;
+    this.recalulateResultsVisibility();
   }
 
   onBlur() {
+    this.term.patchValue('');
+    this.searchFocused = false;
+    this.forceVisibility = false;
     setTimeout(() => {
       this.recalulateResultsVisibility();
-      this.term.patchValue('');
-      this.searchFocused = false;
     }, 200);
-
   }
 
   getInputWidth(): string {
@@ -228,9 +245,9 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   onKeyUp(ev) {
     if (this.results) {
       if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
-        this.results.selectNext();
+        this.results.activeNext();
       } else if (ev.keyCode === KEY_CODE_UP_ARROW) {
-        this.results.selectPrevious();
+        this.results.activePrevious();
       } else if (ev.keyCode === KEY_CODE_ENTER) {
         this.results.selectCurrentItem();
       }
@@ -243,21 +260,26 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
       if (this.minimumInputLength === 0) {
         if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
-          this.resultsVisible = true;
+          this.focusInput(true);
         }
       }
     }
   }
 
-  focusInput() {
+  focusInput(visibility: boolean = null) {
     if (this.multiple || this.selectedItems.length === 0) {
       this.termInput.nativeElement.focus();
       this.searchFocused = true;
     }
     if (this.minimumInputLength === 0) {
-      this.resultsVisible = true;
       this.searchFocused = true;
+      if (visibility !== null) {
+        this.forceVisibility = visibility;
+      } else {
+        this.forceVisibility = !this.forceVisibility;
+      }
     }
+    this.recalulateResultsVisibility();
   }
 
   onKeyPress(ev) {

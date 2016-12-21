@@ -1,5 +1,5 @@
-<div class="select2-results-container" *ngIf="items !== undefined && items.length > 0">
+<div class="select2-results-container" *ngIf="items !== undefined && items.length > 0" id="results_container">
   <div *ngFor="let item of items; let i = index;">
-    <div class="select2-result" (click)="onItemSelected(item)" [class.selected]="isSelected(item)" [class.active]="i === activeIndex" (mouseover)="onMouseOver(i)">{{item.text}}</div>
+    <div class="select2-result" id="item_{{i}}" (click)="onItemSelected(item)" [class.selected]="isSelected(item)" [class.active]="i === activeIndex" (mouseover)="onMouseOver(i)">{{item.text}}</div>
   </div>
 </div>

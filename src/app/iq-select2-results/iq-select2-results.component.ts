@@ -24,11 +24,12 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   activeNext() {
-    if (this.activeIndex + 1 === this.items.length) {
+    if (this.activeIndex >= this.items.length -1) {
       this.activeIndex = 0;
     } else {
       this.activeIndex++;
     }
+    this.scrollToElement();
   }
 
   activePrevious() {
@@ -37,7 +38,14 @@ export class IqSelect2ResultsComponent implements OnInit {
     } else {
       this.activeIndex--;
     }
+    this.scrollToElement();
   }
+
+  scrollToElement() {
+    let element = document.getElementById('item_' + this.activeIndex);
+    element.scrollIntoView(false);
+  }
+
 
   selectCurrentItem() {
     if (this.items[this.activeIndex]) {
@@ -55,5 +63,6 @@ export class IqSelect2ResultsComponent implements OnInit {
       return true;
     }
   }
+
 
 }
