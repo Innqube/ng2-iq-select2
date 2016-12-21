@@ -24,7 +24,7 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   activeNext() {
-    if (this.activeIndex >= this.items.length -1) {
+    if (this.activeIndex >= this.items.length - 1) {
       this.activeIndex = 0;
     } else {
       this.activeIndex++;
@@ -57,10 +57,14 @@ export class IqSelect2ResultsComponent implements OnInit {
     this.activeIndex = index;
   }
 
-  isSelected(item) {
-    if (this.selectedItems.includes(item)) {
-      return true;
-    }
+  isSelected(currentItem) {
+    let result = false;
+    this.selectedItems.forEach(item => {
+      if (item === currentItem) {
+        result = true;
+      }
+    });
+    return result;
   }
 
 
