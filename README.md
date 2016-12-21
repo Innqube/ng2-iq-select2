@@ -13,7 +13,7 @@ Angular 2 native select 2 implementation based on bootstrap 3
 Usage example:
 
 ```html
-<iq-select2 css="form-control input-sm" formControlName="country" [dataCallback]="dataService.listData" referenceMode='id' [multiple]='true' [searchDelay]="200"></iq-select2>
+<iq-select2 css="form-control input-sm" formControlName="country" [dataCallback]="dataService.listData" referenceMode='id' [minimumInputLength]='0' [multiple]='true' [searchDelay]="200"></iq-select2>
 ```
 
 *DataService*
@@ -42,6 +42,8 @@ Configuration options
 **searchDelay**: ms until request is effectively triggered
 
 **placeholder**: text to show until a search is performed
+
+**minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
 
 ```javascript
 // form.value example with referenceMode === 'id':
