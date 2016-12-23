@@ -23,8 +23,8 @@ const VALUE_ACCESSOR = {
 })
 export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
-  @Input() dataCallback: (term: string) => Observable<IqSelect2Item[]>;
-  @Input() selectedCallback: (ids: string[]) => Observable<IqSelect2Item[]>;
+  @Input() dataSourceProvider: (term: string) => Observable<IqSelect2Item[]>;
+  @Input() selectedProvider: (ids: string[]) => Observable<IqSelect2Item[]>;
   @Input() referenceMode: 'id' | 'entity' = 'id';
   @Input() multiple = false;
   @Input() searchDelay = 250;
@@ -48,7 +48,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     if (this.minimumInputLength === 0) {
-      this.dataCallback.call(this.dataCallback, '').subscribe((items: IqSelect2Item[]) => {
+      this.dataSourceProvider.call(this.dataSourceProvider, '').subscribe((items: IqSelect2Item[]) => {
         this.fullListData = [];
         items.forEach(item => {
           this.fullListData.push(item);
@@ -71,7 +71,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         .subscribe(term => {
           this.resultsVisible = term.length > 0;
 
-          this.dataCallback.call(this.dataCallback, term).subscribe((items: IqSelect2Item[]) => {
+          this.dataSourceProvider.call(this.dataSourceProvider, term).subscribe((items: IqSelect2Item[]) => {
             this.listData = [];
             items.forEach(item => {
               if (!this.alreadySelected(item)) {
@@ -111,17 +111,17 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
   }
 
   handleMultipleWithIds(selectedValues: any) {
-    if (selectedValues !== undefined && this.selectedCallback !== undefined) {
-      this.selectedCallback
-        .call(this.selectedCallback, selectedValues)
+    if (selectedValues !== undefined && this.selectedProvider !== undefined) {
+      this.selectedProvider
+        .call(this.selectedProvider, selectedValues)
         .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
     }
   }
 
   handleSingleWithId(id: any) {
-    if (id !== undefined && this.selectedCallback !== undefined) {
-      this.selectedCallback
-        .call(this.selectedCallback, [id])
+    if (id !== undefined && this.selectedProvider !== undefined) {
+      this.selectedProvider
+        .call(this.selectedProvider, [id])
         .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
     }
   }

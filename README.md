@@ -13,7 +13,7 @@ Angular 2 native select 2 implementation based on bootstrap 3
 Usage example:
 
 ```html
-<iq-select2 css="form-control input-sm" formControlName="country" [dataCallback]="dataService.listData" referenceMode='id' [minimumInputLength]='0' [multiple]='true' [searchDelay]="200"></iq-select2>
+<iq-select2 css="form-control input-sm" formControlName="country" [dataSourceProvider]="dataService.listData" referenceMode='id' [minimumInputLength]='0' [multiple]='true' [searchDelay]="200"></iq-select2>
 ```
 
 *DataService*
