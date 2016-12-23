@@ -6,7 +6,7 @@
     position: absolute;
     background: #fff;
     margin-top: -11px;
-    z-index: 2;
+    z-index: 3;
 }
 
 .select2-result {
