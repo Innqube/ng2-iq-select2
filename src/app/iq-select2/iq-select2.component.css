@@ -3,6 +3,12 @@
     width: 100%;
 }
 
+.select2-container.readonly input,
+.select2-container.readonly ul {
+    background: #eee;
+    cursor: not-allowed;
+}
+
 .select2-input {
     list-style-type: none;
     margin-left: 5px;
