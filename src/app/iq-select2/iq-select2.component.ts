@@ -43,7 +43,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     private resultsVisible = false;
     private forceVisibility = false;
     propagateChange = (_: any) => {
-    };
+    }
 
     constructor() {
     }
@@ -95,12 +95,14 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     writeValue(selectedValues: any): void {
-        if (selectedValues !== null) {
+        if (selectedValues) {
             if (this.referenceMode === 'id') {
                 this.requestSelectedItems(selectedValues);
             } else {
                 this.selectedItems = this.multiple ? selectedValues : [selectedValues];
             }
+        } else {
+            this.selectedItems = [];
         }
     }
 
