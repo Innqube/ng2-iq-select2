@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subject } from 'rxjs/Subject';
-import { IqSelect2Item } from './iq-select2/iq-select2-item';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import {Component, OnInit} from "@angular/core";
+import {DataService} from "./data.service";
+import {Observable} from "rxjs/Observable";
+import {IqSelect2Item} from "./iq-select2/iq-select2-item";
+import {FormGroup, FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'my-app',
@@ -54,6 +52,11 @@ export class AppComponent implements OnInit {
 
   onRemove(item: IqSelect2Item) {
     console.log('Item removed: ' + item.text);
+  }
+
+  reset() {
+    console.log('Resetting form');
+    this.form.reset();
   }
 
 }
