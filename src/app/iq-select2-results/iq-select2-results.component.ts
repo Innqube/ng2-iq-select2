@@ -13,6 +13,7 @@ export class IqSelect2ResultsComponent implements OnInit {
     @Input() selectedItems: IqSelect2Item[];
     @Output() itemSelectedEvent: EventEmitter<any> = new EventEmitter();
     private activeIndex: number = 0;
+    private ussingKeys = false;
 
     constructor() {
     }
@@ -31,6 +32,7 @@ export class IqSelect2ResultsComponent implements OnInit {
             this.activeIndex++;
         }
         this.scrollToElement();
+        this.ussingKeys = true;
     }
 
     activePrevious() {
@@ -40,6 +42,7 @@ export class IqSelect2ResultsComponent implements OnInit {
             this.activeIndex--;
         }
         this.scrollToElement();
+        this.ussingKeys = true;
     }
 
     scrollToElement() {
@@ -60,7 +63,13 @@ export class IqSelect2ResultsComponent implements OnInit {
     }
 
     onMouseOver(index: number) {
-        this.activeIndex = index;
+        if (!this.ussingKeys) {
+            this.activeIndex = index;
+        }
+    }
+
+    onHovering(event) {
+        this.ussingKeys = false;
     }
 
     isSelected(currentItem) {
