@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {IqSelect2Item} from "../iq-select2/iq-select2-item";
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {IqSelect2Item} from '../iq-select2/iq-select2-item';
 
 @Component({
     selector: 'iq-select2-results',
