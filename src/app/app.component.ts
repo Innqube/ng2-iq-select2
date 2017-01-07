@@ -20,17 +20,35 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.form = this.formBuilder.group({
-            firstname: new FormControl({
+            firstname: {
                 value: '',
                 disabled: true
-            }),
-            lastname: '',
-            option: '',
-            countrySingle: new FormControl({
-                value: null,
+            },
+            lastname: new FormControl(''),
+            option: new FormControl(''),
+            countrySingle: [{
+                value: {
+                    'id': '8',
+                    'text': 'Argentina',
+                    'entity': {
+                        'id': '8',
+                        'name': 'Argentina',
+                        'money': 'ARS'
+                    }
+                },
+                disabled: true
+            }],
+            countryMultiple: null,
+            countryMultipleDisabled: new FormControl({
+                value: [{
+                    'id': '8', 'text': 'Argentina', 'entity': {
+                        'id': '8',
+                        'name': 'Argentina',
+                        'money': 'ARS'
+                    }
+                }],
                 disabled: true
             }),
-            countryMultiple: null,
             countrySingleMin0: null,
             countryMultipleMin0: null
         });
@@ -39,11 +57,11 @@ export class AppComponent implements OnInit {
         this.getItems = this.getCurrentItems().bind(this.dataService);
     }
 
-    listData(): (term: string) => Observable<IqSelect2Item[]> {
+    listData(): (term: string) => Observable < IqSelect2Item[] > {
         return this.dataService.listData;
     }
 
-    getCurrentItems(): (ids: string[]) => Observable<IqSelect2Item[]> {
+    getCurrentItems(): (ids: string[]) => Observable < IqSelect2Item[] > {
         return this.dataService.getItems;
     }
 
