@@ -35,12 +35,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
     @ViewChild('results') private results: IqSelect2ResultsComponent;
+    term = new FormControl();
+    resultsVisible = false;
     private fullListData: IqSelect2Item[];
     private listData: IqSelect2Item[];
     private selectedItems: IqSelect2Item[] = [];
-    private term = new FormControl();
     private searchFocused = false;
-    private resultsVisible = false;
     private forceVisibility = false;
     private placeholderSelected = '';
     propagateChange = (_: any) => {
@@ -107,7 +107,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    requestSelectedItems(selectedValues: any) {
+    private requestSelectedItems(selectedValues: any) {
         if (this.multiple) {
             this.handleMultipleWithIds(selectedValues);
         } else {
@@ -115,7 +115,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    handleMultipleWithIds(selectedValues: any) {
+    private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider
                 .call(this.selectedProvider, selectedValues)
@@ -123,7 +123,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    handleSingleWithId(id: any) {
+    private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider
                 .call(this.selectedProvider, [id])
@@ -143,7 +143,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         this.disabled = isDisabled;
     }
 
-    alreadySelected(item: IqSelect2Item): boolean {
+    private alreadySelected(item: IqSelect2Item): boolean {
         let result = false;
         this.selectedItems.forEach(selectedItem => {
             if (selectedItem.id === item.id) {
@@ -153,7 +153,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         return result;
     }
 
-    onItemSelected(item: IqSelect2Item) {
+    private onItemSelected(item: IqSelect2Item) {
         if (this.multiple) {
             this.selectedItems.push(item);
 
@@ -182,7 +182,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    recalulateResultsVisibility() {
+    private recalulateResultsVisibility() {
         if (this.searchFocused && this.minimumInputLength === 0 && this.forceVisibility) {
             this.resultsVisible = true;
         } else if (this.termInput) {
@@ -192,7 +192,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    getSelectedIds(): any {
+    private getSelectedIds(): any {
         if (this.multiple) {
             let ids: string[] = [];
 
@@ -206,7 +206,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    getEntities(): any {
+    private getEntities(): any {
         if (this.multiple) {
             let entities = [];
 
