@@ -37,12 +37,10 @@ describe('IqSelect2Component', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should show results', inject([DataService], fakeAsync((service: DataService) => {
+    it('should show results after entering text', inject([DataService], fakeAsync((service: DataService) => {
         component.dataSourceProvider = (term: string) => service.listData(term);
         component.term.setValue('arg');
-        fixture.nativeElement.dispatchEvent(new Event('input'));
         tick(250);
-        fixture.detectChanges();
         expect(component.resultsVisible).toBe(true);
     })));
 });
