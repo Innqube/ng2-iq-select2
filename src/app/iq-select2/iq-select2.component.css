@@ -3,7 +3,7 @@
     width: 100%;
 }
 
-.select2-container.readonly input, .select2-container.readonly ul {
+.select2-container.readonly ul {
     background: #eee;
     cursor: not-allowed;
 }
@@ -83,6 +83,10 @@
     border-color: #66afe9;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.select2-container ul {
+    position: relative;
 }
 
 .simple-selection.search-focused .selectedItemText {
