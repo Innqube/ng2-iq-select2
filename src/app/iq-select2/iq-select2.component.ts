@@ -289,9 +289,9 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
         }
-        this.searchFocused = true && !this.disabled;
+        this.searchFocused = !this.disabled;
         if (this.minimumInputLength === 0 && !this.disabled) {
-            this.searchFocused = true && !this.disabled;
+            this.searchFocused = !this.disabled;
             if (visibility !== null) {
                 this.forceVisibility = visibility;
             } else {
