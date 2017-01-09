@@ -153,7 +153,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         return result;
     }
 
-    private onItemSelected(item: IqSelect2Item) {
+    onItemSelected(item: IqSelect2Item) {
         if (this.multiple) {
             this.selectedItems.push(item);
 

@@ -15,7 +15,9 @@ describe('IqSelect2Component', () => {
         TestBed.configureTestingModule({
             declarations: [IqSelect2Component, IqSelect2ResultsComponent],
             imports: [ReactiveFormsModule],
-            providers: [DataService, MockBackend,
+            providers: [
+                DataService,
+                MockBackend,
                 BaseRequestOptions, {
                     provide: Http,
                     useFactory: (mockBackend, options) => {
@@ -27,20 +29,107 @@ describe('IqSelect2Component', () => {
             .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach(inject([DataService], (service: DataService) => {
         fixture = TestBed.createComponent(IqSelect2Component);
         component = fixture.componentInstance;
+        component.dataSourceProvider = (term: string) => service.listData(term);
         fixture.detectChanges();
-    });
+    }));
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should show results after entering text', inject([DataService], fakeAsync((service: DataService) => {
-        component.dataSourceProvider = (term: string) => service.listData(term);
+    it('should not show results at the beggining', () => {
+        expect(component.resultsVisible).toBe(false);
+    });
+
+    it('should show results after entering text', fakeAsync((service: DataService) => {
         component.term.setValue('arg');
         tick(250);
         expect(component.resultsVisible).toBe(true);
-    })));
+    }));
+
+    it('should focus input clicking on the container', () => {
+        let ul = fixture.nativeElement.querySelector('.select2-container ul');
+        let input = fixture.nativeElement.querySelector('input');
+        ul.dispatchEvent(new Event('click'));
+        expect(document.activeElement).toBe(input);
+    });
+
+    it('single mode with id reference should export only an id', () => {
+        spyOn(component, 'propagateChange');
+
+        component.multiple = false;
+        component.referenceMode = 'id';
+        component.onItemSelected({
+            id: '1',
+            text: 'etiqueta'
+        })
+
+        expect(component.propagateChange).toHaveBeenCalledWith('1');
+    });
+
+    it('multiple mode with id reference should export an array of ids', fakeAsync(() => {
+        spyOn(component, 'propagateChange');
+
+        component.multiple = true;
+        component.referenceMode = 'id';
+        component.term.setValue('arg');
+        tick(250);
+
+        component.onItemSelected({
+            id: '8',
+            text: 'Argentina'
+        });
+
+        tick(250);
+
+        expect(component.propagateChange).toHaveBeenCalledWith(['8']);
+    }));
+
+    it('single mode with entity reference should export the entire entity', () => {
+        spyOn(component, 'propagateChange');
+
+        let entity = {
+            id: '1',
+            text: 'etiqueta',
+            another: 'another'
+        };
+
+        component.multiple = false;
+        component.referenceMode = 'entity';
+        component.onItemSelected({
+            id: '1',
+            text: 'etiqueta',
+            entity: entity
+        })
+
+        expect(component.propagateChange).toHaveBeenCalledWith(entity);
+    });
+
+    it('multiple mode with entity reference should export an array of entities', fakeAsync(() => {
+        spyOn(component, 'propagateChange');
+
+        let entity = {
+            id: '1',
+            text: 'etiqueta',
+            another: 'another'
+        };
+
+        component.multiple = true;
+        component.referenceMode = 'entity';
+        component.term.setValue('arg');
+        tick(250);
+
+        component.onItemSelected({
+            id: '1',
+            text: 'etiqueta',
+            entity: entity
+        });
+
+        tick(250);
+
+        expect(component.propagateChange).toHaveBeenCalledWith([entity]);
+    }));
 });
