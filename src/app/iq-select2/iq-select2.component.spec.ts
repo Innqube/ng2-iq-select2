@@ -184,7 +184,7 @@ describe('IqSelect2Component', () => {
         component.onItemSelected({
             id: '1',
             text: 'etiqueta'
-        })
+        });
         component.disabled = true;
         tick(250);
         fixture.detectChanges();
