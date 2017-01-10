@@ -6,6 +6,7 @@ import {IqSelect2Component} from './iq-select2.component';
 import {DataService} from '../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {Component, ViewChild} from '@angular/core';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
@@ -13,7 +14,7 @@ describe('IqSelect2Component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [IqSelect2Component, IqSelect2ResultsComponent],
+            declarations: [IqSelect2Component, IqSelect2ResultsComponent, TestHostComponent],
             imports: [ReactiveFormsModule],
             providers: [
                 DataService,
@@ -205,4 +206,65 @@ describe('IqSelect2Component', () => {
         tick(250);
         expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
     }));
+
+    it('should only make one request to service with minimumInputLength === 0', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        parent.detectChanges();
+
+        spyOn(hostComponent.childComponent, 'dataSourceProvider').and.returnValue({
+            subscribe: () => {
+            }
+        });
+
+        hostComponent.childComponent.ngOnInit();
+
+        component.term.setValue('arg');
+        tick(250);
+
+        component.term.setValue('arge');
+        tick(250);
+
+        expect(hostComponent.childComponent.dataSourceProvider).toHaveBeenCalledTimes(1);
+    })));
+
+    it('should not repeat same request', fakeAsync(() => {
+        spyOn(component, 'dataSourceProvider').and.returnValue({
+            subscribe: () => {
+            }
+        });;
+
+        component.term.setValue('arg');
+        tick(250);
+
+        component.term.setValue('arg');
+        tick(250);
+
+        expect(component.dataSourceProvider).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should make another request after change', fakeAsync(() => {
+        spyOn(component, 'dataSourceProvider').and.returnValue({
+            subscribe: () => {
+            }
+        });;
+
+        component.term.setValue('arg');
+        tick(250);
+
+        component.term.setValue('arge');
+        tick(250);
+
+        expect(component.dataSourceProvider).toHaveBeenCalledTimes(2);
+    }));
+
 });
+
+@Component({
+    template: `<iq-select2 [minimumInputLength]="0"></iq-select2>`
+})
+class TestHostComponent {
+    @ViewChild(IqSelect2Component)
+    childComponent: IqSelect2Component;
+}

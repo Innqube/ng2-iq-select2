@@ -51,7 +51,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         if (this.minimumInputLength === 0) {
-            this.dataSourceProvider.call(this.dataSourceProvider, '').subscribe((items: IqSelect2Item[]) => {
+            this.dataSourceProvider('').subscribe((items: IqSelect2Item[]) => {
                 this.fullListData = [];
                 items.forEach(item => {
                     this.fullListData.push(item);
@@ -74,7 +74,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
                 .subscribe(term => {
                     this.resultsVisible = term.length > 0;
 
-                    this.dataSourceProvider.call(this.dataSourceProvider, term).subscribe((items: IqSelect2Item[]) => {
+                    this.dataSourceProvider(term).subscribe((items: IqSelect2Item[]) => {
                         this.listData = [];
                         items.forEach(item => {
                             if (!this.alreadySelected(item)) {
