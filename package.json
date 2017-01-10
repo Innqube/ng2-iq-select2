@@ -12,6 +12,7 @@
     "tsc": "tsc",
     "tsc:aot": "ngc -p tsconfig.aot.json",
     "test": "karma start",
+    "test-ci": "karma start --auto-watch=true --single-run=false",
     "tsc-test": "cd tests && tsc",
     "prepublish": "ngc -p tsconfig.aot.json",
     "start": "npm run server",
