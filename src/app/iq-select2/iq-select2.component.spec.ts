@@ -132,4 +132,78 @@ describe('IqSelect2Component', () => {
 
         expect(component.propagateChange).toHaveBeenCalledWith([entity]);
     }));
+
+    it('should add item when clicking on it', fakeAsync(() => {
+        spyOn(component, 'propagateChange');
+
+        component.term.setValue('arg');
+        tick(250);
+        fixture.detectChanges();
+
+        let lis = fixture.nativeElement.querySelectorAll('.select2-result');
+        lis[0].click();
+        tick(250);
+
+        expect(component.propagateChange).toHaveBeenCalledWith('8');
+    }));
+
+    it('should remove item when clicking on it', fakeAsync(() => {
+        spyOn(component, 'propagateChange');
+
+        component.multiple = false;
+        component.referenceMode = 'id';
+        component.onItemSelected({
+            id: '1',
+            text: 'etiqueta'
+        })
+        tick(250);
+        expect(component.propagateChange).toHaveBeenCalledWith('1');
+        fixture.detectChanges();
+
+        fixture.nativeElement.querySelector('.select2-selection-remove').click();
+
+        expect(component.propagateChange).toHaveBeenCalledWith(null);
+    }));
+
+    it('should not show the input if the component is disabled in single mode', fakeAsync(() => {
+        component.multiple = false;
+        component.disabled = true;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('input')).toBeNull();
+    }));
+
+    it('should not show the input if the component is disabled in multiple mode', fakeAsync(() => {
+        component.multiple = true;
+        component.disabled = true;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('input')).toBeNull();
+    }));
+
+    it('should not show the button to remove if the component is disabled in single mode', fakeAsync(() => {
+        component.multiple = false;
+        component.onItemSelected({
+            id: '1',
+            text: 'etiqueta'
+        })
+        component.disabled = true;
+        tick(250);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
+    }));
+
+    it('should not show the button to remove if the component is disabled in multiple mode', fakeAsync(() => {
+        component.multiple = true;
+        component.term.setValue('arg');
+        tick(250);
+
+        component.onItemSelected({
+            id: '8',
+            text: 'Argentina'
+        });
+        component.disabled = true;
+
+        tick(250);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
+    }));
 });
