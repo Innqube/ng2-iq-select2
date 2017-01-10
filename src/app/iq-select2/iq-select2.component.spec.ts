@@ -186,8 +186,8 @@ describe('IqSelect2Component', () => {
             text: 'etiqueta'
         });
         component.disabled = true;
-        tick(250);
         fixture.detectChanges();
+        tick(250);
         expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
     }));
 
@@ -201,9 +201,8 @@ describe('IqSelect2Component', () => {
             text: 'Argentina'
         });
         component.disabled = true;
-
-        tick(250);
         fixture.detectChanges();
+        tick(250);
         expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
     }));
 });
