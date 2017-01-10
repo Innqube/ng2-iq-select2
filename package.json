@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "tslint ./src/**.ts -t verbose",
-    "clean": "rm -r aot && rm -r lib",
+    "clean": "rm -r aot && rm -r dist",
     "tsc": "tsc",
     "tsc:aot": "ngc -p tsconfig.aot.json",
     "test": "karma start",
