@@ -11,6 +11,11 @@ Angular 2 native select 2 implementation based on bootstrap 3
 * Single or multiple modes
 * Forms integration
 
+
+[Take a look at the demo page](https://innqube.github.io/ng2-iq-select2-demo)
+
+
+
 Usage example:
 
 ```html
