@@ -1,12 +1,12 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule, FormBuilder, FormGroup} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
 import {DataService} from '../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, OnInit} from '@angular/core';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
@@ -233,7 +233,8 @@ describe('IqSelect2Component', () => {
         spyOn(component, 'dataSourceProvider').and.returnValue({
             subscribe: () => {
             }
-        });;
+        });
+        ;
 
         component.term.setValue('arg');
         tick(250);
@@ -248,7 +249,8 @@ describe('IqSelect2Component', () => {
         spyOn(component, 'dataSourceProvider').and.returnValue({
             subscribe: () => {
             }
-        });;
+        });
+        ;
 
         component.term.setValue('arg');
         tick(250);
@@ -259,12 +261,54 @@ describe('IqSelect2Component', () => {
         expect(component.dataSourceProvider).toHaveBeenCalledTimes(2);
     }));
 
+    xit('should export selected values', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.referenceMode = 'id';
+        hostComponent.childComponent.multiple = false;
+        parent.detectChanges();
+
+        let item = {
+            'id': '8',
+            'text': 'Argentina',
+            'entity': {
+                'id': '8',
+                'name': 'Argentina',
+                'money': 'ARS'
+            }
+        };
+        hostComponent.childComponent.writeValue(item);
+        // hostComponent.fg.patchValue({country: item});
+        parent.detectChanges();
+        tick(250);
+
+        expect(hostComponent.fg.value).toBe(item);
+    })));
+
 });
 
 @Component({
-    template: `<iq-select2 [minimumInputLength]="0"></iq-select2>`
+    template: `
+        <form [formGroup]="fg">
+            <iq-select2 formControlName="country" [minimumInputLength]="0"></iq-select2>
+        </form>
+    `
 })
-class TestHostComponent {
+class TestHostComponent implements OnInit {
+
     @ViewChild(IqSelect2Component)
     childComponent: IqSelect2Component;
+    fg: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) {
+    }
+
+    ngOnInit(): void {
+        this.fg = this.formBuilder.group({
+            country: null
+        });
+    }
+
 }
