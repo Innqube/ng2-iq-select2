@@ -117,17 +117,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider
-                .call(this.selectedProvider, selectedValues)
-                .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider(selectedValues).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
         }
     }
 
     private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider
-                .call(this.selectedProvider, [id])
-                .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider([id]).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
         }
     }
 
