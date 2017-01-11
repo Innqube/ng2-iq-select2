@@ -16,7 +16,7 @@ var DashboardPlugin = require('webpack-dashboard/plugin');
  */
 var ENV = process.env.npm_lifecycle_event;
 var isTestWatch = ENV === 'test-watch';
-var isTest = ENV === 'test' || 'test-ci' || isTestWatch;
+var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
 module.exports = function makeWebpackConfig() {
