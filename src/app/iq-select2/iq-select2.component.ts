@@ -37,10 +37,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     @ViewChild('results') private results: IqSelect2ResultsComponent;
     term = new FormControl();
     resultsVisible = false;
+    listData: IqSelect2Item[];
+    selectedItems: IqSelect2Item[] = [];
+    searchFocused = false;
     private fullListData: IqSelect2Item[];
-    private listData: IqSelect2Item[];
-    private selectedItems: IqSelect2Item[] = [];
-    private searchFocused = false;
     private forceVisibility = false;
     private placeholderSelected = '';
     propagateChange = (_: any) => {

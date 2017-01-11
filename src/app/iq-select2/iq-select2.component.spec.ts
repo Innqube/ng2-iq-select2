@@ -261,7 +261,7 @@ describe('IqSelect2Component', () => {
         expect(component.dataSourceProvider).toHaveBeenCalledTimes(2);
     }));
 
-    xit('should export selected values', inject([DataService], fakeAsync((service: DataService) => {
+    it('should export selected values - referenceMode: id, single', inject([DataService], fakeAsync((service: DataService) => {
         let parent = TestBed.createComponent(TestHostComponent);
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
@@ -270,21 +270,79 @@ describe('IqSelect2Component', () => {
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
 
-        let item = {
-            'id': '8',
-            'text': 'Argentina',
-            'entity': {
-                'id': '8',
-                'name': 'Argentina',
-                'money': 'ARS'
-            }
-        };
-        hostComponent.childComponent.writeValue(item);
-        // hostComponent.fg.patchValue({country: item});
+        hostComponent.fg.patchValue({country: '8'});
         parent.detectChanges();
         tick(250);
 
-        expect(hostComponent.fg.value).toBe(item);
+        expect(JSON.stringify(hostComponent.fg.value)).toBe('{"country":"8"}');
+    })));
+
+    it('should export selected values - referenceMode: id, multiple', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.referenceMode = 'id';
+        hostComponent.childComponent.multiple = true;
+        parent.detectChanges();
+
+        hostComponent.fg.patchValue({country: ['8']});
+        parent.detectChanges();
+        tick(250);
+
+        expect(JSON.stringify(hostComponent.fg.value)).toBe('{"country":["8"]}');
+    })));
+
+    it('should export selected values - referenceMode: entity, single', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.referenceMode = 'entity';
+        hostComponent.childComponent.multiple = false;
+        parent.detectChanges();
+
+        let item = {
+            id: '8',
+            text: 'Argentina',
+            entity: {
+                id: '8',
+                name: 'Argentina',
+                money: 'ARS'
+            }
+        };
+
+        hostComponent.fg.patchValue({country: item});
+        parent.detectChanges();
+        tick(250);
+
+        expect(JSON.stringify(hostComponent.fg.value)).toBe('{"country":' + JSON.stringify(item) + '}');
+    })));
+
+    it('should export selected values - referenceMode: entity, multiple', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.referenceMode = 'entity';
+        hostComponent.childComponent.multiple = true;
+        parent.detectChanges();
+
+        let item = {
+            id: '8',
+            text: 'Argentina',
+            entity: {
+                id: '8',
+                name: 'Argentina',
+                money: 'ARS'
+            }
+        };
+
+        hostComponent.fg.patchValue({country: [item]});
+        parent.detectChanges();
+        tick(250);
+
+        expect(JSON.stringify(hostComponent.fg.value)).toBe('{"country":[' + JSON.stringify(item) + ']}');
     })));
 
 });

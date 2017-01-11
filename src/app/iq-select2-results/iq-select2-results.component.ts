@@ -12,7 +12,7 @@ export class IqSelect2ResultsComponent implements OnInit {
     @Input() searchFocused: boolean;
     @Input() selectedItems: IqSelect2Item[];
     @Output() itemSelectedEvent: EventEmitter<any> = new EventEmitter();
-    private activeIndex: number = 0;
+    activeIndex: number = 0;
     private ussingKeys = false;
 
     constructor() {
