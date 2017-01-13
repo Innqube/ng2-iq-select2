@@ -128,12 +128,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     registerOnChange(fn: any): void {
-        this.term.dirty = true;
         this.propagateChange = fn;
     }
 
     registerOnTouched(fn: any): void {
-        this.term.touched = true;
         this.propagateChange = fn;
     }
 
