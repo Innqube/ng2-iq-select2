@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { IqSelect2Item } from './iq-select2/iq-select2-item';
+import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {IqSelect2Item} from './iq-select2/iq-select2-item';
 
 @Injectable()
 export class DataService {
@@ -42,7 +42,6 @@ export class DataService {
   ) { }
 
   public listData(pattern: string): Observable<IqSelect2Item[]> {
-    console.log('dataService.listData');
     let filteredList: IqSelect2Item[] = [];
 
     this.list.forEach(country => {

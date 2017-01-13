@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "noEmitHelpers":false,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "removeComments": true,
     "moduleResolution": "node",
     "declaration": true

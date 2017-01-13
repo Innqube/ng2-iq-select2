@@ -1,5 +1,5 @@
 import {Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IqSelect2Item} from '../iq-select2/iq-select2-item';
+import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
@@ -35,12 +35,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
     @ViewChild('results') private results: IqSelect2ResultsComponent;
+    term = new FormControl();
+    resultsVisible = false;
+    listData: IqSelect2Item[];
+    selectedItems: IqSelect2Item[] = [];
+    searchFocused = false;
     private fullListData: IqSelect2Item[];
-    private listData: IqSelect2Item[];
-    private selectedItems: IqSelect2Item[] = [];
-    private term = new FormControl();
-    private searchFocused = false;
-    private resultsVisible = false;
     private forceVisibility = false;
     private placeholderSelected = '';
     propagateChange = (_: any) => {
@@ -51,7 +51,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         if (this.minimumInputLength === 0) {
-            this.dataSourceProvider.call(this.dataSourceProvider, '').subscribe((items: IqSelect2Item[]) => {
+            this.dataSourceProvider('').subscribe((items: IqSelect2Item[]) => {
                 this.fullListData = [];
                 items.forEach(item => {
                     this.fullListData.push(item);
@@ -74,7 +74,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
                 .subscribe(term => {
                     this.resultsVisible = term.length > 0;
 
-                    this.dataSourceProvider.call(this.dataSourceProvider, term).subscribe((items: IqSelect2Item[]) => {
+                    this.dataSourceProvider(term).subscribe((items: IqSelect2Item[]) => {
                         this.listData = [];
                         items.forEach(item => {
                             if (!this.alreadySelected(item)) {
@@ -107,7 +107,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    requestSelectedItems(selectedValues: any) {
+    private requestSelectedItems(selectedValues: any) {
         if (this.multiple) {
             this.handleMultipleWithIds(selectedValues);
         } else {
@@ -115,19 +115,15 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    handleMultipleWithIds(selectedValues: any) {
+    private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider
-                .call(this.selectedProvider, selectedValues)
-                .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider(selectedValues).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
         }
     }
 
-    handleSingleWithId(id: any) {
+    private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider
-                .call(this.selectedProvider, [id])
-                .subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider([id]).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
         }
     }
 
@@ -143,7 +139,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         this.disabled = isDisabled;
     }
 
-    alreadySelected(item: IqSelect2Item): boolean {
+    private alreadySelected(item: IqSelect2Item): boolean {
         let result = false;
         this.selectedItems.forEach(selectedItem => {
             if (selectedItem.id === item.id) {
@@ -182,7 +178,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    recalulateResultsVisibility() {
+    private recalulateResultsVisibility() {
         if (this.searchFocused && this.minimumInputLength === 0 && this.forceVisibility) {
             this.resultsVisible = true;
         } else if (this.termInput) {
@@ -192,7 +188,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    getSelectedIds(): any {
+    private getSelectedIds(): any {
         if (this.multiple) {
             let ids: string[] = [];
 
@@ -206,7 +202,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         }
     }
 
-    getEntities(): any {
+    private getEntities(): any {
         if (this.multiple) {
             let entities = [];
 
@@ -286,10 +282,12 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     focusInput(visibility: boolean = null) {
-        this.termInput.nativeElement.focus();
-        this.searchFocused = true && !this.disabled;
+        if (!this.disabled) {
+            this.termInput.nativeElement.focus();
+        }
+        this.searchFocused = !this.disabled;
         if (this.minimumInputLength === 0 && !this.disabled) {
-            this.searchFocused = true && !this.disabled;
+            this.searchFocused = !this.disabled;
             if (visibility !== null) {
                 this.forceVisibility = visibility;
             } else {
