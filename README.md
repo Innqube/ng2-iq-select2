@@ -7,7 +7,7 @@
 Angular 2 native select 2 implementation based on bootstrap 3
 
 * Easily filter on a remote webservice (can be used with a local list too)
-* Works with ids or completes entities
+* Works with ids or complete entities
 * Single or multiple modes
 * Forms integration
 
@@ -18,6 +18,18 @@ Angular 2 native select 2 implementation based on bootstrap 3
 
 Usage example:
 
+*app.module.ts*
+```javascript
+
+import { IqSelect2Module } from 'ng2-iq-select2';
+
+@NgModule({
+    declarations: [..],
+    imports: [.., IqSelect2Module, ...],
+    providers: [..]
+```
+
+*html file*
 ```html
 <iq-select2 css="form-control input-sm" formControlName="country" [dataSourceProvider]="dataService.listData" referenceMode='id' [minimumInputLength]='0' [multiple]='true' [searchDelay]="200"></iq-select2>
 ```
@@ -34,22 +46,34 @@ public listData(pattern: string): Observable<IqSelect2Item[]> {
 interface IqSelect2Item {
     id: string;
     text: string;
-    entity: any; // only needed when referenceMode === 'entity'
+    entity?: any; // only needed when referenceMode === 'entity'
 }
 ```
 
-Configuration options
-=====================
+Configuration options (Inputs and Outputs)
+==========================================
 
-**referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
+**@Input() dataSourceProvider(term: string) => Observable<IqSelect2Item[]>**: the function to get the data based on user input
 
-**multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
+**@Input() selectedProvider(ids: string[]) => Observable<IqSelect2Item[]>**: the function to get previously selected data when referenceMode === 'id'
 
-**searchDelay**: ms until request is effectively triggered
+**@Input() referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
 
-**placeholder**: text to show until a search is performed
+**@Input() multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
 
-**minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
+**@Input() searchDelay**: ms until request is effectively triggered
+
+**@Input() placeholder**: text to show until a search is performed
+
+**@Input() disabled**: boolean to control the disabled state of the component
+
+**@Input() minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
+
+**@Input() css**: css classes to be applied
+
+**@Output() onSelect(item: IqSelect2Item)**: event triggered when an item is selected
+
+**@Output() onRemove(item: IqSelect2Item)**: event triggered when an item is removed
 
 ```javascript
 // form.value example with referenceMode === 'id':
