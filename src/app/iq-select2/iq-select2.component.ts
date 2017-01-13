@@ -129,12 +129,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     registerOnChange(fn: any): void {
-        console.log('CHANGED');
         this.onChangeCallback = fn;
     }
 
     registerOnTouched(fn: any): void {
-        console.log('TOUCHED');
         this.onTouchedCallback = fn;
     }
 
