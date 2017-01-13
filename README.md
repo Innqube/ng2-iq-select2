@@ -71,7 +71,7 @@ Configuration options
     'item': [1,2,3]
 }
 
-// form.value example with referenceMode === 'id' and multiple === 'true':
+// form.value example with referenceMode === 'entity' and multiple === 'true':
 {
     'item': [{
         'id': 1,
