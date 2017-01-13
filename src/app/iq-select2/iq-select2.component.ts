@@ -45,7 +45,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     private forceVisibility = false;
     private placeholderSelected = '';
     private onTouchedCallback: () => void = noop;
-    private onChangeCallback: (_: any) => void = noop;
+    onChangeCallback: (_: any) => void = noop;
 
     constructor() {
     }

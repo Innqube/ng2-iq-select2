@@ -59,7 +59,7 @@ describe('IqSelect2Component', () => {
     });
 
     it('single mode with id reference should export only an id', () => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         component.multiple = false;
         component.referenceMode = 'id';
@@ -68,11 +68,11 @@ describe('IqSelect2Component', () => {
             text: 'etiqueta'
         })
 
-        expect(component.propagateChange).toHaveBeenCalledWith('1');
+        expect(component.onChangeCallback).toHaveBeenCalledWith('1');
     });
 
     it('multiple mode with id reference should export an array of ids', fakeAsync(() => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         component.multiple = true;
         component.referenceMode = 'id';
@@ -86,11 +86,11 @@ describe('IqSelect2Component', () => {
 
         tick(250);
 
-        expect(component.propagateChange).toHaveBeenCalledWith(['8']);
+        expect(component.onChangeCallback).toHaveBeenCalledWith(['8']);
     }));
 
     it('single mode with entity reference should export the entire entity', () => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         let entity = {
             id: '1',
@@ -106,11 +106,11 @@ describe('IqSelect2Component', () => {
             entity: entity
         })
 
-        expect(component.propagateChange).toHaveBeenCalledWith(entity);
+        expect(component.onChangeCallback).toHaveBeenCalledWith(entity);
     });
 
     it('multiple mode with entity reference should export an array of entities', fakeAsync(() => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         let entity = {
             id: '1',
@@ -131,11 +131,11 @@ describe('IqSelect2Component', () => {
 
         tick(250);
 
-        expect(component.propagateChange).toHaveBeenCalledWith([entity]);
+        expect(component.onChangeCallback).toHaveBeenCalledWith([entity]);
     }));
 
     it('should add item when clicking on it', fakeAsync(() => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         component.term.setValue('arg');
         tick(250);
@@ -145,11 +145,11 @@ describe('IqSelect2Component', () => {
         lis[0].click();
         tick(250);
 
-        expect(component.propagateChange).toHaveBeenCalledWith('8');
+        expect(component.onChangeCallback).toHaveBeenCalledWith('8');
     }));
 
     it('should remove item when clicking on it', fakeAsync(() => {
-        spyOn(component, 'propagateChange');
+        spyOn(component, 'onChangeCallback');
 
         component.multiple = false;
         component.referenceMode = 'id';
@@ -158,12 +158,12 @@ describe('IqSelect2Component', () => {
             text: 'etiqueta'
         })
         tick(250);
-        expect(component.propagateChange).toHaveBeenCalledWith('1');
+        expect(component.onChangeCallback).toHaveBeenCalledWith('1');
         fixture.detectChanges();
 
         fixture.nativeElement.querySelector('.select2-selection-remove').click();
 
-        expect(component.propagateChange).toHaveBeenCalledWith(null);
+        expect(component.onChangeCallback).toHaveBeenCalledWith(null);
     }));
 
     it('should not show the input if the component is disabled in single mode', fakeAsync(() => {
