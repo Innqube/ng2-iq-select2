@@ -13,6 +13,7 @@ const VALUE_ACCESSOR = {
     useExisting: forwardRef(() => IqSelect2Component),
     multi: true
 };
+const noop = () => {};
 
 @Component({
     selector: 'iq-select2',
@@ -43,8 +44,8 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     private fullListData: IqSelect2Item[];
     private forceVisibility = false;
     private placeholderSelected = '';
-    propagateChange = (_: any) => {
-    }
+    private onTouchedCallback: () => void = noop;
+    private onChangeCallback: (_: any) => void = noop;
 
     constructor() {
     }
@@ -128,10 +129,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
     }
 
     registerOnChange(fn: any): void {
-        this.propagateChange = fn;
+        console.log('CHANGED');
+        this.onChangeCallback = fn;
     }
 
-    registerOnTouched(value: any): void {
+    registerOnTouched(fn: any): void {
+        console.log('TOUCHED');
+        this.onTouchedCallback = fn;
     }
 
     setDisabledState(isDisabled: boolean): void {
@@ -167,7 +171,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
             this.selectedItems.push(item);
         }
 
-        this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
+        this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
         this.term.patchValue('');
         this.focusInput(false);
         this.recalulateResultsVisibility();
@@ -222,7 +226,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
             this.selectedItems.splice(index, 1);
         }
 
-        this.propagateChange('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
+        this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
         this.onRemove.emit(item);
         if (this.minimumInputLength === 0) {
             this.filterData('');
@@ -244,6 +248,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
         setTimeout(() => {
             this.recalulateResultsVisibility();
         }, 200);
+        this.onTouchedCallback();
     }
 
     getInputWidth(): string {
