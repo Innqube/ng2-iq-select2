@@ -232,10 +232,10 @@ describe('IqSelect2Component', () => {
 
         hostComponent.childComponent.ngOnInit();
 
-        component.term.setValue('arg');
+        hostComponent.childComponent.term.setValue('arg');
         tick(250);
 
-        component.term.setValue('arge');
+        hostComponent.childComponent.term.setValue('arge');
         tick(250);
 
         expect(hostComponent.childComponent.dataSourceProvider).toHaveBeenCalledTimes(1);
