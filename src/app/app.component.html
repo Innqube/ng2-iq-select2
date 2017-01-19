@@ -20,15 +20,19 @@
 
         <div class="form-group">
             <label>Country (Single)</label>
+            <input type="checkbox" formControlName="habilitado"/>
             <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingle"
                         [dataSourceProvider]="listItems"
+                        [entityToIqSelect2Item]="entityToIqSelect2Item"
                         referenceMode='entity' [multiple]='false' (onSelect)="onSelect($event)"
-                        (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
+                        (onRemove)="onRemove($event)" [selectedProvider]="getItems"
+                        *ngIf="form.controls.habilitado.value"></iq-select2>
         </div>
         <div class="form-group">
             <label>Country (Multiple)</label>
             <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultiple"
                         [dataSourceProvider]="listItems"
+                        [entityToIqSelect2Item]="entityToIqSelect2Item"
                         referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>
@@ -37,12 +41,14 @@
             <iq-select2 css="form-control input-sm" placeholder="Start writing..."
                         formControlName="countryMultipleDisabled" [dataSourceProvider]="listItems"
                         referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
+                        [entityToIqSelect2Item]="entityToIqSelect2Item"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>
         <div class="form-group">
             <label>Country (Single minimumInputLength = 0)</label>
             <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingleMin0"
                         [dataSourceProvider]="listItems"
+                        [entityToIqSelect2Item]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' [multiple]='false' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>
@@ -50,6 +56,7 @@
             <label>Country (Multiple minimumInputLength = 0)</label>
             <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultipleMin0"
                         [dataSourceProvider]="listItems"
+                        [entityToIqSelect2Item]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>

@@ -3,14 +3,14 @@ import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angula
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ReactiveFormsModule, FormBuilder, FormGroup} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {DataService} from '../data.service';
+import {DataService, Country} from '../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, ViewChild, OnInit} from '@angular/core';
 
 describe('IqSelect2Component', () => {
-    let component: IqSelect2Component;
-    let fixture: ComponentFixture<IqSelect2Component>;
+    let component: IqSelect2Component<Country>;
+    let fixture: ComponentFixture<IqSelect2Component<Country>>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -30,10 +30,21 @@ describe('IqSelect2Component', () => {
             .compileComponents();
     }));
 
+    let adapter = function () {
+        return (entity: any) => {
+            return {
+                id: entity.id,
+                text: entity.name,
+                entity: entity
+            };
+        };
+    };
+
     beforeEach(inject([DataService], (service: DataService) => {
         fixture = TestBed.createComponent(IqSelect2Component);
         component = fixture.componentInstance;
         component.dataSourceProvider = (term: string) => service.listData(term);
+        component.entityToIqSelect2Item = adapter();
         fixture.detectChanges();
     }));
 
@@ -62,7 +73,7 @@ describe('IqSelect2Component', () => {
         spyOn(component, 'onChangeCallback');
 
         component.multiple = false;
-        component.referenceMode = 'id';
+        component.referenceMode = 'id'
         component.onItemSelected({
             id: '1',
             text: 'etiqueta'
@@ -145,7 +156,7 @@ describe('IqSelect2Component', () => {
         lis[0].click();
         tick(250);
 
-        expect(component.onChangeCallback).toHaveBeenCalledWith('8');
+        expect(component.onChangeCallback).toHaveBeenCalledWith('16');
     }));
 
     it('should remove item when clicking on it', fakeAsync(() => {
@@ -211,6 +222,7 @@ describe('IqSelect2Component', () => {
         let parent = TestBed.createComponent(TestHostComponent);
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.entityToIqSelect2Item = adapter();
         parent.detectChanges();
 
         spyOn(hostComponent.childComponent, 'dataSourceProvider').and.returnValue({
@@ -234,7 +246,6 @@ describe('IqSelect2Component', () => {
             subscribe: () => {
             }
         });
-        ;
 
         component.term.setValue('arg');
         tick(250);
@@ -266,6 +277,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.entityToIqSelect2Item = adapter();
         hostComponent.childComponent.referenceMode = 'id';
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
@@ -282,6 +294,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.entityToIqSelect2Item = adapter();
         hostComponent.childComponent.referenceMode = 'id';
         hostComponent.childComponent.multiple = true;
         parent.detectChanges();
@@ -298,6 +311,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.entityToIqSelect2Item = adapter();
         hostComponent.childComponent.referenceMode = 'entity';
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
@@ -324,6 +338,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.entityToIqSelect2Item = adapter();
         hostComponent.childComponent.referenceMode = 'entity';
         hostComponent.childComponent.multiple = true;
         parent.detectChanges();
@@ -345,6 +360,19 @@ describe('IqSelect2Component', () => {
         expect(JSON.stringify(hostComponent.fg.value)).toBe('{"country":[' + JSON.stringify(item) + ']}');
     })));
 
+    it('should hide input on disabled', fakeAsync(() => {
+        expect(fixture.nativeElement.querySelector('input')).toBeTruthy();
+        component.disabled = true;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
+    }));
+
+    it('should hide input on disabled - ControlValueAccessor', fakeAsync(() => {
+        component.setDisabledState(true);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
+    }));
+
 });
 
 @Component({
@@ -357,7 +385,7 @@ describe('IqSelect2Component', () => {
 class TestHostComponent implements OnInit {
 
     @ViewChild(IqSelect2Component)
-    childComponent: IqSelect2Component;
+    childComponent: IqSelect2Component<Country>;
     fg: FormGroup;
 
     constructor(private formBuilder: FormBuilder) {

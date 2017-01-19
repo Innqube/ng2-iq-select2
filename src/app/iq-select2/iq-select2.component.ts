@@ -21,10 +21,11 @@ const noop = () => {};
     styleUrls: ['./iq-select2.component.css'],
     providers: [VALUE_ACCESSOR]
 })
-export class IqSelect2Component implements OnInit, ControlValueAccessor {
+export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
 
-    @Input() dataSourceProvider: (term: string) => Observable<IqSelect2Item[]>;
-    @Input() selectedProvider: (ids: string[]) => Observable<IqSelect2Item[]>;
+    @Input() dataSourceProvider: (term: string) => Observable<T[]>;
+    @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
+    @Input() entityToIqSelect2Item: (entity: T) => IqSelect2Item;
     @Input() referenceMode: 'id' | 'entity' = 'id';
     @Input() multiple = false;
     @Input() searchDelay = 250;
@@ -52,10 +53,10 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         if (this.minimumInputLength === 0) {
-            this.dataSourceProvider('').subscribe((items: IqSelect2Item[]) => {
+            this.dataSourceProvider('').subscribe((items: T[]) => {
                 this.fullListData = [];
-                items.forEach(item => {
-                    this.fullListData.push(item);
+                items.forEach((item: T) => {
+                    this.fullListData.push(this.entityToIqSelect2Item(item));
                 });
                 this.listData = this.fullListData;
             });
@@ -65,8 +66,7 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
                 .distinctUntilChanged()
                 .subscribe(term => {
                     this.resultsVisible = term.length > 0;
-                    let value: string = this.term.value;
-                    this.filterData(value);
+                    this.filterData(this.term.value);
                 });
         } else {
             this.term.valueChanges
@@ -75,11 +75,11 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
                 .subscribe(term => {
                     this.resultsVisible = term.length > 0;
 
-                    this.dataSourceProvider(term).subscribe((items: IqSelect2Item[]) => {
+                    this.dataSourceProvider(term).subscribe((items: any[]) => {
                         this.listData = [];
                         items.forEach(item => {
                             if (!this.alreadySelected(item)) {
-                                this.listData.push(item);
+                                this.listData.push(this.entityToIqSelect2Item(item));
                             }
                         });
                     });
@@ -101,7 +101,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
             if (this.referenceMode === 'id') {
                 this.requestSelectedItems(selectedValues);
             } else {
-                this.selectedItems = this.multiple ? selectedValues : [selectedValues];
+                if (this.multiple) {
+                    selectedValues.forEach((entity) => {
+                        this.selectedItems.push(this.entityToIqSelect2Item(entity));
+                    });
+                } else {
+                    this.selectedItems = [this.entityToIqSelect2Item(selectedValues)];
+                }
             }
         } else {
             this.selectedItems = [];
@@ -118,13 +124,17 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
 
     private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider(selectedValues).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider(selectedValues).subscribe((items: T[]) => {
+                items.forEach((item) => this.selectedItems.push(this.entityToIqSelect2Item(item)));
+            });
         }
     }
 
     private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider([id]).subscribe((items: IqSelect2Item[]) => this.selectedItems = items);
+            this.selectedProvider([id]).subscribe((items: T[]) => {
+                items.forEach((item) => this.selectedItems.push(this.entityToIqSelect2Item(item)));
+            });
         }
     }
 
