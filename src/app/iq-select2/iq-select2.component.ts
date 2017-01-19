@@ -25,7 +25,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
 
     @Input() dataSourceProvider: (term: string) => Observable<T[]>;
     @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
-    @Input() entityToIqSelect2Item: (entity: T) => IqSelect2Item;
+    @Input() iqSelect2ItemAdapter: (entity: T) => IqSelect2Item;
     @Input() referenceMode: 'id' | 'entity' = 'id';
     @Input() multiple = false;
     @Input() searchDelay = 250;
@@ -53,38 +53,47 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         if (this.minimumInputLength === 0) {
-            this.dataSourceProvider('').subscribe((items: T[]) => {
-                this.fullListData = [];
-                items.forEach((item: T) => {
-                    this.fullListData.push(this.entityToIqSelect2Item(item));
-                });
-                this.listData = this.fullListData;
-            });
-
-            this.term.valueChanges
-                .debounceTime(this.searchDelay)
-                .distinctUntilChanged()
-                .subscribe(term => {
-                    this.resultsVisible = term.length > 0;
-                    this.filterData(this.term.value);
-                });
+            this.loadItemsAndSubscribeToChanges();
         } else {
-            this.term.valueChanges
-                .debounceTime(this.searchDelay)
-                .distinctUntilChanged()
-                .subscribe(term => {
-                    this.resultsVisible = term.length > 0;
+            this.subscribeToChangesAndLoadDataFromObservable();
+        }
+    }
 
-                    this.dataSourceProvider(term).subscribe((items: any[]) => {
-                        this.listData = [];
-                        items.forEach(item => {
-                            if (!this.alreadySelected(item)) {
-                                this.listData.push(this.entityToIqSelect2Item(item));
-                            }
-                        });
+    private subscribeToChangesAndLoadDataFromObservable() {
+        this.term.valueChanges
+            .debounceTime(this.searchDelay)
+            .distinctUntilChanged()
+            .subscribe(term => {
+                this.resultsVisible = term.length > 0;
+
+                this.dataSourceProvider(term).subscribe((items: T[]) => {
+                    this.listData = [];
+                    items.forEach(item => {
+                        let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                        if (!this.alreadySelected(iqSelect2Item)) {
+                            this.listData.push(iqSelect2Item);
+                        }
                     });
                 });
-        }
+            });
+    }
+
+    private loadItemsAndSubscribeToChanges() {
+        this.dataSourceProvider('').subscribe((items: T[]) => {
+            this.fullListData = [];
+            items.forEach((item: T) => {
+                this.fullListData.push(this.iqSelect2ItemAdapter(item));
+            });
+            this.listData = this.fullListData;
+        });
+
+        this.term.valueChanges
+            .debounceTime(this.searchDelay)
+            .distinctUntilChanged()
+            .subscribe(term => {
+                this.resultsVisible = term.length > 0;
+                this.filterData(this.term.value);
+            });
     }
 
     filterData(filterText: string) {
@@ -102,11 +111,9 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
                 this.requestSelectedItems(selectedValues);
             } else {
                 if (this.multiple) {
-                    selectedValues.forEach((entity) => {
-                        this.selectedItems.push(this.entityToIqSelect2Item(entity));
-                    });
+                    selectedValues.forEach((entity) => this.selectedItems.push(this.iqSelect2ItemAdapter(entity)));
                 } else {
-                    this.selectedItems = [this.entityToIqSelect2Item(selectedValues)];
+                    this.selectedItems = [this.iqSelect2ItemAdapter(selectedValues)];
                 }
             }
         } else {
@@ -125,7 +132,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider(selectedValues).subscribe((items: T[]) => {
-                items.forEach((item) => this.selectedItems.push(this.entityToIqSelect2Item(item)));
+                items.forEach((item) => this.selectedItems.push(this.iqSelect2ItemAdapter(item)));
             });
         }
     }
@@ -133,7 +140,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider([id]).subscribe((items: T[]) => {
-                items.forEach((item) => this.selectedItems.push(this.entityToIqSelect2Item(item)));
+                items.forEach((item) => this.selectedItems.push(this.iqSelect2ItemAdapter(item)));
             });
         }
     }
@@ -213,7 +220,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
         }
     }
 
-    private getEntities(): any {
+    private getEntities(): T[] {
         if (this.multiple) {
             let entities = [];
 

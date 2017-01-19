@@ -44,7 +44,7 @@ describe('IqSelect2Component', () => {
         fixture = TestBed.createComponent(IqSelect2Component);
         component = fixture.componentInstance;
         component.dataSourceProvider = (term: string) => service.listData(term);
-        component.entityToIqSelect2Item = adapter();
+        component.iqSelect2ItemAdapter = adapter();
         fixture.detectChanges();
     }));
 
@@ -222,7 +222,7 @@ describe('IqSelect2Component', () => {
         let parent = TestBed.createComponent(TestHostComponent);
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
-        hostComponent.childComponent.entityToIqSelect2Item = adapter();
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         parent.detectChanges();
 
         spyOn(hostComponent.childComponent, 'dataSourceProvider').and.returnValue({
@@ -277,7 +277,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
-        hostComponent.childComponent.entityToIqSelect2Item = adapter();
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         hostComponent.childComponent.referenceMode = 'id';
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
@@ -294,7 +294,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
-        hostComponent.childComponent.entityToIqSelect2Item = adapter();
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         hostComponent.childComponent.referenceMode = 'id';
         hostComponent.childComponent.multiple = true;
         parent.detectChanges();
@@ -311,7 +311,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
-        hostComponent.childComponent.entityToIqSelect2Item = adapter();
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         hostComponent.childComponent.referenceMode = 'entity';
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
@@ -338,7 +338,7 @@ describe('IqSelect2Component', () => {
         let hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
-        hostComponent.childComponent.entityToIqSelect2Item = adapter();
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         hostComponent.childComponent.referenceMode = 'entity';
         hostComponent.childComponent.multiple = true;
         parent.detectChanges();
