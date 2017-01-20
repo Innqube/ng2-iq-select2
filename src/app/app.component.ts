@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService, Country} from './data.service';
 import {Observable} from 'rxjs/Observable';
 import {IqSelect2Item} from './iq-select2/iq-select2-item';
 import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
+import {IqSelect2Component} from './iq-select2/iq-select2.component';
 
 @Component({
     selector: 'my-app',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
     public listItems: (term: string) => Observable<Country[]>;
     public getItems: (ids: string[]) => Observable<Country[]>;
     public entityToIqSelect2Item: (entity: Country) => IqSelect2Item;
+    @ViewChild('countrySingle') countrySingle: IqSelect2Component<Country>;
 
     constructor(private dataService: DataService,
                 private formBuilder: FormBuilder) {

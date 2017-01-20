@@ -13,7 +13,8 @@ const VALUE_ACCESSOR = {
     useExisting: forwardRef(() => IqSelect2Component),
     multi: true
 };
-const noop = () => {};
+const noop = () => {
+};
 
 @Component({
     selector: 'iq-select2',
@@ -337,6 +338,10 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
 
     isHideable(): boolean {
         return !this.multiple && this.placeholderSelected !== '';
+    }
+
+    focus(): void {
+        this.termInput.nativeElement.focus();
     }
 
 }
