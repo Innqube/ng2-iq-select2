@@ -66,4 +66,17 @@ describe('IqSelect2ResultsComponent', () => {
         component.activePrevious();
         expect(component.scrollToElement).toHaveBeenCalled();
     });
+
+    it('should emit event on item selection', () => {
+        spyOn(component.itemSelectedEvent, 'emit');
+        component.selectCurrentItem();
+        expect(component.itemSelectedEvent.emit).toHaveBeenCalled();
+    });
+
+    it('should reset active index after selection', () => {
+        spyOn(component.itemSelectedEvent, 'emit');
+        component.activeNext();
+        component.selectCurrentItem();
+        expect(component.activeIndex).toBe(0);
+    });
 });
