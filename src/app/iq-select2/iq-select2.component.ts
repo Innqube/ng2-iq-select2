@@ -34,8 +34,8 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     @Input() placeholder: string = '';
     @Input() minimumInputLength = 2; // Default value, at least two chars to start searching options
     @Input() disabled = false;
-    @Input() searchIcon = 'glyphicon glyphicon-search';
-    @Input() caretIcon = 'caret';
+    @Input() remoteSearchIcon = 'glyphicon glyphicon-search';
+    @Input() localSearchIcon = 'caret';
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
