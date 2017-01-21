@@ -36,19 +36,19 @@ import { IqSelect2Module } from 'ng2-iq-select2';
             formControlName="country" 
             [dataSourceProvider]="listCountries"
             [selectedProvider]="loadFromIds"
-            [iqSelect2ItemAdapter]="adapter"
-            referenceMode='id' 
-            [minimumInputLength]='0' 
-            [multiple]='true' 
-            [searchDelay]="200"></iq-select2>
+            [iqSelect2ItemAdapter]="adapter"></iq-select2>
 ```
 
-*typescript file*
+*example typescript file*
 ```javascript
-
+export class Example {
     listCountries: (term: string) => Observable<Country[]>;
     loadFromIds: (ids: string[]) => Observable<Country[]>;
     adapter: (entity: Country) => IqSelect2Item;
+//
+    constructor(private countriesService: CountryService){
+    
+    }
 //
     ngOnInit() {
         this.listCountries = (term: string) => this.countriesService.listCountries(term);
@@ -65,7 +65,7 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 
 *IqSelect2Item*
 ```javascript
-interface IqSelect2Item<T> {
+interface IqSelect2Item {
     id: string;
     text: string;
     entity?: any; // only needed when referenceMode === 'entity'
@@ -77,33 +77,33 @@ interface IqSelect2Item<T> {
 Configuration options (Inputs and Outputs)
 ==========================================
 
-**@Input() dataSourceProvider: (term: string) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input
+*@Input()* **dataSourceProvider: (term: string) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input
 
-**@Input() selectedProvider: (ids: string[]) => Observable<IqSelect2Item<T>[]>**: the function to get previously selected data when referenceMode === 'id'
+*@Input()* **selectedProvider: (ids: string[]) => Observable<IqSelect2Item<T>[]>**: the function to get previously selected data when referenceMode === 'id'
 
-**@Input() iqSelect2ItemAdapter: (entity: T) => IqSelect2Item**: the function to adapt any entity to a IqSelect2Item
+*@Input()* **iqSelect2ItemAdapter: (entity: T) => IqSelect2Item**: the function to adapt any entity to a IqSelect2Item
 
-**@Input() referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
+*@Input()* **referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
 
-**@Input() multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
+*@Input()* **multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
 
-**@Input() searchDelay**: ms until request is effectively triggered
+*@Input()* **searchDelay**: ms until request is effectively triggered
 
-**@Input() placeholder**: text to show until a search is performed
+*@Input()* **placeholder**: text to show until a search is performed
 
-**@Input() disabled**: boolean to control the disabled state of the component
+*@Input()* **disabled**: boolean to control the disabled state of the component
 
-**@Input() minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
+*@Input()* **minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
 
-**@Input() css**: css classes to be applied
+*@Input()* **css**: css classes to be applied
 
-**@Input() remoteSearchIcon**: css icon to be used when search is performed remotely
+*@Input()* **remoteSearchIcon**: css icon to be used when search is performed remotely
 
-**@Input() localSearchIcon**: css icon to be used when search is performed in the client
+*@Input()* **localSearchIcon**: css icon to be used when search is performed in the client
 
-**@Output() onSelect(item: IqSelect2Item)**: event triggered when an item is selected
+*@Output()* **onSelect(item: IqSelect2Item)**: event triggered when an item is selected
 
-**@Output() onRemove(item: IqSelect2Item)**: event triggered when an item is removed
+*@Output()* **onRemove(item: IqSelect2Item)**: event triggered when an item is removed
 
 ---
 
