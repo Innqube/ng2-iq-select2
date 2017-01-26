@@ -7,7 +7,7 @@
                 [class.label-info]="multiple">
                 <span class="selectedItemText">{{item.text}}</span>
                 <a class="select2-selection-remove" (click)="removeItem(item)" *ngIf="!disabled">
-                    <i class="glyphicon glyphicon-remove" [class.text-info]="!multiple"></i>
+                    <i [class]="deleteIcon" [class.text-info]="!multiple"></i>
                 </a>
             </li>
             <li class="select2-input">
