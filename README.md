@@ -3,6 +3,7 @@
 [![InnQUbe](http://www.innqube.com/powered-by-innqube.png)](http://www.innqube.com/)
 [![Build Status](https://travis-ci.org/Innqube/ng2-iq-select2.svg?branch=master)](https://travis-ci.org/Innqube/ng2-iq-select2)
 [![codecov](https://codecov.io/gh/Innqube/ng2-iq-select2/branch/master/graph/badge.svg)](https://codecov.io/gh/Innqube/ng2-iq-select2)
+[![Code Climate](https://codeclimate.com/github/Innqube/ng2-iq-select2/badges/gpa.svg)](https://codeclimate.com/github/Innqube/ng2-iq-select2)
 
 Angular 2 native select 2 implementation based on bootstrap 3
 
@@ -14,7 +15,7 @@ Angular 2 native select 2 implementation based on bootstrap 3
 
 [Take a look at the demo page](https://innqube.github.io/ng2-iq-select2-demo)
 
-
+---
 
 Usage example:
 
@@ -31,14 +32,35 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 
 *html file*
 ```html
-<iq-select2 css="form-control input-sm" formControlName="country" [dataSourceProvider]="dataService.listData" referenceMode='id' [minimumInputLength]='0' [multiple]='true' [searchDelay]="200"></iq-select2>
+<iq-select2 css="form-control input-sm" 
+            formControlName="country" 
+            [dataSourceProvider]="listCountries"
+            [selectedProvider]="loadFromIds"
+            [iqSelect2ItemAdapter]="adapter"></iq-select2>
 ```
 
-*DataService*
+*example typescript file*
 ```javascript
-public listData(pattern: string): Observable<IqSelect2Item[]> {
-    ...
-}
+export class Example {
+    listCountries: (term: string) => Observable<Country[]>;
+    loadFromIds: (ids: string[]) => Observable<Country[]>;
+    adapter: (entity: Country) => IqSelect2Item;
+//
+    constructor(private countriesService: CountryService){
+    
+    }
+//
+    ngOnInit() {
+        this.listCountries = (term: string) => this.countriesService.listCountries(term);
+        this.loadFromIds = (ids: string[]) => this.countriesService.loadCountriesFromIds(ids);
+        this.adapter = (entity: Country) => {
+            return {
+                id: country.id,
+                text: country.name,
+                entity: country
+            };
+    }
+};
 ```
 
 *IqSelect2Item*
@@ -50,31 +72,42 @@ interface IqSelect2Item {
 }
 ```
 
+---
+
 Configuration options (Inputs and Outputs)
 ==========================================
 
-**@Input() dataSourceProvider(term: string) => Observable<IqSelect2Item[]>**: the function to get the data based on user input
+*@Input()* **dataSourceProvider: (term: string) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input
 
-**@Input() selectedProvider(ids: string[]) => Observable<IqSelect2Item[]>**: the function to get previously selected data when referenceMode === 'id'
+*@Input()* **selectedProvider: (ids: string[]) => Observable<IqSelect2Item<T>[]>**: the function to get previously selected data when referenceMode === 'id'
 
-**@Input() referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
+*@Input()* **iqSelect2ItemAdapter: (entity: T) => IqSelect2Item**: the function to adapt any entity to a IqSelect2Item
 
-**@Input() multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
+*@Input()* **referenceMode**: 'id' | 'entity'. Allows to specify if you need the whole entity or just the id.
 
-**@Input() searchDelay**: ms until request is effectively triggered
+*@Input()* **multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
 
-**@Input() placeholder**: text to show until a search is performed
+*@Input()* **searchDelay**: ms until request is effectively triggered
 
-**@Input() disabled**: boolean to control the disabled state of the component
+*@Input()* **placeholder**: text to show until a search is performed
 
-**@Input() minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
+*@Input()* **disabled**: boolean to control the disabled state of the component
 
-**@Input() css**: css classes to be applied
+*@Input()* **minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
 
-**@Output() onSelect(item: IqSelect2Item)**: event triggered when an item is selected
+*@Input()* **css**: css classes to be applied
 
-**@Output() onRemove(item: IqSelect2Item)**: event triggered when an item is removed
+*@Input()* **remoteSearchIcon**: css icon to be used when search is performed remotely
 
+*@Input()* **localSearchIcon**: css icon to be used when search is performed in the client
+
+*@Output()* **onSelect(item: IqSelect2Item)**: event triggered when an item is selected
+
+*@Output()* **onRemove(item: IqSelect2Item)**: event triggered when an item is removed
+
+---
+
+*Reference mode examples*
 ```javascript
 // form.value example with referenceMode === 'id':
 {

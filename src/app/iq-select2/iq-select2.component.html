@@ -17,8 +17,8 @@
                        [class.hideable]='isHideable()' *ngIf="!disabled"/>
             </li>
         </ul>
-        <span class="caret" *ngIf="minimumInputLength===0"></span>
-        <span class="search glyphicon glyphicon-search" *ngIf="minimumInputLength!==0"></span>
+        <span [class]="localSearchIcon" *ngIf="minimumInputLength===0"></span>
+        <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
     <span>
   <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"

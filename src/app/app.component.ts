@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {DataService} from './data.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DataService, Country} from './data.service';
 import {Observable} from 'rxjs/Observable';
 import {IqSelect2Item} from './iq-select2/iq-select2-item';
 import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
+import {IqSelect2Component} from './iq-select2/iq-select2.component';
 
 @Component({
     selector: 'my-app',
@@ -11,8 +12,10 @@ import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
 })
 export class AppComponent implements OnInit {
     public form: FormGroup;
-    public listItems: (term: string) => Observable<IqSelect2Item[]>;
-    public getItems: (ids: string[]) => Observable<IqSelect2Item[]>;
+    public listItems: (term: string) => Observable<Country[]>;
+    public getItems: (ids: string[]) => Observable<Country[]>;
+    public entityToIqSelect2Item: (entity: Country) => IqSelect2Item;
+    @ViewChild('countrySingle') countrySingle: IqSelect2Component<Country>;
 
     constructor(private dataService: DataService,
                 private formBuilder: FormBuilder) {
@@ -27,51 +30,43 @@ export class AppComponent implements OnInit {
             lastname: new FormControl(''),
             option: new FormControl(''),
             countrySingle: [{
-                value: {
-                    'id': '8',
-                    'text': 'Argentina',
-                    'entity': {
-                        'id': '8',
-                        'name': 'Argentina',
-                        'money': 'ARS'
-                    }
-                },
-                disabled: false
+                id: '17',
+                name: 'Argentina',
+                code: 'AR',
+                color: '#c1ee5b'
             }],
-            countryMultiple: new FormControl({
-                value: [{
-                    'id': '8', 'text': 'Argentina', 'entity': {
-                        'id': '8',
-                        'name': 'Argentina',
-                        'money': 'ARS'
-                    }
-                }],
-                disabled: false
-            }),
+            countryMultiple: null,
             countryMultipleDisabled: new FormControl({
                 value: [{
-                    'id': '8', 'text': 'Argentina', 'entity': {
-                        'id': '8',
-                        'name': 'Argentina',
-                        'money': 'ARS'
-                    }
+                    id: '17',
+                    name: 'Argentina',
+                    code: 'AR',
+                    color: '#c1ee5b'
+                }, {
+                    id: '17',
+                    name: 'Indonesia',
+                    code: 'ID',
+                    color: '#19f77a'
                 }],
                 disabled: true
             }),
             countrySingleMin0: null,
-            countryMultipleMin0: null
+            countryMultipleMin0: null,
+            habilitado: true
         });
-
-        this.listItems = this.listData().bind(this.dataService);
-        this.getItems = this.getCurrentItems().bind(this.dataService);
+        this.initializeCountryIqSelect2();
     }
 
-    listData(): (term: string) => Observable < IqSelect2Item[] > {
-        return this.dataService.listData;
-    }
-
-    getCurrentItems(): (ids: string[]) => Observable < IqSelect2Item[] > {
-        return this.dataService.getItems;
+    private initializeCountryIqSelect2() {
+        this.listItems = (term: string) => this.dataService.listData(term);
+        this.getItems = (ids: string[]) => this.dataService.getItems(ids);
+        this.entityToIqSelect2Item = (entity: any) => {
+            return {
+                id: entity.id,
+                text: entity.name,
+                entity: entity
+            };
+        };
     }
 
     send(formJson: string) {
