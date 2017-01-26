@@ -101,6 +101,8 @@ Configuration options (Inputs and Outputs)
 
 *@Input()* **localSearchIcon**: css icon to be used when search is performed in the client
 
+*@Input()* **deleteIcon**: css icon to be used to remove selected option (In single mode)
+
 *@Output()* **onSelect(item: IqSelect2Item)**: event triggered when an item is selected
 
 *@Output()* **onRemove(item: IqSelect2Item)**: event triggered when an item is removed
