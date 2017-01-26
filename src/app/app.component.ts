@@ -36,9 +36,18 @@ export class AppComponent implements OnInit {
                         'money': 'ARS'
                     }
                 },
-                disabled: true
+                disabled: false
             }],
-            countryMultiple: null,
+            countryMultiple: new FormControl({
+                value: [{
+                    'id': '8', 'text': 'Argentina', 'entity': {
+                        'id': '8',
+                        'name': 'Argentina',
+                        'money': 'ARS'
+                    }
+                }],
+                disabled: false
+            }),
             countryMultipleDisabled: new FormControl({
                 value: [{
                     'id': '8', 'text': 'Argentina', 'entity': {

@@ -102,9 +102,13 @@ export class IqSelect2Component implements OnInit, ControlValueAccessor {
                 this.requestSelectedItems(selectedValues);
             } else {
                 this.selectedItems = this.multiple ? selectedValues : [selectedValues];
+
             }
         } else {
             this.selectedItems = [];
+        }
+        if (selectedValues && !this.multiple) {
+            this.placeholderSelected = selectedValues.text;
         }
     }
 
