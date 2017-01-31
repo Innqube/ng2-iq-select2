@@ -7,6 +7,7 @@ import {DataService, Country} from '../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, ViewChild, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component<Country>;
@@ -372,6 +373,17 @@ describe('IqSelect2Component', () => {
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
     }));
+
+    it('multiple mode with minimumInputLength 0 should not show the form default values in the initial dropdown',
+            inject([DataService], fakeAsync((service: DataService) => {
+        component.selectedProvider = (ids: string[]) => service.getItems(ids);
+        component.minimumInputLength = 0;
+        component.multiple = true;
+        component.referenceMode = 'id';
+        component.writeValue(['1']);
+        component.ngOnInit();
+        expect(component.listData.find(x => x.id === '1')).toBeUndefined();
+    })));
 
 });
 

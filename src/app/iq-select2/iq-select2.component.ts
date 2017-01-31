@@ -84,10 +84,14 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     private loadItemsAndSubscribeToChanges() {
         this.dataSourceProvider('').subscribe((items: T[]) => {
             this.fullListData = [];
+            this.listData = [];
             items.forEach((item: T) => {
-                this.fullListData.push(this.iqSelect2ItemAdapter(item));
+                let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                this.fullListData.push(iqSelect2Item);
+                if (!this.alreadySelected(iqSelect2Item)) {
+                    this.listData.push(iqSelect2Item);
+                }
             });
-            this.listData = this.fullListData;
         });
 
         this.term.valueChanges
