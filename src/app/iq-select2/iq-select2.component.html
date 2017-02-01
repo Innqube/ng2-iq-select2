@@ -13,7 +13,7 @@
             <li class="select2-input">
                 <input #termInput type="text" [placeholder]="getPlaceholder()" [formControl]="term" (focus)="onFocus()"
                        (blur)="onBlur()"
-                       [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"
+                       [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)" (keypress)="onKeyPress($event)"
                        [class.hideable]='isHideable()' *ngIf="!disabled"/>
             </li>
         </ul>
