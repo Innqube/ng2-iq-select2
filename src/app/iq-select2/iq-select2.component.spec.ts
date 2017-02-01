@@ -70,7 +70,7 @@ describe('IqSelect2Component', () => {
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         parent.detectChanges();
 
-        hostComponent.childComponent.ngOnInit();
+        hostComponent.childComponent.ngAfterViewInit();
 
         hostComponent.childComponent.term.setValue('arg');
         tick(255);
@@ -310,7 +310,7 @@ describe('IqSelect2Component', () => {
         });
 
         hostComponent.childComponent.minimumInputLength = 2;
-        hostComponent.childComponent.ngOnInit();
+        hostComponent.childComponent.ngAfterViewInit();
 
         hostComponent.childComponent.term.setValue('a');
         tick(250);
