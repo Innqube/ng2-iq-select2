@@ -67,7 +67,11 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
             .debounceTime(this.searchDelay)
             .distinctUntilChanged()
             .subscribe(term => {
-                this.resultsVisible = term.length > 0;
+                this.resultsVisible = term.length >= this.minimumInputLength;
+                if (!this.resultsVisible) {
+                    this.listData = [];
+                    return;
+                }
 
                 this.dataSourceProvider(term).subscribe((items: T[]) => {
                     this.listData = [];
@@ -94,7 +98,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
             .debounceTime(this.searchDelay)
             .distinctUntilChanged()
             .subscribe(term => {
-                this.resultsVisible = term.length > 0;
+                this.resultsVisible = term.length >= this.minimumInputLength;
                 this.filterData(this.term.value);
             });
     }
