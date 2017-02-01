@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output, ViewChild, AfterViewInit} from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -21,7 +21,7 @@ const noop = () => {};
     styleUrls: ['./iq-select2.component.css'],
     providers: [VALUE_ACCESSOR]
 })
-export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
+export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccessor {
 
     @Input() dataSourceProvider: (term: string) => Observable<T[]>;
     @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
@@ -54,7 +54,7 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     constructor() {
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         if (this.minimumInputLength === 0) {
             this.loadItemsAndSubscribeToChanges();
         } else {

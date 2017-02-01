@@ -7,7 +7,6 @@ import {DataService, Country} from '../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, ViewChild, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component<Country>;
@@ -231,7 +230,7 @@ describe('IqSelect2Component', () => {
             }
         });
 
-        hostComponent.childComponent.ngOnInit();
+        hostComponent.childComponent.ngAfterViewInit();
 
         hostComponent.childComponent.term.setValue('arg');
         tick(250);
@@ -381,7 +380,7 @@ describe('IqSelect2Component', () => {
         component.multiple = true;
         component.referenceMode = 'id';
         component.writeValue(['1']);
-        component.ngOnInit();
+        component.ngAfterViewInit();
         expect(component.listData.find(x => x.id === '1')).toBeUndefined();
     })));
 
