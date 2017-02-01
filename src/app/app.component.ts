@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService, Country} from './data.service';
 import {Observable} from 'rxjs/Observable';
 import {IqSelect2Item} from './iq-select2/iq-select2-item';
-import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
+import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2/iq-select2.component';
 
 @Component({
@@ -30,15 +30,15 @@ export class AppComponent implements OnInit {
             lastname: new FormControl(''),
             option: new FormControl(''),
             countrySingle: [{
-                id: '17',
+                id: '16',
                 name: 'Argentina',
                 code: 'AR',
                 color: '#c1ee5b'
-            }],
+            }, Validators.required],
             countryMultiple: null,
             countryMultipleDisabled: new FormControl({
                 value: [{
-                    id: '17',
+                    id: '16',
                     name: 'Argentina',
                     code: 'AR',
                     color: '#c1ee5b'
@@ -51,10 +51,18 @@ export class AppComponent implements OnInit {
                 disabled: true
             }),
             countrySingleMin0: null,
-            countryMultipleMin0: null,
+            countryMultipleMin0: [[{
+                id: '16',
+                name: 'Argentina',
+                code: 'AR',
+                color: '#c1ee5b'
+            }]],
             habilitado: true
         });
         this.initializeCountryIqSelect2();
+        this.form.valueChanges.subscribe(() => {
+            console.log('-->' + this.form.controls['countrySingle'].value);
+        });
     }
 
     private initializeCountryIqSelect2() {
