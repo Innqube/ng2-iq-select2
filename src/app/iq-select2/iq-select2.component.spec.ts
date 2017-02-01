@@ -71,12 +71,29 @@ describe('IqSelect2Component', () => {
         parent.detectChanges();
 
         hostComponent.childComponent.ngAfterViewInit();
+        hostComponent.childComponent.focusInput(null);
 
         hostComponent.childComponent.term.setValue('arg');
         tick(255);
         hostComponent.childComponent.term.setValue('');
         tick(255);
         expect(hostComponent.childComponent.resultsVisible).toBe(true);
+    })));
+
+    it('should not show results, when not focused',
+            inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+        parent.detectChanges();
+
+        hostComponent.childComponent.ngAfterViewInit();
+
+        hostComponent.childComponent.term.setValue('');
+        tick(255);
+
+        expect(hostComponent.childComponent.resultsVisible).toBe(false);
     })));
 
     it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync((service: DataService) => {

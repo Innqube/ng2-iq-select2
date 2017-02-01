@@ -102,7 +102,8 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             .debounceTime(this.searchDelay)
             .distinctUntilChanged()
             .subscribe(term => {
-                this.resultsVisible = term.length >= this.minimumInputLength;
+                this.resultsVisible = term.length > 0 ||
+                    (this.searchFocused && this.forceVisibility && term.length >= this.minimumInputLength);
                 this.filterData(this.term.value);
             });
     }
