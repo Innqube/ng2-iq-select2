@@ -63,6 +63,31 @@ describe('IqSelect2Component', () => {
         expect(component.resultsVisible).toBe(true);
     }));
 
+    it('should still show results after deleting text, when minimumInputLength === 0',
+            inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+        parent.detectChanges();
+
+        hostComponent.childComponent.ngOnInit();
+
+        hostComponent.childComponent.term.setValue('arg');
+        tick(255);
+        hostComponent.childComponent.term.setValue('');
+        tick(255);
+        expect(hostComponent.childComponent.resultsVisible).toBe(true);
+    })));
+
+    it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync((service: DataService) => {
+        component.term.setValue('arg');
+        tick(255);
+        component.term.setValue('a');
+        tick(255);
+        expect(component.resultsVisible).toBe(false);
+    }));
+
     it('should focus input clicking on the container', () => {
         let ul = fixture.nativeElement.querySelector('.select2-container ul');
         let input = fixture.nativeElement.querySelector('input');
@@ -272,6 +297,27 @@ describe('IqSelect2Component', () => {
 
         expect(component.dataSourceProvider).toHaveBeenCalledTimes(2);
     }));
+
+    it('should not make a request if term.length < minimumInputLength', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+        parent.detectChanges();
+
+        spyOn(hostComponent.childComponent, 'dataSourceProvider').and.returnValue({
+            subscribe: () => {
+            }
+        });
+
+        hostComponent.childComponent.minimumInputLength = 2;
+        hostComponent.childComponent.ngOnInit();
+
+        hostComponent.childComponent.term.setValue('a');
+        tick(250);
+
+        expect(hostComponent.childComponent.dataSourceProvider).toHaveBeenCalledTimes(0);
+    })));
 
     it('should export selected values - referenceMode: id, single', inject([DataService], fakeAsync((service: DataService) => {
         let parent = TestBed.createComponent(TestHostComponent);
