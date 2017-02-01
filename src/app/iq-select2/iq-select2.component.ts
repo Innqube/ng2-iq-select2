@@ -106,7 +106,11 @@ export class IqSelect2Component<T> implements OnInit, ControlValueAccessor {
     filterData(filterText: string) {
         this.listData = [];
         this.fullListData.forEach(item => {
-            if ((!this.alreadySelected(item) || !this.multiple) && item.text.toLowerCase().indexOf(filterText.toLowerCase()) > -1) {
+            let itemContainsTerm = item.text.toLowerCase().indexOf(filterText.toLowerCase()) > -1;
+            let singleMode = !this.multiple;
+            let notSelected = !this.alreadySelected(item);
+
+            if ((notSelected || singleMode) && itemContainsTerm) {
                 this.listData.push(item);
             }
         });
