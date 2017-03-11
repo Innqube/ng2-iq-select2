@@ -63,38 +63,38 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should still show results after deleting text, when minimumInputLength === 0',
-            inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
-        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
-        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
-        parent.detectChanges();
+        inject([DataService], fakeAsync((service: DataService) => {
+            let parent = TestBed.createComponent(TestHostComponent);
+            let hostComponent: TestHostComponent = parent.componentInstance;
+            hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+            hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+            parent.detectChanges();
 
-        hostComponent.childComponent.ngAfterViewInit();
-        hostComponent.childComponent.focusInput(null);
+            hostComponent.childComponent.ngAfterViewInit();
+            hostComponent.childComponent.focusInput(null);
 
-        hostComponent.childComponent.term.setValue('arg');
-        tick(255);
-        hostComponent.childComponent.term.setValue('');
-        tick(255);
-        expect(hostComponent.childComponent.resultsVisible).toBe(true);
-    })));
+            hostComponent.childComponent.term.setValue('arg');
+            tick(255);
+            hostComponent.childComponent.term.setValue('');
+            tick(255);
+            expect(hostComponent.childComponent.resultsVisible).toBe(true);
+        })));
 
     it('should not show results, when not focused',
-            inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
-        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
-        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
-        parent.detectChanges();
+        inject([DataService], fakeAsync((service: DataService) => {
+            let parent = TestBed.createComponent(TestHostComponent);
+            let hostComponent: TestHostComponent = parent.componentInstance;
+            hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+            hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+            parent.detectChanges();
 
-        hostComponent.childComponent.ngAfterViewInit();
+            hostComponent.childComponent.ngAfterViewInit();
 
-        hostComponent.childComponent.term.setValue('');
-        tick(255);
+            hostComponent.childComponent.term.setValue('');
+            tick(255);
 
-        expect(hostComponent.childComponent.resultsVisible).toBe(false);
-    })));
+            expect(hostComponent.childComponent.resultsVisible).toBe(false);
+        })));
 
     it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync((service: DataService) => {
         component.term.setValue('arg');
@@ -437,14 +437,55 @@ describe('IqSelect2Component', () => {
     }));
 
     it('multiple mode with minimumInputLength 0 should not show the form default values in the initial dropdown',
-            inject([DataService], fakeAsync((service: DataService) => {
-        component.selectedProvider = (ids: string[]) => service.getItems(ids);
-        component.minimumInputLength = 0;
-        component.multiple = true;
-        component.referenceMode = 'id';
-        component.writeValue(['1']);
-        component.ngAfterViewInit();
-        expect(component.listData.find(x => x.id === '1')).toBeUndefined();
+        inject([DataService], fakeAsync((service: DataService) => {
+            component.selectedProvider = (ids: string[]) => service.getItems(ids);
+            component.minimumInputLength = 0;
+            component.multiple = true;
+            component.referenceMode = 'id';
+            fixture.detectChanges();
+            component.writeValue(['1']);
+            component.ngAfterViewInit();
+            expect(component.listData.find(x => x.id === 1)).toBeUndefined();
+        })));
+
+    it('should not load duplicate results - id referenceMode', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+        hostComponent.childComponent.referenceMode = 'id';
+        hostComponent.childComponent.multiple = true;
+        parent.detectChanges();
+
+        hostComponent.fg.patchValue({
+            country: ['8', '8']
+        });
+
+        expect(hostComponent.childComponent.selectedItems.length).toBe(1);
+    })));
+
+    it('should not load duplicate results - entity referenceMode', inject([DataService], fakeAsync((service: DataService) => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        let hostComponent: TestHostComponent = parent.componentInstance;
+        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+        hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+        hostComponent.childComponent.referenceMode = 'entity';
+        hostComponent.childComponent.multiple = true;
+        parent.detectChanges();
+
+        hostComponent.fg.patchValue({
+            country: [{
+                id: '16',
+                name: 'Argentina'
+            }, {
+                id: '16',
+                name: 'Argentina'
+            }]
+        });
+
+        expect(hostComponent.childComponent.selectedItems.length).toBe(1);
     })));
 
 });

@@ -13,7 +13,8 @@ const VALUE_ACCESSOR = {
     useExisting: forwardRef(() => IqSelect2Component),
     multi: true
 };
-const noop = () => {};
+const noop = () => {
+};
 
 @Component({
     selector: 'iq-select2',
@@ -124,13 +125,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     writeValue(selectedValues: any): void {
         if (selectedValues) {
             if (this.referenceMode === 'id') {
-                this.requestSelectedItems(selectedValues);
+                this.populateItemsFromIds(selectedValues);
             } else {
-                if (this.multiple) {
-                    selectedValues.forEach((entity) => this.selectedItems.push(this.iqSelect2ItemAdapter(entity)));
-                } else {
-                    this.selectedItems = [this.iqSelect2ItemAdapter(selectedValues)];
-                }
+                this.populateItemsFromEntities(selectedValues);
             }
         } else {
             this.selectedItems = [];
@@ -140,7 +137,27 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         }
     }
 
-    private requestSelectedItems(selectedValues: any) {
+    private populateItemsFromEntities(selectedValues: any) {
+        if (this.multiple) {
+            this.handleMultipleWithEntities(selectedValues);
+        } else {
+            this.selectedItems = [this.iqSelect2ItemAdapter(selectedValues)];
+        }
+    }
+
+    private handleMultipleWithEntities(selectedValues: any) {
+        let uniqueIds = [];
+        selectedValues.forEach((entity) => {
+            let item = this.iqSelect2ItemAdapter(entity);
+
+            if (uniqueIds.indexOf(item.id) === -1) {
+                uniqueIds.push(item.id);
+                this.selectedItems.push(item)
+            }
+        });
+    }
+
+    private populateItemsFromIds(selectedValues: any) {
         if (this.multiple) {
             this.handleMultipleWithIds(selectedValues);
         } else {
@@ -150,7 +167,14 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider(selectedValues).subscribe((items: T[]) => {
+            let uniqueIds = [];
+            selectedValues.forEach((id) => {
+                if (uniqueIds.indexOf(id) === -1) {
+                    uniqueIds.push(id)
+                }
+            });
+
+            this.selectedProvider(uniqueIds).subscribe((items: T[]) => {
                 items.forEach((item) => this.selectedItems.push(this.iqSelect2ItemAdapter(item)));
             });
         }
@@ -229,9 +253,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         if (this.multiple) {
             let ids: string[] = [];
 
-            this.selectedItems.forEach(item => {
-                ids.push(item.id);
-            });
+            this.selectedItems.forEach(item => ids.push(item.id));
 
             return ids;
         } else {
