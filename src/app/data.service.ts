@@ -107,11 +107,9 @@ export class DataService {
     public listData(pattern: string): Observable<Country[]> {
         let filteredList: Country[] = [];
 
-        this.list.forEach(country => {
-            if (country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1) {
-                filteredList.push(country);
-            }
-        });
+        this.list
+            .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
+            .forEach((country) => filteredList.push(country));
 
         filteredList.sort((country1: Country, country2: Country) => {
             if (country1.name < country2.name) {
@@ -129,13 +127,9 @@ export class DataService {
     public getItems(ids: string[]): Observable<Country[]> {
         let selectedItems: Country[] = [];
 
-        this.list.forEach(item => {
-            ids.forEach(id => {
-                if (item.id === id) {
-                    selectedItems.push(item);
-                }
-            });
-        });
+        this.list
+            .filter((item) => ids.indexOf(item.id) >= 0)
+            .forEach((item) => selectedItems.push(item));
 
         return Observable.of(selectedItems);
     }
