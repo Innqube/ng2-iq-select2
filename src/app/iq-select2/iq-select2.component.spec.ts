@@ -488,6 +488,15 @@ describe('IqSelect2Component', () => {
         expect(hostComponent.childComponent.selectedItems.length).toBe(1);
     })));
 
+    fit('should select focused item when tab key is pressed', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.term.setValue('arg');
+        fixture.detectChanges();
+
+        component.onKeyDown({keyCode: 9});
+        expect(component.selectedItems.length).toBe(1);
+    }));
+
 });
 
 @Component({
