@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
 const KEY_CODE_ENTER = 13;
+const KEY_CODE_TAB = 9;
 const KEY_CODE_DELETE = 8;
 const VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -316,6 +317,12 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                     this.focusInput(true);
                 }
             }
+        }
+    }
+
+    onKeyDown(ev) {
+        if (ev.keyCode === KEY_CODE_TAB && this.results) {
+            this.results.selectCurrentItem();
         }
     }
 
