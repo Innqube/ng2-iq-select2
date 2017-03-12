@@ -22,7 +22,8 @@
             <label>Country (Single)</label>
             <input type="checkbox" formControlName="habilitado"/>
             <a (click)="countrySingle.focus()"> set focus</a>
-            <iq-select2 #countrySingle css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingle"
+            <iq-select2 #countrySingle css="form-control input-sm" placeholder="Start writing..."
+                        formControlName="countrySingle"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         referenceMode='entity' [multiple]='false' (onSelect)="onSelect($event)"

@@ -6,7 +6,7 @@ import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2/iq-select2.component';
 
 @Component({
-    selector: 'my-app',
+    selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })

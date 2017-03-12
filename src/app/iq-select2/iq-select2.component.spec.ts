@@ -445,7 +445,7 @@ describe('IqSelect2Component', () => {
             fixture.detectChanges();
             component.writeValue(['1']);
             component.ngAfterViewInit();
-            expect(component.listData.find(x => x.id === 1)).toBeUndefined();
+            expect(component.listData.find(x => x.id === '1')).toBeUndefined();
         })));
 
     it('should not load duplicate results - id referenceMode', inject([DataService], fakeAsync((service: DataService) => {
@@ -488,15 +488,17 @@ describe('IqSelect2Component', () => {
         expect(hostComponent.childComponent.selectedItems.length).toBe(1);
     })));
 
-    /*fit('should select focused item when tab key is pressed', fakeAsync(() => {
+    it('should select focused item when tab key is pressed', () => {
         component.minimumInputLength = 0;
+        component.resultsVisible = true;
+        component.listData = [{
+            id: '1',
+            text: 'test'
+        }];
         fixture.detectChanges();
-        component.term.setValue('arg');
-        tick(255);
-
         component.onKeyDown({keyCode: 9});
         expect(component.selectedItems.length).toBe(1);
-    }));*/
+    });
 
 });
 

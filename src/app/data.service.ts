@@ -127,7 +127,11 @@ export class DataService {
     public getItems(ids: string[]): Observable<Country[]> {
         let selectedItems: Country[] = [];
 
-        ids.forEach((id) => selectedItems.push(this.list[id]));
+        ids.forEach((id) => {
+            this.list
+                .filter((item) => item.id === id)
+                .forEach((item) => selectedItems.push(item));
+        });
 
         return Observable.of(selectedItems);
     }
