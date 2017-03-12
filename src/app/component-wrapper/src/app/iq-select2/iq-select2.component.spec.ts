@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angula
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ReactiveFormsModule, FormBuilder, FormGroup} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {DataService, Country} from '../data.service';
+import {DataService, Country} from '../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, ViewChild, OnInit} from '@angular/core';
