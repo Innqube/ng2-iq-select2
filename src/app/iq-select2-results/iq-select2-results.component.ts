@@ -81,5 +81,4 @@ export class IqSelect2ResultsComponent implements OnInit {
         return result;
     }
 
-
 }

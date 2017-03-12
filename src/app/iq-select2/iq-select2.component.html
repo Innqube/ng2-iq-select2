@@ -17,7 +17,7 @@
                        [class.hideable]='isHideable()' *ngIf="!disabled"/>
             </li>
         </ul>
-        <span [class]="localSearchIcon" *ngIf="minimumInputLength===0"></span>
+        <span [class]="localSearchIcon" *ngIf="minimumInputLength===0" (click)="onFocus()"></span>
         <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
     <span>
