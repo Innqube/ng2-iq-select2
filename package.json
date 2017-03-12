@@ -9,11 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prepublish": "cd ./src/app/component-wrapper && npm run prepublish",
-    "publish": "cd ./src/app/component-wrapper && npm run publish",
     "clean": "cd ./src/app/component-wrapper && npm run clean"
   },
-  "private": true,
   "dependencies": {
     "@angular/common": "^2.4.0",
     "@angular/compiler": "^2.4.0",
