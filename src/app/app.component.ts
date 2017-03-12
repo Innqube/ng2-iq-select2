@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService, Country} from './data.service';
 import {Observable} from 'rxjs/Observable';
-import {IqSelect2Item} from './iq-select2/iq-select2-item';
+import {IqSelect2Item} from './component-wrapper/iq-select2/iq-select2-item';
 import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {IqSelect2Component} from './iq-select2/iq-select2.component';
+import {IqSelect2Component} from './component-wrapper/iq-select2/iq-select2.component';
 
 @Component({
     selector: 'app-root',
