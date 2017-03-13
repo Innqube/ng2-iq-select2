@@ -12,6 +12,20 @@
     "clean": "find . -name '*.js.map' -type f -delete && find . -name '*.js' -type f -delete && find . -name '*.d.ts' -type f -delete",
     "prepublish": "tsc"
   },
+  "keywords": [
+    "ng",
+    "ng2",
+    "select2",
+    "multiselect",
+    "multi-select",
+    "suggest",
+    "Angular",
+    "Angular 2",
+    "Select",
+    "Select 2",
+    "Multiple",
+    "Remote data"
+  ],
   "peerDependencies": {
     "@angular/common": "^2.2.3",
     "@angular/core": "^2.2.3",
