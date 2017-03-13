@@ -41,7 +41,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
-    @ViewChild('results') private results: IqSelect2ResultsComponent;
+    @ViewChild('results') results: IqSelect2ResultsComponent;
     term = new FormControl();
     resultsVisible = false;
     listData: IqSelect2Item[];

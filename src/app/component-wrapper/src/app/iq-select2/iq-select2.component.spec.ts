@@ -500,6 +500,83 @@ describe('IqSelect2Component', () => {
         expect(component.selectedItems.length).toBe(1);
     });
 
+    it('should select next item when down arrow is pressed', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+        spyOn(component.results, "activeNext");
+        component.onKeyUp({keyCode: 40});
+        tick(1);
+        expect(component.results.activeNext).toHaveBeenCalled();
+    }));
+
+    it('should select previous item when up arrow is pressed', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+        spyOn(component.results, "activePrevious");
+        component.onKeyUp({keyCode: 38});
+        tick(1);
+        expect(component.results.activePrevious).toHaveBeenCalled();
+    }));
+
+    it('should select current item when enter is pressed', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+        spyOn(component.results, "selectCurrentItem");
+        component.onKeyUp({keyCode: 13});
+        tick(1);
+        expect(component.results.selectCurrentItem).toHaveBeenCalled();
+    }));
+
+    it('should focus input when enter is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.resultsVisible = false;
+        fixture.detectChanges();
+        spyOn(component, "focusInput");
+        component.onKeyUp({keyCode: 13});
+        tick(1);
+        expect(component.focusInput).toHaveBeenCalled();
+    }));
+
+    it('should focus input when down arrow is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.resultsVisible = false;
+        fixture.detectChanges();
+        spyOn(component, "focusInput");
+        component.onKeyUp({keyCode: 40});
+        tick(1);
+        expect(component.focusInput).toHaveBeenCalled();
+    }));
+
+    it('should delete selected item when delete is pressed', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.results = undefined;
+        component.selectedItems = [{
+            id: '1',
+            text: 'test'
+        }];
+        fixture.detectChanges();
+        spyOn(component, "removeItem");
+        component.onKeyUp({keyCode: 8});
+        tick(1);
+        expect(component.removeItem).toHaveBeenCalled();
+    }));
+
+    it('should delete selected item when delete is pressed and remove it from the list of selected items', fakeAsync(() => {
+        component.minimumInputLength = 0;
+        component.ngAfterViewInit();
+        component.selectedItems = [{
+            id: '1',
+            text: 'test'
+        }];
+        fixture.detectChanges();
+        component.onKeyUp({keyCode: 8});
+        tick(1);
+        expect(component.selectedItems.length).toBe(0);
+    }));
+
 });
 
 @Component({
