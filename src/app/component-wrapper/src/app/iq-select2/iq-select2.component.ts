@@ -38,8 +38,10 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Input() remoteSearchIcon = 'glyphicon glyphicon-search';
     @Input() localSearchIcon = 'caret';
     @Input() deleteIcon = 'glyphicon glyphicon-remove';
-    @Input() moreResultsAvailableMsg = 'More results available. Refine your search to show them.';
-    @Input() noResultsAvailableMsg = 'No results available';
+    @Input() messages = {
+        moreResultsAvailableMsg? : 'More results available. Refine your search to show them.',
+        noResultsAvailableMsg? : 'No results available'
+    };
     @Input() resultsCount;
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
