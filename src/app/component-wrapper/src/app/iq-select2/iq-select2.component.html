@@ -23,7 +23,7 @@
     </a>
     <div>
         <span class="results-msg" *ngIf="resultsVisible && listData && listData.length < resultsCount">
-            {{messages && messages.moreResultsAvailableMsg ? messages.moreResultsAvailableMsg : MORE_RESULTS_MSG}}
+            {{getCountMessage()}}
         </span>
         <span class="results-msg no-results-msg" *ngIf="resultsVisible && listData && listData.length === 0">
             {{messages && messages.noResultsAvailableMsg ? messages.noResultsAvailableMsg : NO_RESULTS_MSG}}

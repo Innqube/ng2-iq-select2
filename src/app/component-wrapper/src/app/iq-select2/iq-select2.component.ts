@@ -404,4 +404,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         this.termInput.nativeElement.focus();
     }
 
+    getCountMessage(): string {
+        let msg = this.messages && this.messages.moreResultsAvailableMsg ? this.messages.moreResultsAvailableMsg : this.MORE_RESULTS_MSG;
+        return msg + ' (' + (this.resultsCount - this.listData.length) + ')';
+    }
+
 }
