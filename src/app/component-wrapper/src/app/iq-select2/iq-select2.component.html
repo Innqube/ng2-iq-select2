@@ -13,16 +13,20 @@
             <li class="select2-input">
                 <input #termInput type="text" [placeholder]="getPlaceholder()" [formControl]="term" (focus)="onFocus()"
                        (blur)="onBlur()"
-                       [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)" (keypress)="onKeyPress($event)"
+                       [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)"
+                       (keypress)="onKeyPress($event)"
                        [class.hideable]='isHideable()' *ngIf="!disabled"/>
             </li>
         </ul>
         <span [class]="localSearchIcon" *ngIf="minimumInputLength===0" (click)="onFocus()"></span>
         <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
-    <span>
-  <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"
-                      (itemSelectedEvent)="onItemSelected($event);" [searchFocused]="searchFocused"
-                      *ngIf="resultsVisible"></iq-select2-results>
-  </span>
+    <div>
+        <span class="more-results-available" *ngIf="resultsVisible && resultsShown < resultsCount">
+            {{moreResultsAvailableMsg}}
+        </span>
+        <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"
+                            (itemSelectedEvent)="onItemSelected($event);" [searchFocused]="searchFocused"
+                            *ngIf="resultsVisible"></iq-select2-results>
+    </div>
 </div>

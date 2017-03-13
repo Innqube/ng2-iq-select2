@@ -114,3 +114,15 @@
     top: 10px;
     font-size: 12px;
 }
+
+.more-results-available {
+    background: whitesmoke;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    color: #aaa;
+    display: block;
+    font-style: italic;
+    font-size: 0.9em;
+    margin: -12px 0 10px;
+    padding: 5px;
+}

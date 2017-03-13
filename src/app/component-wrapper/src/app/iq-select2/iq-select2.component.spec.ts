@@ -636,6 +636,54 @@ describe('IqSelect2Component', () => {
             expect(parent.nativeElement.querySelector('input').placeholder).toBe('Argentina');
         }));
 
+    it('should not show moreResultsAvailable message if resultsCount is not set', () => {
+        component.resultsShown = 10;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelectorAll('span.more-results-available');
+        expect(mra.length).toBe(0);
+    });
+
+    it('should not show moreResultsAvailable message if resultsShown is not set', () => {
+        component.resultsCount = 15;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelectorAll('span.more-results-available');
+        expect(mra.length).toBe(0);
+    });
+
+    it('should show moreResultsAvailable message if resultsShown < resultsCount', () => {
+        component.resultsShown = 10;
+        component.resultsCount = 15;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelectorAll('span.more-results-available');
+        expect(mra.length).toBe(1);
+    });
+
+    it('should not show moreResultsAvailable message if results are not visible', () => {
+        component.resultsShown = 10;
+        component.resultsCount = 15;
+        component.resultsVisible = false;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelectorAll('span.more-results-available');
+        expect(mra.length).toBe(0);
+    });
+
+
+    it('should not show moreResultsAvailable message if resultsShown = resultsCount', () => {
+        component.resultsShown = 10;
+        component.resultsCount = 10;
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelectorAll('span.more-results-available');
+        expect(mra.length).toBe(0);
+    });
 
 });
 
