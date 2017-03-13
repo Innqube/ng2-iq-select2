@@ -133,9 +133,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         } else {
             this.selectedItems = [];
         }
-        if (selectedValues && !this.multiple) {
-            this.placeholderSelected = this.iqSelect2ItemAdapter(selectedValues).text;
-        }
     }
 
     private populateItemsFromEntities(selectedValues: any) {
@@ -187,7 +184,11 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider([id]).subscribe((items: T[]) => {
-                items.forEach((item) => this.selectedItems.push(this.iqSelect2ItemAdapter(item)));
+                items.forEach((item) => {
+                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                    this.selectedItems.push(iqSelect2Item);
+                    this.placeholderSelected = iqSelect2Item.text;
+                });
             });
         }
     }
