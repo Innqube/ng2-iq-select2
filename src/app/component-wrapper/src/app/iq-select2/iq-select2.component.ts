@@ -172,11 +172,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             });
 
             this.selectedProvider(uniqueIds).subscribe((items: T[]) => {
-                let ids = this.getSelectedIds();
-
-                items.map(this.iqSelect2ItemAdapter)
-                    .filter((el) => ids.indexOf(el.id) === -1)
-                    .forEach((item) => this.selectedItems.push(item));
+                this.selectedItems = items.map(this.iqSelect2ItemAdapter);
             });
         }
     }
@@ -186,7 +182,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             this.selectedProvider([id]).subscribe((items: T[]) => {
                 items.forEach((item) => {
                     let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                    this.selectedItems.push(iqSelect2Item);
+                    this.selectedItems = [iqSelect2Item];
                     this.placeholderSelected = iqSelect2Item.text;
                 });
             });
@@ -332,12 +328,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                 this.results.selectCurrentItem();
             }
         } else {
-            if (ev.keyCode === KEY_CODE_DELETE) {
-                if (this.selectedItems.length > 0) {
-                    this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
-                }
-            }
-
             if (this.minimumInputLength === 0) {
                 if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
                     this.focusInput(true);
@@ -347,8 +337,16 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     onKeyDown(ev) {
-        if (ev.keyCode === KEY_CODE_TAB && this.results) {
-            this.results.selectCurrentItem();
+        if (this.results) {
+            if (ev.keyCode === KEY_CODE_TAB) {
+                this.results.selectCurrentItem();
+            }
+        } else {
+            if (ev.keyCode === KEY_CODE_DELETE) {
+                if ((!this.term.value || this.term.value.length === 0) && this.selectedItems.length > 0) {
+                    this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
+                }
+            }
         }
     }
 

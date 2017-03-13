@@ -559,10 +559,24 @@ describe('IqSelect2Component', () => {
         }];
         fixture.detectChanges();
         spyOn(component, "removeItem");
-        component.onKeyUp({keyCode: 8});
+        component.onKeyDown({keyCode: 8});
         tick(1);
         expect(component.removeItem).toHaveBeenCalled();
     }));
+
+    it('should not delete selected item when delete is pressed and there is text entered', () => {
+        component.minimumInputLength = 0;
+        component.results = undefined;
+        component.selectedItems = [{
+            id: '1',
+            text: 'test'
+        }];
+        component.term.setValue("arg");
+        fixture.detectChanges();
+        spyOn(component, "removeItem");
+        component.onKeyDown({keyCode: 8});
+        expect(component.removeItem).toHaveBeenCalledTimes(0);
+    });
 
     it('should delete selected item when delete is pressed and remove it from the list of selected items', fakeAsync(() => {
         component.minimumInputLength = 0;
@@ -572,7 +586,7 @@ describe('IqSelect2Component', () => {
             text: 'test'
         }];
         fixture.detectChanges();
-        component.onKeyUp({keyCode: 8});
+        component.onKeyDown({keyCode: 8});
         tick(1);
         expect(component.selectedItems.length).toBe(0);
     }));
