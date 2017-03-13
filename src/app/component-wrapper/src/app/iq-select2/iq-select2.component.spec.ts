@@ -611,6 +611,32 @@ describe('IqSelect2Component', () => {
             expect(parent.nativeElement.querySelector('input').placeholder).toBe('Argentina');
         }));
 
+    it('should be able to set placeholder value with referenceMode === "entity" and multiple === false',
+        inject([DataService], (service: DataService) => {
+            let parent = TestBed.createComponent(TestHostComponent);
+            let hostComponent: TestHostComponent = parent.componentInstance;
+            hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+            hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+            hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+            hostComponent.childComponent.referenceMode = 'entity';
+            hostComponent.childComponent.multiple = false;
+            parent.detectChanges();
+
+            hostComponent.fg.patchValue({
+                country: {
+                    id: '16',
+                    name: 'Argentina',
+                    code: 'AR',
+                    color: '#c1ee5b'
+                }
+            });
+            hostComponent.childComponent.focus();
+            parent.detectChanges();
+
+            expect(parent.nativeElement.querySelector('input').placeholder).toBe('Argentina');
+        }));
+
+
 });
 
 @Component({

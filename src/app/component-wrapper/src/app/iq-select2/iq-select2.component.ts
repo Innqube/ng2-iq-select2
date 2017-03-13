@@ -139,7 +139,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         if (this.multiple) {
             this.handleMultipleWithEntities(selectedValues);
         } else {
-            this.selectedItems = [this.iqSelect2ItemAdapter(selectedValues)];
+            let iqSelect2Item = this.iqSelect2ItemAdapter(selectedValues);
+            this.selectedItems = [iqSelect2Item];
+            this.placeholderSelected = iqSelect2Item.text;
         }
     }
 
