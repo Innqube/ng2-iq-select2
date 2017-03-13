@@ -22,8 +22,11 @@
         <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
     <div>
-        <span class="more-results-available" *ngIf="resultsVisible && resultsShown < resultsCount">
+        <span class="results-msg" *ngIf="resultsVisible && listData && listData.length < resultsCount">
             {{moreResultsAvailableMsg}}
+        </span>
+        <span class="results-msg" *ngIf="resultsVisible && listData && listData.length === 0">
+            {{noResultsAvailableMsg}}
         </span>
         <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"
                             (itemSelectedEvent)="onItemSelected($event);" [searchFocused]="searchFocused"
