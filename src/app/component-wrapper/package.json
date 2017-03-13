@@ -1,6 +1,6 @@
 {
   "name": "ng2-iq-select2",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
