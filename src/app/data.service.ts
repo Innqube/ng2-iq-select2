@@ -129,8 +129,8 @@ export class DataService {
 
         ids.forEach((id) => {
             this.list
-                .filter((item) => item.id === id)
-                .forEach((item) => selectedItems.push(item));
+                .filter((item) => item.id == id)
+                .map((item) => selectedItems.push(item));
         });
 
         return Observable.of(selectedItems);
