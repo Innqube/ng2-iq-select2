@@ -3,6 +3,7 @@ import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
+import {Messages} from './messages';
 
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
@@ -25,6 +26,9 @@ const noop = () => {
 })
 export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccessor {
 
+    MORE_RESULTS_MSG = 'More results available. Refine your search to show them.';
+    NO_RESULTS_MSG = 'No results available';
+
     @Input() dataSourceProvider: (term: string) => Observable<T[]>;
     @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
     @Input() iqSelect2ItemAdapter: (entity: T) => IqSelect2Item;
@@ -38,9 +42,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Input() remoteSearchIcon = 'glyphicon glyphicon-search';
     @Input() localSearchIcon = 'caret';
     @Input() deleteIcon = 'glyphicon glyphicon-remove';
-    @Input() messages = {
-        moreResultsAvailableMsg? : 'More results available. Refine your search to show them.',
-        noResultsAvailableMsg? : 'No results available'
+    @Input() messages: Messages = {
+        moreResultsAvailableMsg: this.MORE_RESULTS_MSG,
+        noResultsAvailableMsg: this.NO_RESULTS_MSG
     };
     @Input() resultsCount;
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
