@@ -126,3 +126,7 @@
     margin: -12px 0 10px;
     padding: 5px;
 }
+
+.no-results-msg {
+    border-bottom: 1px solid #ccc;
+}

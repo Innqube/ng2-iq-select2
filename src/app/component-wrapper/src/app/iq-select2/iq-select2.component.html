@@ -25,7 +25,7 @@
         <span class="results-msg" *ngIf="resultsVisible && listData && listData.length < resultsCount">
             {{moreResultsAvailableMsg}}
         </span>
-        <span class="results-msg" *ngIf="resultsVisible && listData && listData.length === 0">
+        <span class="results-msg no-results-msg" *ngIf="resultsVisible && listData && listData.length === 0">
             {{noResultsAvailableMsg}}
         </span>
         <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"

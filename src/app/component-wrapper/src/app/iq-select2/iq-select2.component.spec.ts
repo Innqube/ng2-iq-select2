@@ -687,6 +687,27 @@ describe('IqSelect2Component', () => {
         expect(mra.length).toBe(0);
     });
 
+    it('should not show noResultsAvailable message when resultList.length >== 0', () => {
+        component.listData = [{
+            id: '1',
+            text: 'test'
+        }];
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        expect(nra.length).toBe(0);
+    });
+
+    it('should show noResultsAvailable message when resultList.length === 0', () => {
+        component.listData = [];
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        expect(nra.length).toBe(1);
+    });
+
 });
 
 @Component({
