@@ -109,9 +109,7 @@ Configuration options (Inputs and Outputs)
 
 *@Input()* **css**: css classes to be applied
 
-*@Input()* **remoteSearchIcon**: css icon to be used when search is performed remotely
-
-*@Input()* **localSearchIcon**: css icon to be used when minimumInputLength === 0
+*@Input()* **searchIcon**: css icon on the right of the input
 
 *@Input()* **deleteIcon**: css icon to be used to remove selected option (In single mode)
 

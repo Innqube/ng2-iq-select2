@@ -37,10 +37,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Input() searchDelay = 250;
     @Input() css: string;
     @Input() placeholder: string = '';
-    @Input() minimumInputLength = 2; // Default value, at least two chars to start searching options
+    @Input() minimumInputLength = 2;
     @Input() disabled = false;
-    @Input() remoteSearchIcon = 'glyphicon glyphicon-search';
-    @Input() localSearchIcon = 'caret';
+    @Input() searchIcon = 'caret';
     @Input() deleteIcon = 'glyphicon glyphicon-remove';
     @Input() messages: Messages = {
         moreResultsAvailableMsg: this.MORE_RESULTS_MSG,
@@ -249,7 +248,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     onFocus() {
         this.searchFocused = true;
         this.loadDataFromObservable('');
-        // this.resultsVisible = this.shouldBeVisible();
     }
 
     onBlur() {
@@ -306,7 +304,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             this.termInput.nativeElement.focus();
         }
         this.searchFocused = !this.disabled;
-        // this.resultsVisible = this.shouldBeVisible();
     }
 
     onKeyPress(ev) {
