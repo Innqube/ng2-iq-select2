@@ -71,7 +71,7 @@ describe('IqSelect2Component', () => {
             parent.detectChanges();
 
             hostComponent.childComponent.ngAfterViewInit();
-            hostComponent.childComponent.focusInput(null);
+            hostComponent.childComponent.focusInput();
 
             hostComponent.childComponent.term.setValue('arg');
             tick(255);
@@ -80,20 +80,12 @@ describe('IqSelect2Component', () => {
             expect(hostComponent.childComponent.resultsVisible).toBe(true);
         })));
 
-    it('should not show results, when not focused',
+    it('should not show results after blur',
         inject([DataService], fakeAsync((service: DataService) => {
-            let parent = TestBed.createComponent(TestHostComponent);
-            let hostComponent: TestHostComponent = parent.componentInstance;
-            hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
-            hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
-            parent.detectChanges();
-
-            hostComponent.childComponent.ngAfterViewInit();
-
-            hostComponent.childComponent.term.setValue('');
-            tick(255);
-
-            expect(hostComponent.childComponent.resultsVisible).toBe(false);
+            component.term.setValue('arg');
+            tick(250);
+            component.onBlur();
+            expect(component.resultsVisible).toBe(false);
         })));
 
     it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync((service: DataService) => {
@@ -195,7 +187,7 @@ describe('IqSelect2Component', () => {
         fixture.detectChanges();
 
         let lis = fixture.nativeElement.querySelectorAll('.select2-result');
-        lis[0].click();
+        lis[0].dispatchEvent(new Event('mousedown'));
         tick(250);
 
         expect(component.onChangeCallback).toHaveBeenCalledWith('16');
@@ -259,29 +251,6 @@ describe('IqSelect2Component', () => {
         tick(250);
         expect(fixture.nativeElement.querySelectorAll('.select2-selection-remove').length).toBe(0);
     }));
-
-    it('should only make one request to service with minimumInputLength === 0', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
-        hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
-        hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
-        parent.detectChanges();
-
-        spyOn(hostComponent.childComponent, 'dataSourceProvider').and.returnValue({
-            subscribe: () => {
-            }
-        });
-
-        hostComponent.childComponent.ngAfterViewInit();
-
-        hostComponent.childComponent.term.setValue('arg');
-        tick(250);
-
-        hostComponent.childComponent.term.setValue('arge');
-        tick(250);
-
-        expect(hostComponent.childComponent.dataSourceProvider).toHaveBeenCalledTimes(1);
-    })));
 
     it('should not repeat same request', fakeAsync(() => {
         spyOn(component, 'dataSourceProvider').and.returnValue({
@@ -436,7 +405,7 @@ describe('IqSelect2Component', () => {
         expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
     }));
 
-    it('multiple mode with minimumInputLength 0 should not show the form default values in the initial dropdown',
+    it('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
             component.minimumInputLength = 0;
@@ -444,7 +413,9 @@ describe('IqSelect2Component', () => {
             component.referenceMode = 'id';
             fixture.detectChanges();
             component.writeValue(['1']);
-            component.ngAfterViewInit();
+            component.focusInput();
+            component.term.setValue('');
+            tick(255);
             expect(component.listData.find(x => x.id === '1')).toBeUndefined();
         })));
 
@@ -702,6 +673,7 @@ describe('IqSelect2Component', () => {
     it('should show noResultsAvailable message when resultList.length === 0', () => {
         component.listData = [];
         component.resultsVisible = true;
+        component.searchFocused = true;
         fixture.detectChanges();
 
         let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');

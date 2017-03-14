@@ -75,7 +75,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private loadDataFromObservable(term: string) {
-        if (term.length === 0 && this.minimumInputLength > 0) {
+        if (term.length < this.minimumInputLength && this.minimumInputLength > 0) {
             this.listData = [];
             this.resultsVisible = false;
         } else {
