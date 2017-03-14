@@ -129,8 +129,10 @@
 }
 
 .no-results-msg {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #66afe9;
     position: absolute;
     width: 100%;
     z-index: 3;
+    border-color: #66afe9;
+    outline: 0;
 }

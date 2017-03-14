@@ -25,7 +25,7 @@
         <span class="results-msg" *ngIf="resultsVisible && listData && listData.length < resultsCount">
             {{getCountMessage()}}
         </span>
-        <span class="results-msg no-results-msg" *ngIf="resultsVisible && listData && listData.length === 0">
+        <span class="results-msg no-results-msg" *ngIf="resultsVisible && searchFocused && listData && listData.length === 0">
             {{messages && messages.noResultsAvailableMsg ? messages.noResultsAvailableMsg : NO_RESULTS_MSG}}
         </span>
         <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"

@@ -56,7 +56,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     listData: IqSelect2Item[];
     selectedItems: IqSelect2Item[] = [];
     searchFocused = false;
-    private forceVisibility = false;
     private placeholderSelected = '';
     onTouchedCallback: () => void = noop;
     onChangeCallback: (_: any) => void = noop;
@@ -75,21 +74,23 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             .subscribe(term => this.loadDataFromObservable(term));
     }
 
-    private loadDataFromObservable(term) {
-        this.resultsVisible = term.length >= this.minimumInputLength;
-
-        if (!this.resultsVisible) {
+    private loadDataFromObservable(term: string) {
+        if (term.length === 0 && this.minimumInputLength > 0) {
             this.listData = [];
+            this.resultsVisible = false;
         } else {
-            this.dataSourceProvider(term).subscribe((items: T[]) => {
-                this.listData = [];
-                items.forEach(item => {
-                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                    if (!this.alreadySelected(iqSelect2Item)) {
-                        this.listData.push(iqSelect2Item);
-                    }
+            if (term.length >= this.minimumInputLength) {
+                this.dataSourceProvider(term).subscribe((items: T[]) => {
+                    this.listData = [];
+                    items.forEach(item => {
+                        let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                        if (!this.alreadySelected(iqSelect2Item)) {
+                            this.listData.push(iqSelect2Item);
+                        }
+                    });
+                    this.resultsVisible = true;
                 });
-            });
+            }
         }
     }
 
@@ -196,22 +197,12 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         }
 
         this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
-        this.term.patchValue('');
-        this.focusInput(false);
-        this.recalulateResultsVisibility();
+        this.term.patchValue('', { emitEvent: false });
+        this.focusInput();
+        this.resultsVisible = false;
         this.onSelect.emit(item);
         if (!this.multiple) {
             this.placeholderSelected = item.text;
-        }
-    }
-
-    private recalulateResultsVisibility() {
-        if (this.searchFocused && this.minimumInputLength === 0 && this.forceVisibility) {
-            this.resultsVisible = true;
-        } else if (this.termInput) {
-            this.resultsVisible = this.termInput.nativeElement.value.length > 0;
-        } else {
-            this.resultsVisible = false;
         }
     }
 
@@ -258,17 +249,13 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     onFocus() {
         this.searchFocused = true;
         this.loadDataFromObservable('');
-        this.recalulateResultsVisibility();
+        // this.resultsVisible = this.shouldBeVisible();
     }
 
     onBlur() {
-        console.log('onBlur');
-        this.term.patchValue('');
+        this.term.patchValue('', { emitEvent: false });
         this.searchFocused = false;
-        this.forceVisibility = false;
-        setTimeout(() => {
-            this.recalulateResultsVisibility();
-        }, 200);
+        this.resultsVisible = false;
         this.onTouchedCallback();
     }
 
@@ -294,7 +281,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         } else {
             if (this.minimumInputLength === 0) {
                 if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
-                    this.focusInput(true);
+                    this.focusInput();
                 }
             }
         }
@@ -314,20 +301,12 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         }
     }
 
-    focusInput(visibility: boolean = null) {
+    focusInput() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
         }
         this.searchFocused = !this.disabled;
-        if (this.minimumInputLength === 0 && !this.disabled) {
-            this.searchFocused = !this.disabled;
-            if (visibility !== null) {
-                this.forceVisibility = visibility;
-            } else {
-                this.forceVisibility = !this.forceVisibility;
-            }
-        }
-        this.recalulateResultsVisibility();
+        // this.resultsVisible = this.shouldBeVisible();
     }
 
     onKeyPress(ev) {
