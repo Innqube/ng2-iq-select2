@@ -56,80 +56,41 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     listData: IqSelect2Item[];
     selectedItems: IqSelect2Item[] = [];
     searchFocused = false;
-    private fullListData: IqSelect2Item[];
     private forceVisibility = false;
     private placeholderSelected = '';
-    private onTouchedCallback: () => void = noop;
+    onTouchedCallback: () => void = noop;
     onChangeCallback: (_: any) => void = noop;
 
     constructor() {
     }
 
     ngAfterViewInit() {
-        if (this.minimumInputLength === 0) {
-            this.loadItemsAndSubscribeToChanges();
-        } else {
-            this.subscribeToChangesAndLoadDataFromObservable();
-        }
+        this.subscribeToChangesAndLoadDataFromObservable();
     }
 
     private subscribeToChangesAndLoadDataFromObservable() {
         this.term.valueChanges
             .debounceTime(this.searchDelay)
             .distinctUntilChanged()
-            .subscribe(term => {
-                this.resultsVisible = term.length >= this.minimumInputLength;
-                if (!this.resultsVisible) {
-                    this.listData = [];
-                    return;
-                }
+            .subscribe(term => this.loadDataFromObservable(term));
+    }
 
-                this.dataSourceProvider(term).subscribe((items: T[]) => {
-                    this.listData = [];
-                    items.forEach(item => {
-                        let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                        if (!this.alreadySelected(iqSelect2Item)) {
-                            this.listData.push(iqSelect2Item);
-                        }
-                    });
+    private loadDataFromObservable(term) {
+        this.resultsVisible = term.length >= this.minimumInputLength;
+
+        if (!this.resultsVisible) {
+            this.listData = [];
+        } else {
+            this.dataSourceProvider(term).subscribe((items: T[]) => {
+                this.listData = [];
+                items.forEach(item => {
+                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                    if (!this.alreadySelected(iqSelect2Item)) {
+                        this.listData.push(iqSelect2Item);
+                    }
                 });
             });
-    }
-
-    private loadItemsAndSubscribeToChanges() {
-        this.dataSourceProvider('').subscribe((items: T[]) => {
-            this.fullListData = [];
-            this.listData = [];
-            items.forEach((item: T) => {
-                let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                this.fullListData.push(iqSelect2Item);
-                if (!this.alreadySelected(iqSelect2Item)) {
-                    this.listData.push(iqSelect2Item);
-                }
-            });
-        });
-
-        this.term.valueChanges
-            .debounceTime(this.searchDelay)
-            .distinctUntilChanged()
-            .subscribe(term => {
-                this.resultsVisible = term.length > 0 ||
-                    (this.searchFocused && this.forceVisibility && term.length >= this.minimumInputLength);
-                this.filterData(this.term.value);
-            });
-    }
-
-    filterData(filterText: string) {
-        this.listData = [];
-        this.fullListData.forEach(item => {
-            let itemContainsTerm = item.text.toLowerCase().indexOf(filterText.toLowerCase()) > -1;
-            let singleMode = !this.multiple;
-            let notSelected = !this.alreadySelected(item);
-
-            if ((notSelected || singleMode) && itemContainsTerm) {
-                this.listData.push(item);
-            }
-        });
+        }
     }
 
     writeValue(selectedValues: any): void {
@@ -225,17 +186,10 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     onItemSelected(item: IqSelect2Item) {
         if (this.multiple) {
             this.selectedItems.push(item);
-
-            if (this.minimumInputLength !== 0) {
-                let index = this.listData.indexOf(item, 0);
-
-                if (index > -1) {
-                    this.listData.splice(index, 1);
-                }
-            } else {
-                this.filterData('');
+            let index = this.listData.indexOf(item, 0);
+            if (index > -1) {
+                this.listData.splice(index, 1);
             }
-
         } else {
             this.selectedItems.length = 0;
             this.selectedItems.push(item);
@@ -296,9 +250,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
         this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
         this.onRemove.emit(item);
-        if (this.minimumInputLength === 0) {
-            this.filterData('');
-        }
         if (!this.multiple) {
             this.placeholderSelected = '';
         }
@@ -306,10 +257,12 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     onFocus() {
         this.searchFocused = true;
+        this.loadDataFromObservable('');
         this.recalulateResultsVisibility();
     }
 
     onBlur() {
+        console.log('onBlur');
         this.term.patchValue('');
         this.searchFocused = false;
         this.forceVisibility = false;
