@@ -22,7 +22,7 @@
         <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
     <div class="results-container" *ngIf="resultsVisible">
-        <span class="results-msg" *ngIf="listData && listData.length < resultsCount">
+        <span class="results-msg" *ngIf="listData && (listData.length + selectedItems.length) < resultsCount">
             {{getCountMessage()}}
         </span>
         <span class="results-msg no-results-msg" *ngIf="searchFocused && listData && listData.length === 0">

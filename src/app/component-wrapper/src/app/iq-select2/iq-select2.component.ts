@@ -338,7 +338,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     getCountMessage(): string {
         let msg = this.messages && this.messages.moreResultsAvailableMsg ? this.messages.moreResultsAvailableMsg : this.MORE_RESULTS_MSG;
-        return msg + ' (' + (this.resultsCount - this.listData.length) + ')';
+        return msg + ' (' + (this.resultsCount - this.listData.length - this.selectedItems.length) + ')';
     }
 
 }
