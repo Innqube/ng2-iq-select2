@@ -1,6 +1,6 @@
 {
   "name": "ng2-iq-select2",
-  "version": "3.0.9",
+  "version": "4.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -19,12 +19,12 @@
     "multiselect",
     "multi-select",
     "suggest",
+    "angular2",
     "Angular",
     "Angular 2",
     "Select",
     "Select 2",
-    "Multiple",
-    "Remote data"
+    "bootstrap"
   ],
   "peerDependencies": {
     "@angular/common": "^2.2.3",

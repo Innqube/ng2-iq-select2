@@ -72,6 +72,14 @@ interface IqSelect2Item {
 }
 ```
 
+*Messages*
+```javascript
+export class Messages {
+    moreResultsAvailableMsg?: string;
+    noResultsAvailableMsg?: string;
+}
+```
+
 ---
 
 Configuration options (Inputs and Outputs)
@@ -93,13 +101,17 @@ Configuration options (Inputs and Outputs)
 
 *@Input()* **disabled**: boolean to control the disabled state of the component
 
-*@Input()* **minimumInputLength**: if this value is '0', only makes one request to server and later filter values on client side, works  as a dropDown in single mode. Functionality for values bigger than 0 not implemented yet.
+*@Input()* **minimumInputLength**: the minimum input length at which the component will request data to the provider
+
+*@Input()* **resultsCount**: total count of results produced after entering the search term. A message suggesting further filtering will appear if the results count is greather than the result list shown
+
+*@Input()* **messages: Messages**: class to provide custom messages to the component
 
 *@Input()* **css**: css classes to be applied
 
 *@Input()* **remoteSearchIcon**: css icon to be used when search is performed remotely
 
-*@Input()* **localSearchIcon**: css icon to be used when search is performed in the client
+*@Input()* **localSearchIcon**: css icon to be used when minimumInputLength === 0
 
 *@Input()* **deleteIcon**: css icon to be used to remove selected option (In single mode)
 
