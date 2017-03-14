@@ -21,15 +21,14 @@
         <span [class]="localSearchIcon" *ngIf="minimumInputLength===0" (click)="onFocus()"></span>
         <span [class]="'search ' + remoteSearchIcon" *ngIf="minimumInputLength!==0"></span>
     </a>
-    <div>
-        <span class="results-msg" *ngIf="resultsVisible && listData && listData.length < resultsCount">
+    <div class="results-container" *ngIf="resultsVisible">
+        <span class="results-msg" *ngIf="listData && listData.length < resultsCount">
             {{getCountMessage()}}
         </span>
-        <span class="results-msg no-results-msg" *ngIf="resultsVisible && searchFocused && listData && listData.length === 0">
+        <span class="results-msg no-results-msg" *ngIf="searchFocused && listData && listData.length === 0">
             {{messages && messages.noResultsAvailableMsg ? messages.noResultsAvailableMsg : NO_RESULTS_MSG}}
         </span>
         <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"
-                            (itemSelectedEvent)="onItemSelected($event);" [searchFocused]="searchFocused"
-                            *ngIf="resultsVisible"></iq-select2-results>
+                            (itemSelectedEvent)="onItemSelected($event);" [searchFocused]="searchFocused"></iq-select2-results>
     </div>
 </div>
