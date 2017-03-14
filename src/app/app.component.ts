@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
         });
         this.initializeCountryIqSelect2();
         this.form.valueChanges.subscribe(() => {
-            console.log('-->' + this.form.controls['countrySingle'].value);
+            // console.log('-->' + this.form.controls['countrySingle'].value);
         });
     }
 
@@ -78,19 +78,19 @@ export class AppComponent implements OnInit {
     }
 
     send(formJson: string) {
-        console.log(formJson);
+        // console.log(formJson);
     }
 
     onSelect(item: IqSelect2Item) {
-        console.log('Item selected: ' + item.text);
+        // console.log('Item selected: ' + item.text);
     }
 
     onRemove(item: IqSelect2Item) {
-        console.log('Item removed: ' + item.text);
+        // console.log('Item removed: ' + item.text);
     }
 
     reset() {
-        console.log('Resetting form');
+        // console.log('Resetting form');
         this.form.reset();
     }
 

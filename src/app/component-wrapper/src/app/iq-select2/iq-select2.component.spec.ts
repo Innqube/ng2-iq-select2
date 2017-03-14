@@ -88,12 +88,33 @@ describe('IqSelect2Component', () => {
             expect(component.resultsVisible).toBe(false);
         })));
 
-    it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync((service: DataService) => {
+    it('should not show results when term.length < minimumInputLength', fakeAsync(() => {
+        component.minimumInputLength = 4;
+        component.term.setValue('arg');
+        tick(250);
+        expect(component.resultsVisible).toBeFalsy();
+    }));
+
+    it('should show results when term.length === minimumInputLength', fakeAsync(() => {
+        component.minimumInputLength = 3;
+        component.term.setValue('arg');
+        tick(250);
+        expect(component.resultsVisible).toBeTruthy();
+    }));
+
+    it('should show results when term.length > minimumInputLength', fakeAsync(() => {
+        component.minimumInputLength = 2;
+        component.term.setValue('arg');
+        tick(250);
+        expect(component.resultsVisible).toBeTruthy();
+    }));
+
+    it('should hide results after deleting text, when term.length < minimumInputLength', fakeAsync(() => {
         component.term.setValue('arg');
         tick(255);
         component.term.setValue('a');
         tick(255);
-        expect(component.resultsVisible).toBe(false);
+        expect(component.resultsVisible).toBeFalsy();
     }));
 
     it('should focus input clicking on the container', () => {
