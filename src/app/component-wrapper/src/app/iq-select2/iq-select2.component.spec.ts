@@ -57,6 +57,7 @@ describe('IqSelect2Component', () => {
     });
 
     it('should show results after entering text', fakeAsync((service: DataService) => {
+        fixture.nativeElement.querySelector('input').focus();
         component.term.setValue('arg');
         tick(250);
         expect(component.resultsVisible).toBe(true);
@@ -97,6 +98,8 @@ describe('IqSelect2Component', () => {
 
     it('should show results when term.length === minimumInputLength', fakeAsync(() => {
         component.minimumInputLength = 3;
+        fixture.nativeElement.querySelector('input').focus();
+        fixture.detectChanges();
         component.term.setValue('arg');
         tick(250);
         expect(component.resultsVisible).toBeTruthy();
@@ -104,6 +107,8 @@ describe('IqSelect2Component', () => {
 
     it('should show results when term.length > minimumInputLength', fakeAsync(() => {
         component.minimumInputLength = 2;
+        fixture.nativeElement.querySelector('input').focus();
+        fixture.detectChanges();
         component.term.setValue('arg');
         tick(250);
         expect(component.resultsVisible).toBeTruthy();
@@ -203,6 +208,7 @@ describe('IqSelect2Component', () => {
     it('should add item when clicking on it', fakeAsync(() => {
         spyOn(component, 'onChangeCallback');
 
+        fixture.nativeElement.querySelector('input').focus();
         component.term.setValue('arg');
         tick(250);
         fixture.detectChanges();

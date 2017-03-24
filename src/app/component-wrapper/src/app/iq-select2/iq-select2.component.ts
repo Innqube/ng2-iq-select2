@@ -87,7 +87,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                             this.listData.push(iqSelect2Item);
                         }
                     });
-                    this.resultsVisible = true; // this.multiple || this.selectedItems.length == 0;
+                    this.resultsVisible = this.searchFocused;
                 });
             }
         }
