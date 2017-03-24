@@ -75,6 +75,10 @@ interface IqSelect2Item {
 *Messages*
 ```javascript
 export class Messages {
+    
+     static readonly PARTIAL_COUNT_VAR; // Variable to be replaced by the amount of results being shown
+     static readonly TOTAL_COUNT_VAR; // Variable to be replaced by the total count of results
+    
     moreResultsAvailableMsg?: string;
     noResultsAvailableMsg?: string;
 }
