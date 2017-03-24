@@ -87,7 +87,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                             this.listData.push(iqSelect2Item);
                         }
                     });
-                    this.resultsVisible = this.multiple || this.selectedItems.length == 0;
+                    this.resultsVisible = true; // this.multiple || this.selectedItems.length == 0;
                 });
             }
         }
@@ -197,7 +197,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
         this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
         this.term.patchValue('', {emitEvent: false});
-        this.focusInput();
+        setTimeout(() => this.focusInput(), 1);
         this.resultsVisible = false;
         this.onSelect.emit(item);
         if (!this.multiple) {
@@ -247,7 +247,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     onFocus() {
         this.searchFocused = true;
-        this.loadDataFromObservable('');
     }
 
     onBlur() {
@@ -279,7 +278,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         } else {
             if (this.minimumInputLength === 0) {
                 if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
-                    this.focusInput();
+                    this.focusInputAndShowResults();
                 }
             }
         }
@@ -302,6 +301,15 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     focusInput() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
+            this.resultsVisible = false;
+        }
+        this.searchFocused = !this.disabled;
+    }
+
+    focusInputAndShowResults() {
+        if (!this.disabled) {
+            this.termInput.nativeElement.focus();
+            this.loadDataFromObservable('');
         }
         this.searchFocused = !this.disabled;
     }

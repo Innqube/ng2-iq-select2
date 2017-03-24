@@ -526,20 +526,20 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, "focusInput");
+        spyOn(component, "focusInputAndShowResults");
         component.onKeyUp({keyCode: 13});
         tick(1);
-        expect(component.focusInput).toHaveBeenCalled();
+        expect(component.focusInputAndShowResults).toHaveBeenCalled();
     }));
 
     it('should focus input when down arrow is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, "focusInput");
+        spyOn(component, "focusInputAndShowResults");
         component.onKeyUp({keyCode: 40});
         tick(1);
-        expect(component.focusInput).toHaveBeenCalled();
+        expect(component.focusInputAndShowResults).toHaveBeenCalled();
     }));
 
     it('should delete selected item when delete is pressed', fakeAsync(() => {

@@ -1,6 +1,6 @@
 <div class="select2-container" [ngClass]="{'readonly': disabled}">
     <a class="form-group">
-        <ul [class]="getCss()" [style.min-height]="getMinHeight()" (click)="focusInput()"
+        <ul [class]="getCss()" [style.min-height]="getMinHeight()" (click)="focusInputAndShowResults()"
             [class.simple-selection]="!multiple"
             [class.multiple-selection]="multiple"
             [class.search-focused]="searchFocused"
