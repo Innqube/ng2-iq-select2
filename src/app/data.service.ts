@@ -104,7 +104,7 @@ export class DataService {
     constructor(private http: Http) {
     }
 
-    public listData(pattern: string, maxResults?: number): Observable<{count: number, results: Country[]}> {
+    public listData(pattern: string, maxResults?: number): Observable<Country[]> {
         let filteredList: Country[] = [];
 
         this.list
@@ -121,10 +121,34 @@ export class DataService {
             return 0;
         });
 
-        return Observable.of({
-            count: filteredList.length,
-            results: maxResults && maxResults < filteredList.length ? filteredList.splice(0, maxResults) : filteredList
+        return Observable.of(filteredList);
+    }
+
+    public listDataMax(pattern: string, maxResults: number): Observable<{count: number, results: Country[]}> {
+        let filteredList: Country[] = [];
+
+        this.list
+            .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
+            .forEach((country) => filteredList.push(country));
+
+        filteredList.sort((country1: Country, country2: Country) => {
+            if (country1.name < country2.name) {
+                return -1;
+            }
+            if (country1.name > country2.name) {
+                return 1;
+            }
+            return 0;
         });
+
+        return Observable
+            .timer(1000)
+            .map((t) => {
+                return {
+                    count: filteredList.length,
+                    results: maxResults && maxResults < filteredList.length ? filteredList.splice(0, maxResults) : filteredList
+                }
+            });
     }
 
     public getItems(ids: string[]): Observable<Country[]> {

@@ -69,13 +69,9 @@ export class AppComponent implements OnInit {
     }
 
     private initializeCountryIqSelect2() {
-        this.listItems = (term: string) =>
-            this.dataService.listData(term).map((response) => {
-                this.count = response.count;
-                return response.results;
-            });
+        this.listItems = (term: string) => this.dataService.listData(term);
         this.listItemsMax = (term: string) =>
-            this.dataService.listData(term, 3).map((response) => {
+            this.dataService.listDataMax(term, 3).map((response) => {
                 this.count = response.count;
                 return response.results;
             });

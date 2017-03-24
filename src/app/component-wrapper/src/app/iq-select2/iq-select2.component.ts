@@ -1,7 +1,7 @@
-import {Component, EventEmitter, forwardRef, Input, Output, ViewChild, AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, ViewChild} from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
-import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {Messages} from './messages';
 
@@ -74,7 +74,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private loadDataFromObservable(term: string) {
-        if (term.length < this.minimumInputLength && this.minimumInputLength > 0) {
+        if (term == null || (term.length < this.minimumInputLength && this.minimumInputLength > 0)) {
             this.listData = [];
             this.resultsVisible = false;
         } else {
@@ -87,7 +87,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                             this.listData.push(iqSelect2Item);
                         }
                     });
-                    this.resultsVisible = true;
+                    this.resultsVisible = this.multiple || this.selectedItems.length == 0;
                 });
             }
         }
@@ -196,7 +196,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         }
 
         this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
-        this.term.patchValue('', { emitEvent: false });
+        this.term.patchValue('', {emitEvent: false});
         this.focusInput();
         this.resultsVisible = false;
         this.onSelect.emit(item);
@@ -251,7 +251,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     onBlur() {
-        this.term.patchValue('', { emitEvent: false });
+        this.term.patchValue('', {emitEvent: false});
         this.searchFocused = false;
         this.resultsVisible = false;
         this.onTouchedCallback();
@@ -290,11 +290,11 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             if (ev.keyCode === KEY_CODE_TAB) {
                 this.results.selectCurrentItem();
             }
-        } else {
-            if (ev.keyCode === KEY_CODE_DELETE) {
-                if ((!this.term.value || this.term.value.length === 0) && this.selectedItems.length > 0) {
-                    this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
-                }
+        }
+
+        if (ev.keyCode === KEY_CODE_DELETE) {
+            if ((!this.term.value || this.term.value.length === 0) && this.selectedItems.length > 0) {
+                this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
             }
         }
     }

@@ -1,12 +1,12 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
-import {ReactiveFormsModule, FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {DataService, Country} from '../../../../data.service';
+import {Country, DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {Component, ViewChild, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component<Country>;
@@ -700,6 +700,19 @@ describe('IqSelect2Component', () => {
         let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
         expect(nra.length).toBe(1);
     });
+
+    // https://github.com/Innqube/ng2-iq-select2/issues/27
+    it('should delete selected items when multiple === true and resultsVisible',
+        inject([DataService], fakeAsync((service: DataService) => {
+            component.minimumInputLength = 0;
+            component.selectedItems = [{ id: '1', text: 'test' }];
+            component.resultsVisible = true;
+            fixture.detectChanges();
+            component.onKeyDown({keyCode: 8});
+            tick(1);
+            expect(component.selectedItems.length).toBe(0);
+        }))
+    );
 
 });
 

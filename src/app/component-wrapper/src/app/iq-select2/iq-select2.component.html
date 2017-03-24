@@ -1,8 +1,10 @@
 <div class="select2-container" [ngClass]="{'readonly': disabled}">
     <a class="form-group">
         <ul [class]="getCss()" [style.min-height]="getMinHeight()" (click)="focusInput()"
-            [class.simple-selection]="!multiple" [class.multiple-selection]="multiple"
-            [class.search-focused]="searchFocused">
+            [class.simple-selection]="!multiple"
+            [class.multiple-selection]="multiple"
+            [class.search-focused]="searchFocused"
+            [class.requestInProgress]="requestInProgress">
             <li *ngFor="let item of selectedItems" class="select2-selected" [class.label]="multiple"
                 [class.label-info]="multiple">
                 <span class="selectedItemText">{{item.text}}</span>
@@ -11,11 +13,18 @@
                 </a>
             </li>
             <li class="select2-input">
-                <input #termInput type="text" [placeholder]="getPlaceholder()" [formControl]="term" (focus)="onFocus()"
+                <input #termInput type="text"
+                       [placeholder]="getPlaceholder()"
+                       [formControl]="term"
+                       [style.width]="getInputWidth()"
+                       [class.hideable]='isHideable()'
+                       (focus)="onFocus()"
                        (blur)="onBlur()"
-                       [style.width]="getInputWidth()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)"
+                       (keyup)="onKeyUp($event)"
+                       (keydown)="onKeyDown($event)"
                        (keypress)="onKeyPress($event)"
-                       [class.hideable]='isHideable()' *ngIf="!disabled"/>
+                       *ngIf="!disabled"
+                />
             </li>
         </ul>
         <span [class]="searchIcon" *ngIf="minimumInputLength===0" (click)="onFocus()"></span>
