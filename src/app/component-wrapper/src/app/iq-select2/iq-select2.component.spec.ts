@@ -721,7 +721,6 @@ describe('IqSelect2Component', () => {
         fixture.detectChanges();
 
         let mra = fixture.nativeElement.querySelector('span.results-msg');
-        console.log(mra);
         expect(mra.innerHTML.trim()).toContain('Showing 1 of 2 results');
     });
 
@@ -735,7 +734,6 @@ describe('IqSelect2Component', () => {
         fixture.detectChanges();
 
         let mra = fixture.nativeElement.querySelector('span.results-msg');
-        console.log(mra);
         expect(mra.innerHTML.trim().indexOf('1')).toBe(-1);
         expect(mra.innerHTML.trim().indexOf('2')).toBe(-1);
     });
@@ -750,7 +748,6 @@ describe('IqSelect2Component', () => {
         fixture.detectChanges();
 
         let mra = fixture.nativeElement.querySelector('span.results-msg');
-        console.log(mra);
         expect(mra.innerHTML.trim()).toBe('Another message');
     });
 
