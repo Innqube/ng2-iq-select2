@@ -26,7 +26,7 @@ const noop = () => {
 })
 export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccessor {
 
-    MORE_RESULTS_MSG = 'More results available. Refine your search to show them.';
+    MORE_RESULTS_MSG = 'Showing ' + Messages.PARTIAL_COUNT_VAR + ' of ' + Messages.TOTAL_COUNT_VAR + ' results. Refine your search to show more results.';
     NO_RESULTS_MSG = 'No results available';
 
     @Input() dataSourceProvider: (term: string) => Observable<T[]>;
@@ -335,7 +335,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     getCountMessage(): string {
         let msg = this.messages && this.messages.moreResultsAvailableMsg ? this.messages.moreResultsAvailableMsg : this.MORE_RESULTS_MSG;
-        return msg + ' (' + (this.resultsCount - this.listData.length - this.selectedItems.length) + ')';
+        msg = msg.replace(Messages.PARTIAL_COUNT_VAR, String(this.listData.length));
+        msg = msg.replace(Messages.TOTAL_COUNT_VAR, String(this.resultsCount));
+        return msg;
     }
 
 }

@@ -705,7 +705,7 @@ describe('IqSelect2Component', () => {
     it('should delete selected items when multiple === true and resultsVisible',
         inject([DataService], fakeAsync((service: DataService) => {
             component.minimumInputLength = 0;
-            component.selectedItems = [{ id: '1', text: 'test' }];
+            component.selectedItems = [{id: '1', text: 'test'}];
             component.resultsVisible = true;
             fixture.detectChanges();
             component.onKeyDown({keyCode: 8});
@@ -713,6 +713,46 @@ describe('IqSelect2Component', () => {
             expect(component.selectedItems.length).toBe(0);
         }))
     );
+
+    it('should replace count variables with value', () => {
+        component.resultsCount = 2;
+        component.listData = [{ id: '1', text: 'test' }];
+        component.resultsVisible = true;
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        console.log(mra);
+        expect(mra.innerHTML.trim()).toContain('Showing 1 of 2 results');
+    });
+
+    it('should not introduce variables value', () => {
+        component.resultsCount = 2;
+        component.listData = [{ id: '1', text: 'test' }];
+        component.resultsVisible = true;
+        component.messages = {
+            moreResultsAvailableMsg: 'Another message'
+        }
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        console.log(mra);
+        expect(mra.innerHTML.trim().indexOf('1')).toBe(-1);
+        expect(mra.innerHTML.trim().indexOf('2')).toBe(-1);
+    });
+
+    it('should replace message', () => {
+        component.resultsCount = 2;
+        component.listData = [{id: '1', text: 'test'}];
+        component.resultsVisible = true;
+        component.messages = {
+            moreResultsAvailableMsg: 'Another message'
+        }
+        fixture.detectChanges();
+
+        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        console.log(mra);
+        expect(mra.innerHTML.trim()).toBe('Another message');
+    });
 
 });
 
