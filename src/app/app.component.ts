@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {DataService, Country} from './data.service';
+import {Country, DataService} from './data.service';
 import {Observable} from 'rxjs/Observable';
-import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IqSelect2Item} from './component-wrapper/src/app/iq-select2/iq-select2-item';
 import {IqSelect2Component} from './component-wrapper/src/app/iq-select2/iq-select2.component';
 
@@ -13,8 +13,10 @@ import {IqSelect2Component} from './component-wrapper/src/app/iq-select2/iq-sele
 export class AppComponent implements OnInit {
     public form: FormGroup;
     public listItems: (term: string) => Observable<Country[]>;
+    public listItemsMax: (term: string) => Observable<Country[]>;
     public getItems: (ids: string[]) => Observable<Country[]>;
     public entityToIqSelect2Item: (entity: Country) => IqSelect2Item;
+    public count: number;
     @ViewChild('countrySingle') countrySingle: IqSelect2Component<Country>;
 
     constructor(private dataService: DataService,
@@ -57,6 +59,7 @@ export class AppComponent implements OnInit {
                 code: 'AR',
                 color: '#c1ee5b'
             }]],
+            countryMin0Count: null,
             habilitado: true
         });
         this.initializeCountryIqSelect2();
@@ -66,7 +69,16 @@ export class AppComponent implements OnInit {
     }
 
     private initializeCountryIqSelect2() {
-        this.listItems = (term: string) => this.dataService.listData(term);
+        this.listItems = (term: string) =>
+            this.dataService.listData(term).map((response) => {
+                this.count = response.count;
+                return response.results;
+            });
+        this.listItemsMax = (term: string) =>
+            this.dataService.listData(term, 3).map((response) => {
+                this.count = response.count;
+                return response.results;
+            });
         this.getItems = (ids: string[]) => this.dataService.getItems(ids);
         this.entityToIqSelect2Item = (entity: any) => {
             return {

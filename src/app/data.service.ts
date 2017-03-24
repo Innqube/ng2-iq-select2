@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
 export class Country {
@@ -104,7 +104,7 @@ export class DataService {
     constructor(private http: Http) {
     }
 
-    public listData(pattern: string): Observable<Country[]> {
+    public listData(pattern: string, maxResults?: number): Observable<{count: number, results: Country[]}> {
         let filteredList: Country[] = [];
 
         this.list
@@ -121,7 +121,10 @@ export class DataService {
             return 0;
         });
 
-        return Observable.of(filteredList);
+        return Observable.of({
+            count: filteredList.length,
+            results: maxResults && maxResults < filteredList.length ? filteredList.splice(0, maxResults) : filteredList
+        });
     }
 
     public getItems(ids: string[]): Observable<Country[]> {
