@@ -754,6 +754,23 @@ describe('IqSelect2Component', () => {
         expect(mra.innerHTML.trim()).toBe('Another message');
     });
 
+    fit('should not call dataProvider multiple times', fakeAsync(() => {
+        component.clientMode = true;
+        fixture.detectChanges();
+
+        spyOn(component, 'dataSourceProvider').and.returnValue({
+            map: Observable.of([])
+        });
+
+        component.term.setValue('arg');
+        tick(250);
+
+        component.term.setValue('argen');
+        tick(250);
+
+        expect(component.dataSourceProvider).toHaveBeenCalledTimes(1);
+    }));
+
 });
 
 @Component({

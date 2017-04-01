@@ -79,29 +79,40 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private loadDataFromObservable(term: string): Observable<IqSelect2Item[]> {
-        return this.clientMode ? this.filterLocalData(term) : this.fetchData(term);
+        return this.clientMode ? this.fetchAndfilterLocalData(term) : this.fetchData(term);
+    }
+
+    private fetchAndfilterLocalData(term: string): Observable<IqSelect2Item[]> {
+        if (!this.fullDataList) {
+            this.fetchData('')
+                .subscribe((items) => {
+                    this.fullDataList = items;
+                    return this.filterLocalData(term);
+                })
+        } else {
+            return this.filterLocalData(term);
+        }
     }
 
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
-        if (!this.fullDataList) {
-            return Observable.empty();
-        }
+        return Observable.of(
+            this.fullDataList.filter((item) => item.text.toUpperCase().indexOf(term.toUpperCase()) !== -1)
+        ).do(() => this.resultsVisible = this.searchFocused);
     }
 
     private fetchData(term: string): Observable<IqSelect2Item[]> {
         return this
             .dataSourceProvider(term)
-            .map((items: T[]) => {
-                let iqSelect2Items = [];
-                items.forEach(item => {
-                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                    if (!this.alreadySelected(iqSelect2Item)) {
-                        iqSelect2Items.push(iqSelect2Item);
-                    }
-                });
-                this.resultsVisible = this.searchFocused;
-                return iqSelect2Items;
-            });
+            .map((items: T[]) => this.adaptItems(items))
+            .do(() => this.resultsVisible = this.searchFocused);
+    }
+
+    private adaptItems(items: T[]): IqSelect2Item[] {
+        let convertedItems = [];
+        items.map((item) => this.iqSelect2ItemAdapter(item))
+            .filter((iqSelect2Item) => !this.alreadySelected(iqSelect2Item))
+            .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item))
+        return convertedItems;
     }
 
     writeValue(selectedValues: any): void {

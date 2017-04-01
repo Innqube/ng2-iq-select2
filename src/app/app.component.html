@@ -35,6 +35,7 @@
             <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultiple"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
+                        [clientMode]="true"
                         referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>
