@@ -46,6 +46,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         noResultsAvailableMsg: this.NO_RESULTS_MSG
     };
     @Input() resultsCount;
+    @Input() clientMode = false;
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
@@ -53,6 +54,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     term = new FormControl();
     resultsVisible = false;
     listData: IqSelect2Item[];
+    fullDataList: IqSelect2Item[];
     selectedItems: IqSelect2Item[] = [];
     searchFocused = false;
     private placeholderSelected = '';
@@ -70,27 +72,36 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         this.term.valueChanges
             .debounceTime(this.searchDelay)
             .distinctUntilChanged()
-            .subscribe(term => this.loadDataFromObservable(term));
+            .do(() => this.resultsVisible = false)
+            .filter((term) => term.length >= this.minimumInputLength)
+            .switchMap(term => this.loadDataFromObservable(term))
+            .subscribe((items) => this.listData = items);
     }
 
-    private loadDataFromObservable(term: string) {
-        if (term == null || (term.length < this.minimumInputLength && this.minimumInputLength > 0)) {
-            this.listData = [];
-            this.resultsVisible = false;
-        } else {
-            if (term.length >= this.minimumInputLength) {
-                this.dataSourceProvider(term).subscribe((items: T[]) => {
-                    this.listData = [];
-                    items.forEach(item => {
-                        let iqSelect2Item = this.iqSelect2ItemAdapter(item);
-                        if (!this.alreadySelected(iqSelect2Item)) {
-                            this.listData.push(iqSelect2Item);
-                        }
-                    });
-                    this.resultsVisible = this.searchFocused;
-                });
-            }
+    private loadDataFromObservable(term: string): Observable<IqSelect2Item[]> {
+        return this.clientMode ? this.filterLocalData(term) : this.fetchData(term);
+    }
+
+    private filterLocalData(term: string): Observable<IqSelect2Item[]> {
+        if (!this.fullDataList) {
+            return Observable.empty();
         }
+    }
+
+    private fetchData(term: string): Observable<IqSelect2Item[]> {
+        return this
+            .dataSourceProvider(term)
+            .map((items: T[]) => {
+                let iqSelect2Items = [];
+                items.forEach(item => {
+                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                    if (!this.alreadySelected(iqSelect2Item)) {
+                        iqSelect2Items.push(iqSelect2Item);
+                    }
+                });
+                this.resultsVisible = this.searchFocused;
+                return iqSelect2Items;
+            });
     }
 
     writeValue(selectedValues: any): void {

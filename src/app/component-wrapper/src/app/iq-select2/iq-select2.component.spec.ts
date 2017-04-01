@@ -7,6 +7,7 @@ import {Country, DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {Observable} from 'rxjs';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component<Country>;
@@ -279,8 +280,7 @@ describe('IqSelect2Component', () => {
 
     it('should not repeat same request', fakeAsync(() => {
         spyOn(component, 'dataSourceProvider').and.returnValue({
-            subscribe: () => {
-            }
+            map: () => Observable.empty()
         });
 
         component.term.setValue('arg');
@@ -294,8 +294,7 @@ describe('IqSelect2Component', () => {
 
     it('should make another request after change', fakeAsync(() => {
         spyOn(component, 'dataSourceProvider').and.returnValue({
-            subscribe: () => {
-            }
+            map: () => Observable.empty()
         });
         ;
 
