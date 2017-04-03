@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, ViewC
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import {Messages} from './messages';
 
 const KEY_CODE_DOWN_ARROW = 40;
