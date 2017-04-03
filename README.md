@@ -99,6 +99,8 @@ Configuration options (Inputs and Outputs)
 
 *@Input()* **multiple**: 'true' | 'false'. Allows to select multiple options from the list. The form value is returned as an array.
 
+*@Input()* **clientMode**: 'true' | 'false'. If set to true only one request will be sent to the data provider and subsequent searching will happen on the client.
+
 *@Input()* **searchDelay**: ms until request is effectively triggered
 
 *@Input()* **placeholder**: text to show until a search is performed
