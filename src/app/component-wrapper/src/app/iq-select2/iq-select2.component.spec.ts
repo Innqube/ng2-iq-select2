@@ -719,7 +719,7 @@ describe('IqSelect2Component', () => {
 
     it('should replace count variables with value', () => {
         component.resultsCount = 2;
-        component.listData = [{ id: '1', text: 'test' }];
+        component.listData = [{id: '1', text: 'test'}];
         component.resultsVisible = true;
         fixture.detectChanges();
 
@@ -729,7 +729,7 @@ describe('IqSelect2Component', () => {
 
     it('should not introduce variables value', () => {
         component.resultsCount = 2;
-        component.listData = [{ id: '1', text: 'test' }];
+        component.listData = [{id: '1', text: 'test'}];
         component.resultsVisible = true;
         component.messages = {
             moreResultsAvailableMsg: 'Another message'
@@ -754,22 +754,22 @@ describe('IqSelect2Component', () => {
         expect(mra.innerHTML.trim()).toBe('Another message');
     });
 
-    fit('should not call dataProvider multiple times', fakeAsync(() => {
+    it('should not call dataProvider multiple times when clientMode === true', inject([DataService], fakeAsync((service) => {
         component.clientMode = true;
-        fixture.detectChanges();
 
-        spyOn(component, 'dataSourceProvider').and.returnValue({
-            map: Observable.of([])
-        });
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.of([{
+            id: '1',
+            name: 'test'
+        }]));
 
         component.term.setValue('arg');
         tick(250);
 
-        component.term.setValue('argen');
+        component.term.setValue('arge');
         tick(250);
 
         expect(component.dataSourceProvider).toHaveBeenCalledTimes(1);
-    }));
+    })));
 
 });
 

@@ -105,41 +105,25 @@ export class DataService {
     }
 
     public listData(pattern: string, maxResults?: number): Observable<Country[]> {
-        let filteredList: Country[] = [];
-
-        this.list
+        return Observable.of(this.list
             .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
-            .forEach((country) => filteredList.push(country));
-
-        filteredList.sort((country1: Country, country2: Country) => {
-            if (country1.name < country2.name) {
-                return -1;
-            }
-            if (country1.name > country2.name) {
-                return 1;
-            }
-            return 0;
-        });
-
-        return Observable.of(filteredList);
+            .sort(this.sortFunction));
     }
 
-    public listDataMax(pattern: string, maxResults: number): Observable<{count: number, results: Country[]}> {
-        let filteredList: Country[] = [];
+    private sortFunction(country1: Country, country2: Country) {
+        if (country1.name < country2.name) {
+            return -1;
+        }
+        if (country1.name > country2.name) {
+            return 1;
+        }
+        return 0;
+    }
 
-        this.list
+    public listDataMax(pattern: string, maxResults: number): Observable<{ count: number, results: Country[] }> {
+        let filteredList = this.list
             .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
-            .forEach((country) => filteredList.push(country));
-
-        filteredList.sort((country1: Country, country2: Country) => {
-            if (country1.name < country2.name) {
-                return -1;
-            }
-            if (country1.name > country2.name) {
-                return 1;
-            }
-            return 0;
-        });
+            .sort(this.sortFunction);
 
         return Observable
             .timer(1000)

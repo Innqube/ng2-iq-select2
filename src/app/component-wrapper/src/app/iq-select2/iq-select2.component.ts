@@ -69,12 +69,18 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private subscribeToChangesAndLoadDataFromObservable() {
-        this.term.valueChanges
+        let observable = this.term.valueChanges
             .debounceTime(this.searchDelay)
-            .distinctUntilChanged()
+            .distinctUntilChanged();
+        this.subscribeToResults(observable);
+    }
+
+    private subscribeToResults(observable: Observable<string>): void {
+        observable
             .do(() => this.resultsVisible = false)
             .filter((term) => term.length >= this.minimumInputLength)
             .switchMap(term => this.loadDataFromObservable(term))
+            .do(() => this.resultsVisible = this.searchFocused)
             .subscribe((items) => this.listData = items);
     }
 
@@ -84,8 +90,8 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private fetchAndfilterLocalData(term: string): Observable<IqSelect2Item[]> {
         if (!this.fullDataList) {
-            this.fetchData('')
-                .subscribe((items) => {
+            return this.fetchData('')
+                .flatMap((items) => {
                     this.fullDataList = items;
                     return this.filterLocalData(term);
                 })
@@ -97,14 +103,13 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
         return Observable.of(
             this.fullDataList.filter((item) => item.text.toUpperCase().indexOf(term.toUpperCase()) !== -1)
-        ).do(() => this.resultsVisible = this.searchFocused);
+        );
     }
 
     private fetchData(term: string): Observable<IqSelect2Item[]> {
         return this
             .dataSourceProvider(term)
-            .map((items: T[]) => this.adaptItems(items))
-            .do(() => this.resultsVisible = this.searchFocused);
+            .map((items: T[]) => this.adaptItems(items));
     }
 
     private adaptItems(items: T[]): IqSelect2Item[] {
@@ -331,7 +336,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     focusInputAndShowResults() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
-            this.loadDataFromObservable('');
+            this.subscribeToResults(Observable.of(''));
         }
         this.searchFocused = !this.disabled;
     }
