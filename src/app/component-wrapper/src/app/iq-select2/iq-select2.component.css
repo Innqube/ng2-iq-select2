@@ -136,6 +136,7 @@
 
 .results-container {
     position: absolute;
+    margin-top: 10px;
     width: 100%;
     z-index: 3;
 }
