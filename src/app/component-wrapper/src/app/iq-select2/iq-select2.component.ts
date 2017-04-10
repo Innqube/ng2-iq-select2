@@ -102,8 +102,12 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
         return Observable.of(
-            this.fullDataList.filter((item) => item.text.toUpperCase().indexOf(term.toUpperCase()) !== -1)
+            this.fullDataList.filter((item) => this.containsText(item, term) && !this.alreadySelected(item))
         );
+    }
+
+    private containsText(item, term: string) {
+        return item.text.toUpperCase().indexOf(term.toUpperCase()) !== -1;
     }
 
     private fetchData(term: string): Observable<IqSelect2Item[]> {
