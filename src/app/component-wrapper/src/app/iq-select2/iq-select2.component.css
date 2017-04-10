@@ -87,6 +87,7 @@
 
 .select2-container ul {
     position: relative;
+    margin-bottom: 0;
 }
 
 .simple-selection.search-focused .selectedItemText {
