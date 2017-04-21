@@ -11,6 +11,7 @@ Angular 2 native select 2 implementation based on bootstrap 3
 * Works with ids or complete entities
 * Single or multiple modes
 * Forms integration
+* MIT License
 
 
 [Take a look at the demo page](https://innqube.github.io/ng2-iq-select2-demo)
