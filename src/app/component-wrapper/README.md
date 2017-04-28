@@ -33,33 +33,41 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 
 *html file*
 ```html
-<iq-select2 css="form-control input-sm" 
-            formControlName="country" 
-            [dataSourceProvider]="listCountries"
-            [selectedProvider]="loadFromIds"
-            [iqSelect2ItemAdapter]="adapter"></iq-select2>
+<form [formGroup]="form">
+    <iq-select2 css="form-control input-sm" 
+                formControlName="country" 
+                [dataSourceProvider]="listCountries"
+                [selectedProvider]="loadFromIds"
+                [iqSelect2ItemAdapter]="adapter"></iq-select2>
+</form>
 ```
 
 *example typescript file*
 ```javascript
 export class Example {
+    form: FormGroup;
     listCountries: (term: string) => Observable<Country[]>;
     loadFromIds: (ids: string[]) => Observable<Country[]>;
     adapter: (entity: Country) => IqSelect2Item;
 //
-    constructor(private countriesService: CountryService){
+    constructor(private countriesService: CountryService,
+                private formBuilder: FormBuilder){
     
     }
 //
     ngOnInit() {
         this.listCountries = (term: string) => this.countriesService.listCountries(term);
         this.loadFromIds = (ids: string[]) => this.countriesService.loadCountriesFromIds(ids);
-        this.adapter = (entity: Country) => {
+        this.adapter = (country: Country) => {
             return {
                 id: country.id,
                 text: country.name,
                 entity: country
             };
+        }
+        this.form = this.formBuilder.group({
+            country: null
+        });
     }
 };
 ```
