@@ -121,6 +121,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private adaptItems(items: T[]): IqSelect2Item[] {
         let convertedItems = [];
         items.map((item) => this.iqSelect2ItemAdapter(item))
+            .filter((iqSelect2Item) => !this.multiple || !this.alreadySelected(iqSelect2Item))
             .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item))
         return convertedItems;
     }

@@ -429,7 +429,7 @@ describe('IqSelect2Component', () => {
         expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
     }));
 
-    fit('should show selected value on single mode',
+    it('should show selected value on single mode',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
             component.minimumInputLength = 0;
@@ -440,10 +440,10 @@ describe('IqSelect2Component', () => {
             component.focusInput();
             component.term.setValue('');
             tick(255);
-            expect(component.listData.filter(item => item.id === '1')[0]).toBeTruthy();
+            expect(component.listData.filter(item => item.id === '1').length).toBe(1);
         })));
 
-    fit('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
+    it('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
             component.minimumInputLength = 0;
