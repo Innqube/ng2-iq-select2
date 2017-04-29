@@ -429,7 +429,21 @@ describe('IqSelect2Component', () => {
         expect(fixture.nativeElement.querySelector('input')).toBeFalsy();
     }));
 
-    it('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
+    fit('should show selected value on single mode',
+        inject([DataService], fakeAsync((service: DataService) => {
+            component.selectedProvider = (ids: string[]) => service.getItems(ids);
+            component.minimumInputLength = 0;
+            component.multiple = false;
+            component.referenceMode = 'id';
+            fixture.detectChanges();
+            component.writeValue('1');
+            component.focusInput();
+            component.term.setValue('');
+            tick(255);
+            expect(component.listData.filter(item => item.id === '1')[0]).toBeTruthy();
+        })));
+
+    fit('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
             component.minimumInputLength = 0;
@@ -440,7 +454,7 @@ describe('IqSelect2Component', () => {
             component.focusInput();
             component.term.setValue('');
             tick(255);
-            expect(component.listData.find(x => x.id === '1')).toBeUndefined();
+            expect(component.listData.filter(x => x.id === '1').length).toBe(0);
         })));
 
     it('should not load duplicate results - id referenceMode', inject([DataService], fakeAsync((service: DataService) => {
