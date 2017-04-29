@@ -74,7 +74,7 @@ export class IqSelect2ResultsComponent implements OnInit {
     isSelected(currentItem) {
         let result = false;
         this.selectedItems.forEach(item => {
-            if (item === currentItem) {
+            if (item.id === currentItem.id) {
                 result = true;
             }
         });
