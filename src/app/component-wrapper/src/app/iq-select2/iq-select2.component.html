@@ -25,7 +25,7 @@
             />
         </li>
     </ul>
-    <span [class]="searchIcon" *ngIf="minimumInputLength===0" (click)="onFocus()"></span>
+    <span [class]="searchIcon" *ngIf="minimumInputLength===0" (click)="focusInputAndShowResults()"></span>
     <span [class]="searchIcon" *ngIf="minimumInputLength!==0"></span>
     <div class="results-container" *ngIf="resultsVisible">
         <span class="results-msg" *ngIf="listData && (listData.length + selectedItems.length) < resultsCount">

@@ -64,6 +64,22 @@ describe('IqSelect2Component', () => {
         expect(component.resultsVisible).toBe(true);
     }));
 
+    it('should show results when clicking on caret (minimumInputLength === 0)', fakeAsync(() => {
+        component.searchFocused = true;
+        component.minimumInputLength = 0;
+        fixture.detectChanges();
+        fixture.nativeElement.querySelector('.caret').click();
+        expect(component.resultsVisible).toBe(true);
+    }));
+
+    it('should not show results when clicking on caret (minimumInputLength !== 0)', fakeAsync(() => {
+        component.searchFocused = true;
+        component.minimumInputLength = 1;
+        fixture.detectChanges();
+        fixture.nativeElement.querySelector('.caret').click();
+        expect(component.resultsVisible).toBe(false);
+    }));
+
     it('should still show results after deleting text, when minimumInputLength === 0',
         inject([DataService], fakeAsync((service: DataService) => {
             let parent = TestBed.createComponent(TestHostComponent);
