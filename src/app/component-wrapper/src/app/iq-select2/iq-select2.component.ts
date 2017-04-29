@@ -102,7 +102,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
         return Observable.of(
-            this.fullDataList.filter((item) => this.containsText(item, term) && !this.alreadySelected(item))
+            this.fullDataList.filter((item) => {
+                return this.containsText(item, term) && !(this.multiple && this.alreadySelected(item));
+            })
         );
     }
 
@@ -119,7 +121,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private adaptItems(items: T[]): IqSelect2Item[] {
         let convertedItems = [];
         items.map((item) => this.iqSelect2ItemAdapter(item))
-            .filter((iqSelect2Item) => !this.alreadySelected(iqSelect2Item))
             .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item))
         return convertedItems;
     }
