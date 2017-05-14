@@ -801,6 +801,30 @@ describe('IqSelect2Component', () => {
         expect(component.dataSourceProvider).toHaveBeenCalledTimes(1);
     })));
 
+    it('should not exclude from results if value is previously selected and then selection is removed with clientMode === true and multiple === true', () => {
+        const selectedItem = {
+            id: '16',
+            text: 'Argentina',
+            entity: {
+                id: '16',
+                name: 'Argentina',
+                code: 'AR',
+                color: '#c1ee5b'
+            }
+        };
+        component.minimumInputLength = 0;
+        component.clientMode = true;
+        component.multiple = true;
+        component.selectedItems = [selectedItem];
+        component.focusInputAndShowResults();
+        fixture.detectChanges();
+
+        component.removeItem(selectedItem)
+        component.focusInputAndShowResults();
+        fixture.detectChanges();
+
+        expect(component.fullDataList.map(item => item.id).indexOf('16')).toBeGreaterThanOrEqual(0);
+    });
 });
 
 @Component({

@@ -61,7 +61,7 @@
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
-                        (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
+                        (onRemove)="onRemove($event)" [selectedProvider]="getItems" [clientMode]="true"></iq-select2>
         </div>
 
         <div class="form-group">
