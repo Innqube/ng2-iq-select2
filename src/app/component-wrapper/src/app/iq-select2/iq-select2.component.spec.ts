@@ -802,7 +802,7 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should not exclude from results if value is previously selected and then selection is removed with clientMode === true and multiple === true', () => {
-        const selectedItem = {
+        var selectedItem = {
             id: '16',
             text: 'Argentina',
             entity: {
