@@ -80,6 +80,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             .do(() => this.resultsVisible = false)
             .filter((term) => term.length >= this.minimumInputLength)
             .switchMap(term => this.loadDataFromObservable(term))
+            .map(items => items.filter(item => !(this.multiple && this.alreadySelected(item))))
             .do(() => this.resultsVisible = this.searchFocused)
             .subscribe((items) => this.listData = items);
     }
@@ -101,11 +102,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
-        return Observable.of(
-            this.fullDataList.filter((item) => {
-                return this.containsText(item, term) && !(this.multiple && this.alreadySelected(item));
-            })
-        );
+        return Observable.of(this.fullDataList.filter((item) => this.containsText(item, term)));
     }
 
     private containsText(item, term: string) {
@@ -121,7 +118,6 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private adaptItems(items: T[]): IqSelect2Item[] {
         let convertedItems = [];
         items.map((item) => this.iqSelect2ItemAdapter(item))
-            .filter((iqSelect2Item) => !this.multiple || !this.alreadySelected(iqSelect2Item))
             .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item))
         return convertedItems;
     }
