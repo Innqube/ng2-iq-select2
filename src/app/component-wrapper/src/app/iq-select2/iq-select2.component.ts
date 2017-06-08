@@ -145,12 +145,13 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private handleMultipleWithEntities(selectedValues: any) {
+        this.selectedItems = [];
         selectedValues.forEach((entity) => {
             let item = this.iqSelect2ItemAdapter(entity);
             let ids = this.getSelectedIds();
 
             if (ids.indexOf(item.id) === -1) {
-                this.selectedItems.push(item)
+                this.selectedItems.push(item);
             }
         });
     }
