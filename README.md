@@ -1,6 +1,6 @@
 # ng2-iq-select2
 
-[![InnQUbe](http://www.innqube.com/powered-by-innqube.png)](http://www.innqube.com/)
+[![InnQUbe](http://www.innqube.com/assets/images/badge.png)](http://www.innqube.com/)
 [![Build Status](https://travis-ci.org/Innqube/ng2-iq-select2.svg?branch=master)](https://travis-ci.org/Innqube/ng2-iq-select2)
 [![codecov](https://codecov.io/gh/Innqube/ng2-iq-select2/branch/master/graph/badge.svg)](https://codecov.io/gh/Innqube/ng2-iq-select2)
 [![Code Climate](https://codeclimate.com/github/Innqube/ng2-iq-select2/badges/gpa.svg)](https://codeclimate.com/github/Innqube/ng2-iq-select2)
