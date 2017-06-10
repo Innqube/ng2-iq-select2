@@ -825,6 +825,34 @@ describe('IqSelect2Component', () => {
 
         expect(component.fullDataList.map(item => item.id).indexOf('16')).toBeGreaterThanOrEqual(0);
     });
+
+    it('multiple mode with entity reference should only set the given values as selected, when writeValue ist called', () => {
+        const itemToBeRemoved = {
+            id: '1',
+            name: 'item 1',
+        };
+        const itemToStay = {
+            id: '2',
+            name: 'item 2',
+        };
+        const itemToBeAdded = {
+            id: '3',
+            name: 'item 3',
+        };
+
+        const iqSelect2ItemAdapter = adapter();
+        component.multiple = true;
+        component.referenceMode = 'entity';
+        component.iqSelect2ItemAdapter = iqSelect2ItemAdapter;
+        component.selectedItems = [itemToBeRemoved, itemToStay].map(iqSelect2ItemAdapter);
+
+        component.writeValue([itemToStay, itemToBeAdded]);
+
+        expect(component.selectedItems.length).toBe(2);
+        const selectedEntities = component.selectedItems.map(x => x.entity);
+        expect(selectedEntities).toContain(itemToStay);
+        expect(selectedEntities).toContain(itemToBeAdded);
+    });
 });
 
 @Component({
