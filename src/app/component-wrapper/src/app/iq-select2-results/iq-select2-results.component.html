@@ -4,7 +4,9 @@
              (mousedown)="onItemSelected(item)" [class.selected]="isSelected(item)"
              [class.active]="i === activeIndex"
              (mouseover)="onMouseOver(i)"
-             (mouseenter)="onHovering($event)">{{item.text}}
+             (mouseenter)="onHovering($event)">
+            <ng-container [ngTemplateOutlet]="templateRef" [ngOutletContext]="{$item:item.entity, $id:item.id, $index:i}"></ng-container>
+            <ng-container *ngIf="!templateRef">{{item.text}}</ng-container>
         </div>
     </div>
 </div>

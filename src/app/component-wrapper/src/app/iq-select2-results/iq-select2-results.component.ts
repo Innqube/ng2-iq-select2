@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import {IqSelect2Item} from '../iq-select2/iq-select2-item';
 
 @Component({
@@ -11,6 +11,7 @@ export class IqSelect2ResultsComponent implements OnInit {
     @Input() items: IqSelect2Item[];
     @Input() searchFocused: boolean;
     @Input() selectedItems: IqSelect2Item[];
+    @Input() templateRef: TemplateRef<any>;
     @Output() itemSelectedEvent: EventEmitter<any> = new EventEmitter();
     activeIndex: number = 0;
     private ussingKeys = false;
