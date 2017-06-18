@@ -81,7 +81,7 @@
                     [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                     [minimumInputLength]='0' referenceMode='entity' (onSelect)="onSelect($event)"
                     (onRemove)="onRemove($event)" [selectedProvider]="getItems" [clientMode]="true">
-          <div *iq-select2-template="let item = $item; let i = $index">
+          <div *iq-select2-template="let item = $entity; let i = $index">
             <span [style.color]="item.color">[{{item.code}}]</span> {{item.name}}
           </div>
         </iq-select2>

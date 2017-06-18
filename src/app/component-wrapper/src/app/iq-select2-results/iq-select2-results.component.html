@@ -5,7 +5,7 @@
              [class.active]="i === activeIndex"
              (mouseover)="onMouseOver(i)"
              (mouseenter)="onHovering($event)">
-            <ng-container [ngTemplateOutlet]="templateRef" [ngOutletContext]="{$item:item.entity, $id:item.id, $index:i}"></ng-container>
+            <ng-container [ngTemplateOutlet]="templateRef" [ngOutletContext]="{$item:item, $entity: item.entity, $id:item.id, $index:i}"></ng-container>
             <ng-container *ngIf="!templateRef">{{item.text}}</ng-container>
         </div>
     </div>
