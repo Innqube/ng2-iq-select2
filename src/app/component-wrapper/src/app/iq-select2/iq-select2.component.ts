@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -51,6 +51,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
     @ViewChild('results') results: IqSelect2ResultsComponent;
+    templateRef: TemplateRef<T>;
     term = new FormControl();
     resultsVisible = false;
     listData: IqSelect2Item[];
