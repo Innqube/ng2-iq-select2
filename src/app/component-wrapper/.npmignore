@@ -1,0 +1,7 @@
+# Ignore Typescript source files
+*.ts
+!*.d.ts
+!*.ngfactory.ts
+
+# Ignore AOT generated files
+*.ngsummary.json

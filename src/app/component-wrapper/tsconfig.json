@@ -17,6 +17,10 @@
       "node"
     ]
   },
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "genDir": "."
+  },
   "exclude": [
     "test.ts",
     "**/*.spec.ts",
