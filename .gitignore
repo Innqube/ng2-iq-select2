@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/publish
 /tmp
 /lib
 /aot

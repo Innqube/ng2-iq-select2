@@ -6,16 +6,6 @@
   "repository": {
     "url": "https://github.com/Innqube/ng2-iq-select2"
   },
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "clean": "find . ( -name '*.js.map' -o -name '*.js' -o -name '*.d.ts' -o -name '*.ngfactory.ts' -o -name '*.ngsummary.json' -o -name '*.metadata.json' -o -name '*.ngstyle.ts' ) -type f -delete",
-    "prepublish": "node ./../../../node_modules/@angular/compiler-cli/src/main.js"
-  },
   "keywords": [
     "ng",
     "ng2",
