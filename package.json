@@ -9,7 +9,7 @@
     "test": "ng test -w false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "mypublish": "node build-lib.js && cd publish && npm pack"
+    "mypublish": "node build-lib.js && cd publish && npm publish"
   },
   "dependencies": {
     "@angular/common": "^2.4.0",
@@ -27,7 +27,7 @@
     "zone.js": "^0.7.6"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.0-rc.1",
+    "@angular/cli": "^1.1.3",
     "@angular/compiler-cli": "^2.4.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
