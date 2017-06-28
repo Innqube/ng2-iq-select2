@@ -1,6 +1,5 @@
 const fs = require('fs');
 const os = require("os");
-const glob = require("glob");
 const child_process = require('child_process');
 const rimraf = require('rimraf');
 const ncp = require('ncp');
