@@ -9,7 +9,8 @@
     "test": "ng test -w false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "mypublish": "node build-lib.js && cd publish && npm publish"
+    "mypublish": "node build-lib.js && cd publish && npm publish",
+    "mypublish:test": "node build-lib.js && cd publish && npm pack"
   },
   "dependencies": {
     "@angular/common": "^2.4.0",
