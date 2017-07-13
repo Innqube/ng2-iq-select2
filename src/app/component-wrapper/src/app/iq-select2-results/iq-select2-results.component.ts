@@ -3,8 +3,8 @@ import {IqSelect2Item} from '../iq-select2/iq-select2-item';
 
 @Component({
     selector: 'iq-select2-results',
-    templateUrl: 'iq-select2-results.component.html',
-    styleUrls: ['iq-select2-results.component.css']
+    templateUrl: './iq-select2-results.component.html',
+    styleUrls: ['./iq-select2-results.component.css']
 })
 export class IqSelect2ResultsComponent implements OnInit {
 

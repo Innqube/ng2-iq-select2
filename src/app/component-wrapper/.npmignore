@@ -1,0 +1,15 @@
+# Ignore Typescript source files
+*.ts
+!*.d.ts
+
+# Ignore AOT generated files
+*.ngsummary.json
+*.ngfactory.ts
+
+# Ignore inlined files
+*.css
+*.html
+
+# Other
+tsconfig.json
+.npmignore
