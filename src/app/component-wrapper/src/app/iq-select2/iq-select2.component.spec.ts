@@ -26,12 +26,12 @@ describe('IqSelect2Component', () => {
                         return new Http(mockBackend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
-                },]
+                }, ]
         })
             .compileComponents();
     }));
 
-    let adapter = function () {
+    const adapter = function () {
         return (entity: any) => {
             return {
                 id: entity.id,
@@ -82,8 +82,8 @@ describe('IqSelect2Component', () => {
 
     it('should still show results after deleting text, when minimumInputLength === 0',
         inject([DataService], fakeAsync((service: DataService) => {
-            let parent = TestBed.createComponent(TestHostComponent);
-            let hostComponent: TestHostComponent = parent.componentInstance;
+            const parent = TestBed.createComponent(TestHostComponent);
+            const hostComponent: TestHostComponent = parent.componentInstance;
             hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
             hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
             parent.detectChanges();
@@ -138,8 +138,8 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should focus input clicking on the container', () => {
-        let ul = fixture.nativeElement.querySelector('.select2-container ul');
-        let input = fixture.nativeElement.querySelector('input');
+        const ul = fixture.nativeElement.querySelector('.select2-container ul');
+        const input = fixture.nativeElement.querySelector('input');
         ul.dispatchEvent(new Event('click'));
         expect(document.activeElement).toBe(input);
     });
@@ -148,11 +148,11 @@ describe('IqSelect2Component', () => {
         spyOn(component, 'onChangeCallback');
 
         component.multiple = false;
-        component.referenceMode = 'id'
+        component.referenceMode = 'id';
         component.onItemSelected({
             id: '1',
             text: 'etiqueta'
-        })
+        });
 
         expect(component.onChangeCallback).toHaveBeenCalledWith('1');
     });
@@ -178,7 +178,7 @@ describe('IqSelect2Component', () => {
     it('single mode with entity reference should export the entire entity', () => {
         spyOn(component, 'onChangeCallback');
 
-        let entity = {
+        const entity = {
             id: '1',
             text: 'etiqueta',
             another: 'another'
@@ -190,7 +190,7 @@ describe('IqSelect2Component', () => {
             id: '1',
             text: 'etiqueta',
             entity: entity
-        })
+        });
 
         expect(component.onChangeCallback).toHaveBeenCalledWith(entity);
     });
@@ -198,7 +198,7 @@ describe('IqSelect2Component', () => {
     it('multiple mode with entity reference should export an array of entities', fakeAsync(() => {
         spyOn(component, 'onChangeCallback');
 
-        let entity = {
+        const entity = {
             id: '1',
             text: 'etiqueta',
             another: 'another'
@@ -228,7 +228,7 @@ describe('IqSelect2Component', () => {
         tick(250);
         fixture.detectChanges();
 
-        let lis = fixture.nativeElement.querySelectorAll('.select2-result');
+        const lis = fixture.nativeElement.querySelectorAll('.select2-result');
         lis[0].dispatchEvent(new Event('mousedown'));
         tick(250);
 
@@ -243,7 +243,7 @@ describe('IqSelect2Component', () => {
         component.onItemSelected({
             id: '1',
             text: 'etiqueta'
-        })
+        });
         tick(250);
         expect(component.onChangeCallback).toHaveBeenCalledWith('1');
         fixture.detectChanges();
@@ -324,8 +324,8 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should not make a request if term.length < minimumInputLength', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
         parent.detectChanges();
@@ -345,8 +345,8 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should export selected values - referenceMode: id, single', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -362,8 +362,8 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should export selected values - referenceMode: id, multiple', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -379,8 +379,8 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should export selected values - referenceMode: entity, single', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -388,7 +388,7 @@ describe('IqSelect2Component', () => {
         hostComponent.childComponent.multiple = false;
         parent.detectChanges();
 
-        let item = {
+        const item = {
             id: '8',
             text: 'Argentina',
             entity: {
@@ -406,8 +406,8 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should export selected values - referenceMode: entity, multiple', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -415,7 +415,7 @@ describe('IqSelect2Component', () => {
         hostComponent.childComponent.multiple = true;
         parent.detectChanges();
 
-        let item = {
+        const item = {
             id: '8',
             text: 'Argentina',
             entity: {
@@ -474,8 +474,8 @@ describe('IqSelect2Component', () => {
         })));
 
     it('should not load duplicate results - id referenceMode', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -491,8 +491,8 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should not load duplicate results - entity referenceMode', inject([DataService], fakeAsync((service: DataService) => {
-        let parent = TestBed.createComponent(TestHostComponent);
-        let hostComponent: TestHostComponent = parent.componentInstance;
+        const parent = TestBed.createComponent(TestHostComponent);
+        const hostComponent: TestHostComponent = parent.componentInstance;
         hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
         hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
         hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -529,7 +529,7 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
-        spyOn(component.results, "activeNext");
+        spyOn(component.results, 'activeNext');
         component.onKeyUp({keyCode: 40});
         tick(1);
         expect(component.results.activeNext).toHaveBeenCalled();
@@ -539,7 +539,7 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
-        spyOn(component.results, "activePrevious");
+        spyOn(component.results, 'activePrevious');
         component.onKeyUp({keyCode: 38});
         tick(1);
         expect(component.results.activePrevious).toHaveBeenCalled();
@@ -549,7 +549,7 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
-        spyOn(component.results, "selectCurrentItem");
+        spyOn(component.results, 'selectCurrentItem');
         component.onKeyUp({keyCode: 13});
         tick(1);
         expect(component.results.selectCurrentItem).toHaveBeenCalled();
@@ -559,7 +559,7 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, "focusInputAndShowResults");
+        spyOn(component, 'focusInputAndShowResults');
         component.onKeyUp({keyCode: 13});
         tick(1);
         expect(component.focusInputAndShowResults).toHaveBeenCalled();
@@ -569,7 +569,7 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, "focusInputAndShowResults");
+        spyOn(component, 'focusInputAndShowResults');
         component.onKeyUp({keyCode: 40});
         tick(1);
         expect(component.focusInputAndShowResults).toHaveBeenCalled();
@@ -583,7 +583,7 @@ describe('IqSelect2Component', () => {
             text: 'test'
         }];
         fixture.detectChanges();
-        spyOn(component, "removeItem");
+        spyOn(component, 'removeItem');
         component.onKeyDown({keyCode: 8});
         tick(1);
         expect(component.removeItem).toHaveBeenCalled();
@@ -596,9 +596,9 @@ describe('IqSelect2Component', () => {
             id: '1',
             text: 'test'
         }];
-        component.term.setValue("arg");
+        component.term.setValue('arg');
         fixture.detectChanges();
-        spyOn(component, "removeItem");
+        spyOn(component, 'removeItem');
         component.onKeyDown({keyCode: 8});
         expect(component.removeItem).toHaveBeenCalledTimes(0);
     });
@@ -618,8 +618,8 @@ describe('IqSelect2Component', () => {
 
     it('should be able to set placeholder value with referenceMode === "id" and multiple === false',
         inject([DataService], (service: DataService) => {
-            let parent = TestBed.createComponent(TestHostComponent);
-            let hostComponent: TestHostComponent = parent.componentInstance;
+            const parent = TestBed.createComponent(TestHostComponent);
+            const hostComponent: TestHostComponent = parent.componentInstance;
             hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
             hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
             hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -638,8 +638,8 @@ describe('IqSelect2Component', () => {
 
     it('should be able to set placeholder value with referenceMode === "entity" and multiple === false',
         inject([DataService], (service: DataService) => {
-            let parent = TestBed.createComponent(TestHostComponent);
-            let hostComponent: TestHostComponent = parent.componentInstance;
+            const parent = TestBed.createComponent(TestHostComponent);
+            const hostComponent: TestHostComponent = parent.componentInstance;
             hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
             hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
             hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
@@ -665,7 +665,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
         expect(mra.length).toBe(0);
     });
 
@@ -678,7 +678,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
         expect(mra.length).toBe(1);
     });
 
@@ -694,7 +694,7 @@ describe('IqSelect2Component', () => {
         }];
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
         expect(mra.length).toBe(0);
     });
 
@@ -708,7 +708,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
         expect(mra.length).toBe(0);
     });
 
@@ -720,7 +720,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        const nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
         expect(nra.length).toBe(0);
     });
 
@@ -730,7 +730,7 @@ describe('IqSelect2Component', () => {
         component.searchFocused = true;
         fixture.detectChanges();
 
-        let nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        const nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
         expect(nra.length).toBe(1);
     });
 
@@ -753,7 +753,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.results-msg');
         expect(mra.innerHTML.trim()).toContain('Showing 1 of 2 results');
     });
 
@@ -763,10 +763,10 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         component.messages = {
             moreResultsAvailableMsg: 'Another message'
-        }
+        };
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.results-msg');
         expect(mra.innerHTML.trim().indexOf('1')).toBe(-1);
         expect(mra.innerHTML.trim().indexOf('2')).toBe(-1);
     });
@@ -777,10 +777,10 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         component.messages = {
             moreResultsAvailableMsg: 'Another message'
-        }
+        };
         fixture.detectChanges();
 
-        let mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.results-msg');
         expect(mra.innerHTML.trim()).toBe('Another message');
     });
 
@@ -802,7 +802,7 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should not exclude from results if value is previously selected and then selection is removed with clientMode === true and multiple === true', () => {
-        var selectedItem = {
+        const selectedItem = {
             id: '16',
             text: 'Argentina',
             entity: {
@@ -819,7 +819,7 @@ describe('IqSelect2Component', () => {
         component.focusInputAndShowResults();
         fixture.detectChanges();
 
-        component.removeItem(selectedItem)
+        component.removeItem(selectedItem);
         component.focusInputAndShowResults();
         fixture.detectChanges();
 

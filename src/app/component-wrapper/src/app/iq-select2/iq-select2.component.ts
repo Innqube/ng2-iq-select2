@@ -70,7 +70,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private subscribeToChangesAndLoadDataFromObservable() {
-        let observable = this.term.valueChanges
+        const observable = this.term.valueChanges
             .debounceTime(this.searchDelay)
             .distinctUntilChanged();
         this.subscribeToResults(observable);
@@ -117,9 +117,9 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     private adaptItems(items: T[]): IqSelect2Item[] {
-        let convertedItems = [];
+        const convertedItems = [];
         items.map((item) => this.iqSelect2ItemAdapter(item))
-            .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item))
+            .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item));
         return convertedItems;
     }
 
@@ -140,7 +140,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         if (this.multiple) {
             this.handleMultipleWithEntities(selectedValues);
         } else {
-            let iqSelect2Item = this.iqSelect2ItemAdapter(selectedValues);
+            const iqSelect2Item = this.iqSelect2ItemAdapter(selectedValues);
             this.selectedItems = [iqSelect2Item];
             this.placeholderSelected = iqSelect2Item.text;
         }
@@ -149,8 +149,8 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private handleMultipleWithEntities(selectedValues: any) {
         this.selectedItems = [];
         selectedValues.forEach((entity) => {
-            let item = this.iqSelect2ItemAdapter(entity);
-            let ids = this.getSelectedIds();
+            const item = this.iqSelect2ItemAdapter(entity);
+            const ids = this.getSelectedIds();
 
             if (ids.indexOf(item.id) === -1) {
                 this.selectedItems.push(item);
@@ -168,10 +168,10 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private handleMultipleWithIds(selectedValues: any) {
         if (selectedValues !== undefined && this.selectedProvider !== undefined) {
-            let uniqueIds = [];
+            const uniqueIds = [];
             selectedValues.forEach((id) => {
                 if (uniqueIds.indexOf(id) === -1) {
-                    uniqueIds.push(id)
+                    uniqueIds.push(id);
                 }
             });
 
@@ -185,7 +185,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         if (id !== undefined && this.selectedProvider !== undefined) {
             this.selectedProvider([id]).subscribe((items: T[]) => {
                 items.forEach((item) => {
-                    let iqSelect2Item = this.iqSelect2ItemAdapter(item);
+                    const iqSelect2Item = this.iqSelect2ItemAdapter(item);
                     this.selectedItems = [iqSelect2Item];
                     this.placeholderSelected = iqSelect2Item.text;
                 });
@@ -218,7 +218,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     onItemSelected(item: IqSelect2Item) {
         if (this.multiple) {
             this.selectedItems.push(item);
-            let index = this.listData.indexOf(item, 0);
+            const index = this.listData.indexOf(item, 0);
             if (index > -1) {
                 this.listData.splice(index, 1);
             }
@@ -239,7 +239,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private getSelectedIds(): any {
         if (this.multiple) {
-            let ids: string[] = [];
+            const ids: string[] = [];
 
             this.selectedItems.forEach(item => ids.push(item.id));
 
@@ -251,7 +251,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private getEntities(): T[] {
         if (this.multiple) {
-            let entities = [];
+            const entities = [];
 
             this.selectedItems.forEach(item => {
                 entities.push(item.entity);
@@ -264,7 +264,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     removeItem(item: IqSelect2Item) {
-        let index = this.selectedItems.indexOf(item, 0);
+        const index = this.selectedItems.indexOf(item, 0);
 
         if (index > -1) {
             this.selectedItems.splice(index, 1);
@@ -289,8 +289,8 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     getInputWidth(): string {
-        let searchEmpty = this.selectedItems.length === 0 && (this.term.value === null || this.term.value.length === 0);
-        let length = this.term.value === null ? 0 : this.term.value.length;
+        const searchEmpty = this.selectedItems.length === 0 && (this.term.value === null || this.term.value.length === 0);
+        const length = this.term.value === null ? 0 : this.term.value.length;
         if (!this.multiple) {
             return '100%';
         } else {
@@ -357,7 +357,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     }
 
     getMinHeight(): string {
-        let isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('input-sm') !== -1;
+        const isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('input-sm') !== -1;
         return isInputSm ? '30px' : '34px';
     }
 
