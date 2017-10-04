@@ -13,7 +13,7 @@ import {IqSelect2Component} from './component-wrapper/src/app/iq-select2/iq-sele
 export class AppComponent implements OnInit {
     public form: FormGroup;
     public listItems: (term: string) => Observable<Country[]>;
-    public listItemsMax: (term: string) => Observable<Country[]>;
+    public listItemsMax: (term: string, ids: string[]) => Observable<Country[]>;
     public getItems: (ids: string[]) => Observable<Country[]>;
     public entityToIqSelect2Item: (entity: Country) => IqSelect2Item;
     public count: number;
@@ -70,11 +70,13 @@ export class AppComponent implements OnInit {
 
     private initializeCountryIqSelect2() {
         this.listItems = (term: string) => this.dataService.listData(term);
-        this.listItemsMax = (term: string) =>
-            this.dataService.listDataMax(term, 3).map((response) => {
-                this.count = response.count;
-                return response.results;
-            });
+        this.listItemsMax = (term: string, ids: string[]) => {
+            const selectedCount = ids ? ids.length : 0;
+            return this.dataService
+                .listDataMax(term, 3 + selectedCount)
+                .do(response => this.count = response.count)
+                .map((response) => response.results);
+        };
         this.getItems = (ids: string[]) => this.dataService.getItems(ids);
         this.entityToIqSelect2Item = (entity: any) => {
             return {

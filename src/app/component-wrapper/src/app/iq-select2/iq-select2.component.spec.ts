@@ -7,7 +7,7 @@ import {Country, DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component<Country>;
@@ -26,7 +26,7 @@ describe('IqSelect2Component', () => {
                         return new Http(mockBackend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
-                }, ]
+                },]
         })
             .compileComponents();
     }));
@@ -881,6 +881,83 @@ describe('IqSelect2Component', () => {
             const input = parent.nativeElement.querySelector('input');
             expect(input.classList.contains('hideable')).toBeFalsy();
         }));
+
+    it('should include selected results when requesting new ones - no selection', fakeAsync(() => {
+        component.searchFocused = true;
+        component.term.setValue('arg');
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        tick(250);
+        expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', null);
+    }));
+
+    it('should include selected results when requesting new ones - id selected - single', fakeAsync(() => {
+        component.searchFocused = true;
+        component.selectedItems = [{
+            id: '1',
+            text: 'Tunisia'
+        }];
+        component.term.setValue('arg');
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        tick(250);
+        expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', '1');
+    }));
+
+    it('should include selected results when requesting new ones - id selected - multiple', fakeAsync(() => {
+        component.multiple = true;
+        fixture.detectChanges();
+        component.searchFocused = true;
+        component.selectedItems = [{
+            id: '1',
+            text: 'Tunisia'
+        }];
+        component.term.setValue('arg');
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        tick(250);
+        expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', ['1']);
+    }));
+
+    it('should include selected results when requesting new ones - entity selected - single', fakeAsync(() => {
+        component.referenceMode = 'entity';
+        fixture.detectChanges();
+        component.searchFocused = true;
+        component.selectedItems = [{
+            id: '1',
+            text: 'Tunisia',
+            entity: {
+                id: '1',
+                countryName: 'Tunisia'
+            }
+        }];
+        component.term.setValue('arg');
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        tick(250);
+        expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', {
+            id: '1',
+            countryName: 'Tunisia'
+        });
+    }));
+
+    it('should include selected results when requesting new ones - entity selected - multiple', fakeAsync(() => {
+        component.referenceMode = 'entity';
+        component.multiple = true;
+        fixture.detectChanges();
+        component.searchFocused = true;
+        component.selectedItems = [{
+            id: '1',
+            text: 'Tunisia',
+            entity: {
+                id: '1',
+                countryName: 'Tunisia'
+            }
+        }];
+        component.term.setValue('arg');
+        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        tick(250);
+        expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', [{
+            id: '1',
+            countryName: 'Tunisia'
+        }]);
+    }));
 });
 
 @Component({

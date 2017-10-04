@@ -29,7 +29,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     MORE_RESULTS_MSG = 'Showing ' + Messages.PARTIAL_COUNT_VAR + ' of ' + Messages.TOTAL_COUNT_VAR + ' results. Refine your search to show more results.';
     NO_RESULTS_MSG = 'No results available';
 
-    @Input() dataSourceProvider: (term: string) => Observable<T[]>;
+    @Input() dataSourceProvider: (term: string, selected?: any[]) => Observable<T[]>;
     @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
     @Input() iqSelect2ItemAdapter: (entity: T) => IqSelect2Item;
     @Input() referenceMode: 'id' | 'entity' = 'id';
@@ -112,7 +112,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private fetchData(term: string): Observable<IqSelect2Item[]> {
         return this
-            .dataSourceProvider(term)
+            .dataSourceProvider(term, this.buildValue())
             .map((items: T[]) => this.adaptItems(items));
     }
 
@@ -227,7 +227,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             this.selectedItems.push(item);
         }
 
-        this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
+        this.onChangeCallback(this.buildValue());
         this.term.patchValue('', {emitEvent: false});
         setTimeout(() => this.focusInput(), 1);
         this.resultsVisible = false;
@@ -270,11 +270,15 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
             this.selectedItems.splice(index, 1);
         }
 
-        this.onChangeCallback('id' === this.referenceMode ? this.getSelectedIds() : this.getEntities());
+        this.onChangeCallback(this.buildValue());
         this.onRemove.emit(item);
         if (!this.multiple) {
             this.placeholderSelected = '';
         }
+    }
+
+    private buildValue() {
+        return 'id' === this.referenceMode ? this.getSelectedIds() : this.getEntities();
     }
 
     onFocus() {
@@ -376,7 +380,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     getCountMessage(): string {
         let msg = this.messages && this.messages.moreResultsAvailableMsg ? this.messages.moreResultsAvailableMsg : this.MORE_RESULTS_MSG;
         msg = msg.replace(Messages.PARTIAL_COUNT_VAR, String(this.listData.length));
-        msg = msg.replace(Messages.TOTAL_COUNT_VAR, String(this.resultsCount));
+        msg = msg.replace(Messages.TOTAL_COUNT_VAR, String(this.resultsCount - this.selectedItems.length));
         return msg;
     }
 

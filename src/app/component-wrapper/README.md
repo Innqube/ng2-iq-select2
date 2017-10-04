@@ -21,7 +21,7 @@ Angular 2 native select 2 implementation based on bootstrap 3
 Usage example:
 
 *app.module.ts*
-```typescript
+```javascript
 
 import { IqSelect2Module } from 'ng2-iq-select2';
 
@@ -59,7 +59,7 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 > Exposed internal variable to bind `$item`, `$entity`, `$id`, `$index`
 
 *example typescript file*
-```typescript
+```javascript
 export class Example {
     form: FormGroup;
     listCountries: (term: string) => Observable<Country[]>;
@@ -114,7 +114,7 @@ export class Messages {
 Configuration options (Inputs and Outputs)
 ==========================================
 
-*@Input()* **dataSourceProvider: (term: string) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input
+*@Input()* **dataSourceProvider: (term: string, selected?: any[]) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input. Selected ids or entities are provided in case you want to avoid getting those results again (this could be useful when setting the "resultsCount" property).
 
 *@Input()* **selectedProvider: (ids: string[]) => Observable<IqSelect2Item<T>[]>**: the function to get previously selected data when referenceMode === 'id'
 

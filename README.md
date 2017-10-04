@@ -114,7 +114,7 @@ export class Messages {
 Configuration options (Inputs and Outputs)
 ==========================================
 
-*@Input()* **dataSourceProvider: (term: string) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input
+*@Input()* **dataSourceProvider: (term: string, selected?: any[]) => Observable<IqSelect2Item<T>[]>**: the function to get the data based on user input. Selected ids or entities are provided in case you want to avoid getting those results again (this could be useful when setting the "resultsCount" property).
 
 *@Input()* **selectedProvider: (ids: string[]) => Observable<IqSelect2Item<T>[]>**: the function to get previously selected data when referenceMode === 'id'
 
