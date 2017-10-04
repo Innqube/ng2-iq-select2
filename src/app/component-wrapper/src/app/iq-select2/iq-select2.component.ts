@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild} from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -96,7 +96,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                 .flatMap((items) => {
                     this.fullDataList = items;
                     return this.filterLocalData(term);
-                })
+                });
         } else {
             return this.filterLocalData(term);
         }
@@ -131,6 +131,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                 this.populateItemsFromEntities(selectedValues);
             }
         } else {
+            this.placeholderSelected = '';
             this.selectedItems = [];
         }
     }

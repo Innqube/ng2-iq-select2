@@ -853,6 +853,34 @@ describe('IqSelect2Component', () => {
         expect(selectedEntities).toContain(itemToStay);
         expect(selectedEntities).toContain(itemToBeAdded);
     });
+
+    it('should show the placeholder again after resetting the form',
+        inject([DataService], (service: DataService) => {
+            const parent = TestBed.createComponent(TestHostComponent);
+            const hostComponent: TestHostComponent = parent.componentInstance;
+            hostComponent.childComponent.multiple = false;
+            hostComponent.childComponent.referenceMode = 'entity';
+            hostComponent.childComponent.placeholder = 'This is the original placeholder';
+            hostComponent.childComponent.minimumInputLength = 0;
+            hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
+            hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
+            hostComponent.childComponent.iqSelect2ItemAdapter = adapter();
+            parent.detectChanges();
+
+            hostComponent.fg.get('country').patchValue({
+                id: '1',
+                name: 'Tunisia',
+                code: 'TN',
+                color: '#fcd217'
+            });
+            parent.detectChanges();
+
+            hostComponent.fg.reset();
+            parent.detectChanges();
+
+            const input = parent.nativeElement.querySelector('input');
+            expect(input.classList.contains('hideable')).toBeFalsy();
+        }));
 });
 
 @Component({
