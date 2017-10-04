@@ -3,15 +3,15 @@ import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angula
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {Country, DataService} from '../../../../data.service';
+import {DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 describe('IqSelect2Component', () => {
-    let component: IqSelect2Component<Country>;
-    let fixture: ComponentFixture<IqSelect2Component<Country>>;
+    let component: IqSelect2Component;
+    let fixture: ComponentFixture<IqSelect2Component>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -970,7 +970,7 @@ describe('IqSelect2Component', () => {
 class TestHostComponent implements OnInit {
 
     @ViewChild(IqSelect2Component)
-    childComponent: IqSelect2Component<Country>;
+    childComponent: IqSelect2Component;
     fg: FormGroup;
 
     constructor(private formBuilder: FormBuilder) {

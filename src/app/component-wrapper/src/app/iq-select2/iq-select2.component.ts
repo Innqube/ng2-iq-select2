@@ -24,19 +24,19 @@ const noop = () => {
     styleUrls: ['./iq-select2.component.css'],
     providers: [VALUE_ACCESSOR]
 })
-export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccessor {
+export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
     MORE_RESULTS_MSG = 'Showing ' + Messages.PARTIAL_COUNT_VAR + ' of ' + Messages.TOTAL_COUNT_VAR + ' results. Refine your search to show more results.';
     NO_RESULTS_MSG = 'No results available';
 
-    @Input() dataSourceProvider: (term: string, selected?: any[]) => Observable<T[]>;
-    @Input() selectedProvider: (ids: string[]) => Observable<T[]>;
-    @Input() iqSelect2ItemAdapter: (entity: T) => IqSelect2Item;
+    @Input() dataSourceProvider: (term: string, selected?: any[]) => Observable<any[]>;
+    @Input() selectedProvider: (ids: string[]) => Observable<any[]>;
+    @Input() iqSelect2ItemAdapter: (entity: any) => IqSelect2Item;
     @Input() referenceMode: 'id' | 'entity' = 'id';
     @Input() multiple = false;
     @Input() searchDelay = 250;
     @Input() css: string;
-    @Input() placeholder: string = '';
+    @Input() placeholder = '';
     @Input() minimumInputLength = 2;
     @Input() disabled = false;
     @Input() searchIcon = 'caret';
@@ -51,7 +51,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
     @ViewChild('results') results: IqSelect2ResultsComponent;
-    templateRef: TemplateRef<T>;
+    templateRef: TemplateRef<any>;
     term = new FormControl();
     resultsVisible = false;
     listData: IqSelect2Item[];
@@ -113,10 +113,10 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
     private fetchData(term: string): Observable<IqSelect2Item[]> {
         return this
             .dataSourceProvider(term, this.buildValue())
-            .map((items: T[]) => this.adaptItems(items));
+            .map((items: any[]) => this.adaptItems(items));
     }
 
-    private adaptItems(items: T[]): IqSelect2Item[] {
+    private adaptItems(items: any[]): IqSelect2Item[] {
         const convertedItems = [];
         items.map((item) => this.iqSelect2ItemAdapter(item))
             .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item));
@@ -175,7 +175,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
                 }
             });
 
-            this.selectedProvider(uniqueIds).subscribe((items: T[]) => {
+            this.selectedProvider(uniqueIds).subscribe((items: any[]) => {
                 this.selectedItems = items.map(this.iqSelect2ItemAdapter);
             });
         }
@@ -183,7 +183,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
 
     private handleSingleWithId(id: any) {
         if (id !== undefined && this.selectedProvider !== undefined) {
-            this.selectedProvider([id]).subscribe((items: T[]) => {
+            this.selectedProvider([id]).subscribe((items: any[]) => {
                 items.forEach((item) => {
                     const iqSelect2Item = this.iqSelect2ItemAdapter(item);
                     this.selectedItems = [iqSelect2Item];
@@ -249,7 +249,7 @@ export class IqSelect2Component<T> implements AfterViewInit, ControlValueAccesso
         }
     }
 
-    private getEntities(): T[] {
+    private getEntities(): any[] {
         if (this.multiple) {
             const entities = [];
 
