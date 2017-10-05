@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     public getItems: (ids: string[]) => Observable<Country[]>;
     public entityToIqSelect2Item: (entity: Country) => IqSelect2Item;
     public count: number;
-    @ViewChild('countrySingle') countrySingle: IqSelect2Component<Country>;
+    @ViewChild('countrySingle') countrySingle: IqSelect2Component;
 
     constructor(private dataService: DataService,
                 private formBuilder: FormBuilder) {
