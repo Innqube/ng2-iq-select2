@@ -8,6 +8,7 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
