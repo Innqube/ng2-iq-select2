@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IqSelect2Item} from './component-wrapper/src/app/iq-select2/iq-select2-item';
 import {IqSelect2Component} from './component-wrapper/src/app/iq-select2/iq-select2.component';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -74,8 +75,10 @@ export class AppComponent implements OnInit {
             const selectedCount = ids ? ids.length : 0;
             return this.dataService
                 .listDataMax(term, 3 + selectedCount)
-                .do(response => this.count = response.count)
-                .map((response) => response.results);
+                .pipe(
+                tap(response => this.count = response.count),
+                map((response) => response.results)
+                );
         };
         this.getItems = (ids: string[]) => this.dataService.getItems(ids);
         this.entityToIqSelect2Item = (entity: any) => {
