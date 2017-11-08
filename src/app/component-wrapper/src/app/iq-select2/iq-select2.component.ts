@@ -2,8 +2,14 @@ import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, Templ
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Observable} from 'rxjs/Rx';
 import {Messages} from './messages';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
 
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
@@ -93,7 +99,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     private fetchAndfilterLocalData(term: string): Observable<IqSelect2Item[]> {
         if (!this.fullDataList) {
             return this.fetchData('')
-                .flatMap((items) => {
+                .mergeMap((items) => {
                     this.fullDataList = items;
                     return this.filterLocalData(term);
                 });
