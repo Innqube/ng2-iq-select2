@@ -2,8 +2,18 @@ import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, Templ
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Observable} from 'rxjs/Rx';
 import {Messages} from './messages';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+    map,
+    mergeMap,
+    switchMap,
+    tap
+} from 'rxjs/operators';
 
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
@@ -70,20 +80,21 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     }
 
     private subscribeToChangesAndLoadDataFromObservable() {
-        const observable = this.term.valueChanges
-            .debounceTime(this.searchDelay)
-            .distinctUntilChanged();
+        const observable = this.term.valueChanges.pipe(
+            debounceTime(this.searchDelay),
+            distinctUntilChanged()
+        );
         this.subscribeToResults(observable);
     }
 
     private subscribeToResults(observable: Observable<string>): void {
-        observable
-            .do(() => this.resultsVisible = false)
-            .filter((term) => term.length >= this.minimumInputLength)
-            .switchMap(term => this.loadDataFromObservable(term))
-            .map(items => items.filter(item => !(this.multiple && this.alreadySelected(item))))
-            .do(() => this.resultsVisible = this.searchFocused)
-            .subscribe((items) => this.listData = items);
+        observable.pipe(
+            tap(() => this.resultsVisible = false),
+            filter((term) => term.length >= this.minimumInputLength),
+            switchMap(term => this.loadDataFromObservable(term)),
+            map(items => items.filter(item => !(this.multiple && this.alreadySelected(item)))),
+            tap(() => this.resultsVisible = this.searchFocused)
+        ).subscribe((items) => this.listData = items);
     }
 
     private loadDataFromObservable(term: string): Observable<IqSelect2Item[]> {
@@ -92,18 +103,19 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
     private fetchAndfilterLocalData(term: string): Observable<IqSelect2Item[]> {
         if (!this.fullDataList) {
-            return this.fetchData('')
-                .flatMap((items) => {
+            return this.fetchData('').pipe(
+                mergeMap((items) => {
                     this.fullDataList = items;
                     return this.filterLocalData(term);
-                });
+                })
+            );
         } else {
             return this.filterLocalData(term);
         }
     }
 
     private filterLocalData(term: string): Observable<IqSelect2Item[]> {
-        return Observable.of(this.fullDataList.filter((item) => this.containsText(item, term)));
+        return of(this.fullDataList.filter((item) => this.containsText(item, term)));
     }
 
     private containsText(item, term: string) {
@@ -113,7 +125,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     private fetchData(term: string): Observable<IqSelect2Item[]> {
         return this
             .dataSourceProvider(term, this.buildValue())
-            .map((items: any[]) => this.adaptItems(items));
+            .pipe(map((items: any[]) => this.adaptItems(items)));
     }
 
     private adaptItems(items: any[]): IqSelect2Item[] {
@@ -345,7 +357,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     focusInputAndShowResults() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
-            this.subscribeToResults(Observable.of(''));
+            this.subscribeToResults(of(''));
         }
         this.searchFocused = !this.disabled;
     }

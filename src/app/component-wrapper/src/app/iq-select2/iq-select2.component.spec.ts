@@ -8,6 +8,8 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import { empty } from 'rxjs/observable/empty';
+import { of } from 'rxjs/observable/of';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
@@ -26,7 +28,8 @@ describe('IqSelect2Component', () => {
                         return new Http(mockBackend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
-                },]
+                },
+            ]
         })
             .compileComponents();
     }));
@@ -295,9 +298,9 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should not repeat same request', fakeAsync(() => {
-        spyOn(component, 'dataSourceProvider').and.returnValue({
-            map: () => Observable.empty()
-        });
+        spyOn(component, 'dataSourceProvider').and.returnValue(of({
+            map: () => empty()
+        }));
 
         component.term.setValue('arg');
         tick(250);
@@ -309,10 +312,9 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should make another request after change', fakeAsync(() => {
-        spyOn(component, 'dataSourceProvider').and.returnValue({
-            map: () => Observable.empty()
-        });
-        ;
+        spyOn(component, 'dataSourceProvider').and.returnValue(of({
+            map: () => empty()
+        }));
 
         component.term.setValue('arg');
         tick(250);
@@ -787,7 +789,7 @@ describe('IqSelect2Component', () => {
     it('should not call dataProvider multiple times when clientMode === true', inject([DataService], fakeAsync((service) => {
         component.clientMode = true;
 
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.of([{
+        spyOn(component, 'dataSourceProvider').and.returnValue(of([{
             id: '1',
             name: 'test'
         }]));
@@ -885,7 +887,7 @@ describe('IqSelect2Component', () => {
     it('should include selected results when requesting new ones - no selection', fakeAsync(() => {
         component.searchFocused = true;
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', null);
     }));
@@ -897,7 +899,7 @@ describe('IqSelect2Component', () => {
             text: 'Tunisia'
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', '1');
     }));
@@ -911,7 +913,7 @@ describe('IqSelect2Component', () => {
             text: 'Tunisia'
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', ['1']);
     }));
@@ -929,7 +931,7 @@ describe('IqSelect2Component', () => {
             }
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', {
             id: '1',
@@ -951,7 +953,7 @@ describe('IqSelect2Component', () => {
             }
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(Observable.empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', [{
             id: '1',

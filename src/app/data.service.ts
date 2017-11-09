@@ -1,6 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    map
+} from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { timer } from 'rxjs/observable/timer';
 
 export class Country {
     id: string;
@@ -105,7 +112,7 @@ export class DataService {
     }
 
     public listData(pattern: string, maxResults?: number): Observable<Country[]> {
-        return Observable.of(this.list
+        return of(this.list
             .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
             .sort(this.sortFunction));
     }
@@ -121,22 +128,21 @@ export class DataService {
     }
 
     public listDataMax(pattern: string, maxResults: number): Observable<{ count: number, results: Country[] }> {
-        let filteredList = this.list
+        const filteredList = this.list
             .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
             .sort(this.sortFunction);
 
-        return Observable
-            .timer(1000)
-            .map((t) => {
+        return timer(1000)
+            .pipe(map((t) => {
                 return {
                     count: filteredList.length,
                     results: maxResults && maxResults < filteredList.length ? filteredList.splice(0, maxResults) : filteredList
-                }
-            });
+                };
+            }));
     }
 
     public getItems(ids: string[]): Observable<Country[]> {
-        let selectedItems: Country[] = [];
+        const selectedItems: Country[] = [];
 
         ids.forEach((id) => {
             this.list
@@ -144,7 +150,7 @@ export class DataService {
                 .map((item) => selectedItems.push(item));
         });
 
-        return Observable.of(selectedItems);
+        return of(selectedItems);
     }
 
 }
