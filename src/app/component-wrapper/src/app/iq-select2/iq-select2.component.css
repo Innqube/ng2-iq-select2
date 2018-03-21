@@ -1,146 +1,116 @@
-.select2-container {
+ul {
+    list-style-type: none;
     position: relative;
-    width: 100%;
 }
 
-.select2-container.readonly ul {
-    background: #eee;
-    cursor: not-allowed;
+ul li {
+    display: inline-block;
 }
 
-.select2-input {
-    list-style-type: none;
-    margin-left: 5px;
-    margin-top: 2px;
-}
-
-.select2-input input {
-    border: none;
-    outline: none;
-    float: left;
-}
-
-.select2-selected {
-    margin: 2px;
-    float: left;
-    list-style-type: none;
-    font-size: 100%;
-}
-
-.multiple-selection .select2-selected {
-    padding: 4px;
-}
-
-.simple-selection .select2-selected {
-    border: none;
-    width: 100%;
-    padding-left: 5px;
-    padding-top: 1px;
-}
-
-.simple-selection input {
-    border: none;
-    outline: none;
-    float: left;
-    position: absolute;
-    left: 9px;
-    background: transparent;
-}
-
-.simple-selection a.select2-selection-remove {
-    text-align: right;
-    right: 25px;
-    top: 9px;
-    position: absolute;
-    z-index: 2;
-}
-
-.select2-selection-container {
+ul.simple-selection li {
     display: block;
-    overflow: hidden;
-    background-clip: border-box;
-    background-attachment: scroll;
-    height: inherit;
-    padding: 2px 30px 2px 2px;
 }
 
-.select2-selection-container:hover {
-    cursor: text;
+input {
+    border: none;
+    padding: 0;
 }
 
-.select2-selection-remove {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.8em;
+input:focus {
+    outline: none;
 }
 
-.select2-selection-remove:hover {
-    color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-}
-
-.select2-container .search-focused {
-    outline: 0;
-    border-color: #66afe9;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-}
-
-.select2-container ul {
-    position: relative;
-    margin-bottom: 0;
-}
-
-.simple-selection.search-focused .selectedItemText {
-    display: none;
-}
-
-.simple-selection.search-focused input.hideable {
-    opacity: 1;
-}
-
-.simple-selection input.hideable {
+.simple-selection input.transparent {
     opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 30px;
+    left: 0;
+    bottom: 0;
+}
+
+.form-control-sm ul {
+    padding: 2px 8px;
+}
+
+.form-control-lg ul {
+    padding: 2px 8px;
 }
 
 .caret {
     position: absolute;
-    right: 10px;
-    top: 14px;
+    right: 8px;
+    font-size: 8px;
+    top: 0;
+    bottom: 0;
+    line-height: 38px;
 }
 
-.search {
-    color: #337ab7;
-    position: absolute;
-    right: 7px;
-    top: 10px;
-    font-size: 12px;
+.form-control-sm .caret {
+    line-height: 31px;
 }
 
-.results-msg {
-    background: whitesmoke;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    color: #aaa;
-    display: block;
-    font-style: italic;
-    font-size: 0.9em;
-    margin: -12px 0 10px;
-    padding: 5px;
+.form-control-lg .caret {
+    line-height: 48px;
+    right: 12px;
 }
 
-.no-results-msg {
-    border-bottom: 1px solid #66afe9;
-    border-color: #66afe9;
-    outline: 0;
+.select2-container {
+    position: relative;
 }
 
 .results-container {
     position: absolute;
-    margin-top: 10px;
+    margin-top: -6px;
     width: 100%;
     z-index: 3;
 }
 
-.requestInProgress {
-    background: lightgray;
+a.select2-selection-remove {
+    position: absolute;
+    right: 10px;
+}
+
+.multiple-selection .select2-selected {
+    margin: 0 1px;
+    position: relative;
+    padding: 4px;
+}
+
+.multiple-selection .select2-selected:first-child {
+    margin-left: 0;
+}
+
+.multiple-selection a.select2-selection-remove {
+    position: relative;
+    right: initial;
+}
+
+a.select2-selection-remove:hover {
+    cursor: pointer;
+}
+
+.select2-container .search-focused {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25)
+}
+
+.results-msg {
+    display: block;
+    position: relative;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-size: 0.8em;
+    padding: 3px 5px;
+    border-left: 1px solid #ced4da;
+    border-right: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    background: #fafafa;
+}
+
+.readonly {
+    background-color: #eaecf0;
 }

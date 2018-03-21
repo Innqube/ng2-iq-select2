@@ -3,17 +3,9 @@ import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Messages} from './messages';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    filter,
-    map,
-    mergeMap,
-    switchMap,
-    tap
-} from 'rxjs/operators';
+import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+import {debounceTime, distinctUntilChanged, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 const KEY_CODE_DOWN_ARROW = 40;
 const KEY_CODE_UP_ARROW = 38;
@@ -49,8 +41,8 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     @Input() placeholder = '';
     @Input() minimumInputLength = 2;
     @Input() disabled = false;
-    @Input() searchIcon = 'caret';
-    @Input() deleteIcon = 'glyphicon glyphicon-remove';
+    @Input() searchIcon;
+    @Input() deleteIcon;
     @Input() messages: Messages = {
         moreResultsAvailableMsg: this.MORE_RESULTS_MSG,
         noResultsAvailableMsg: this.NO_RESULTS_MSG
@@ -373,8 +365,16 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     }
 
     getMinHeight(): string {
-        const isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('input-sm') !== -1;
-        return isInputSm ? '30px' : '34px';
+        const isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('form-control-sm') !== -1;
+        const isInputLg: boolean = this.css === undefined ? false : this.css.indexOf('form-control-lg') !== -1;
+
+        if (isInputSm) {
+            return '31px';
+        } else if (isInputLg) {
+            return '48px';
+        } else {
+            return '38px';
+        }
     }
 
     getPlaceholder(): string {

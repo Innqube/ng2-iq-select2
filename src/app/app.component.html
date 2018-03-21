@@ -2,15 +2,15 @@
     <form [formGroup]="form">
         <div class="form-group">
             <label>Name</label>
-            <input class="form-control input-sm" type="text" formControlName="firstname"/>
+            <input class="form-control" type="text" formControlName="firstname"/>
         </div>
         <div class="form-group">
             <label>Lastname</label>
-            <input class="form-control input-sm" type="text" formControlName="lastname"/>
+            <input class="form-control form-control-sm" type="text" formControlName="lastname"/>
         </div>
         <div class="form-group">
             <label>Options (standard select)</label>
-            <select class="form-control input-sm" formControlName="option">
+            <select class="form-control form-control-sm" formControlName="option">
                 <option>Option 1</option>
                 <option>Option 2</option>
                 <option>Option 3</option>
@@ -22,9 +22,10 @@
             <label>Country (Single)</label>
             <input type="checkbox" formControlName="habilitado"/>
             <a (click)="countrySingle.focus()"> set focus</a>
-            <iq-select2 #countrySingle css="form-control input-sm" placeholder="Start writing..."
+            <iq-select2 #countrySingle css="form-control form-control-sm" placeholder="Start writing..."
                         formControlName="countrySingle"
                         [dataSourceProvider]="listItems"
+                        [minimumInputLength]="0"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         referenceMode='entity' [multiple]='false' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"
@@ -32,7 +33,7 @@
         </div>
         <div class="form-group">
             <label>Country (Multiple)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultiple"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countryMultiple"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [clientMode]="true"
@@ -41,7 +42,7 @@
         </div>
         <div class="form-group">
             <label>Country (Multiple disabled)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..."
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..."
                         formControlName="countryMultipleDisabled" [dataSourceProvider]="listItems"
                         referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
@@ -49,7 +50,7 @@
         </div>
         <div class="form-group">
             <label>Country (Single minimumInputLength = 0)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingleMin0"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countrySingleMin0"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' [multiple]='false' (onSelect)="onSelect($event)"
@@ -57,7 +58,7 @@
         </div>
         <div class="form-group">
             <label>Country (Multiple minimumInputLength = 0)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMultipleMin0"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countryMultipleMin0"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
@@ -66,7 +67,7 @@
 
         <div class="form-group">
             <label>Country (Single minimumInputLength = 0 using results count and delayed response)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMin0Count"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countryMin0Count"
                         [dataSourceProvider]="listItemsMax"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [resultsCount]="count"
@@ -76,7 +77,7 @@
 
         <div class="form-group">
             <label>Country (Multiple minimumInputLength = 0 using results count and delayed response)</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countryMin0Count"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countryMin0Count"
                         [dataSourceProvider]="listItemsMax"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [resultsCount]="count"
@@ -87,7 +88,7 @@
 
         <div class="form-group">
             <label>Country Custom Template</label>
-            <iq-select2 css="form-control input-sm" placeholder="Start writing..." formControlName="countrySingleMin0"
+            <iq-select2 css="form-control form-control-sm" placeholder="Start writing..." formControlName="countrySingleMin0"
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [minimumInputLength]='0' referenceMode='entity' (onSelect)="onSelect($event)"
