@@ -233,7 +233,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
         this.onChangeCallback(this.buildValue());
         this.term.patchValue('', {emitEvent: false});
-        setTimeout(() => this.focusInput(), 1);
+        setTimeout(() => this.focus(), 1);
         this.resultsVisible = false;
         this.onSelect.emit(item);
         if (!this.multiple) {
@@ -318,7 +318,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         } else {
             if (this.minimumInputLength === 0) {
                 if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
-                    this.focusInputAndShowResults();
+                    this.focusAndShowResults();
                 }
             }
         }
@@ -338,7 +338,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         }
     }
 
-    focusInput() {
+    focus() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
             this.resultsVisible = false;
@@ -346,7 +346,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         this.searchFocused = !this.disabled;
     }
 
-    focusInputAndShowResults() {
+    focusAndShowResults() {
         if (!this.disabled) {
             this.termInput.nativeElement.focus();
             this.subscribeToResults(of(''));
@@ -383,10 +383,6 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
     isHideable(): boolean {
         return !this.multiple && this.placeholderSelected !== '';
-    }
-
-    focus(): void {
-        this.termInput.nativeElement.focus();
     }
 
     getCountMessage(): string {

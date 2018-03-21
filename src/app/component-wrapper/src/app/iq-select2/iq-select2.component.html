@@ -1,6 +1,6 @@
 <div class="select2-container">
     <ul [style.min-height]="getMinHeight()"
-        (click)="focusInputAndShowResults()"
+        (click)="focusAndShowResults()"
         [class]="getCss()"
         [class.simple-selection]="!multiple"
         [class.multiple-selection]="multiple"
@@ -38,7 +38,7 @@
         <div *ngIf="!disabled && (multiple || (!multiple && selectedItems.length === 0))" class="caret">
             <span *ngIf="!searchIcon" class="caret-symbol">&#9660;</span>
             <span [class]="searchIcon" *ngIf="searchIcon && minimumInputLength===0"
-                  (click)="focusInputAndShowResults()"></span>
+                  (click)="focusAndShowResults()"></span>
             <span [class]="searchIcon" *ngIf="searchIcon && minimumInputLength!==0"></span>
         </div>
 

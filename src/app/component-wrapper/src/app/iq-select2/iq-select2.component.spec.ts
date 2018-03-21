@@ -7,9 +7,8 @@ import {DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import {empty} from 'rxjs/observable/empty';
+import {of} from 'rxjs/observable/of';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
@@ -92,7 +91,7 @@ describe('IqSelect2Component', () => {
             parent.detectChanges();
 
             hostComponent.childComponent.ngAfterViewInit();
-            hostComponent.childComponent.focusInput();
+            hostComponent.childComponent.focus();
 
             hostComponent.childComponent.term.setValue('arg');
             tick(255);
@@ -249,6 +248,9 @@ describe('IqSelect2Component', () => {
         });
         tick(250);
         expect(component.onChangeCallback).toHaveBeenCalledWith('1');
+        fixture.detectChanges();
+
+        component.searchFocused = false;
         fixture.detectChanges();
 
         fixture.nativeElement.querySelector('.select2-selection-remove').click();
@@ -455,7 +457,7 @@ describe('IqSelect2Component', () => {
             component.referenceMode = 'id';
             fixture.detectChanges();
             component.writeValue('1');
-            component.focusInput();
+            component.focus();
             component.term.setValue('');
             tick(255);
             expect(component.listData.filter(item => item.id === '1').length).toBe(1);
@@ -469,7 +471,7 @@ describe('IqSelect2Component', () => {
             component.referenceMode = 'id';
             fixture.detectChanges();
             component.writeValue(['1']);
-            component.focusInput();
+            component.focus();
             component.term.setValue('');
             tick(255);
             expect(component.listData.filter(x => x.id === '1').length).toBe(0);
@@ -561,20 +563,20 @@ describe('IqSelect2Component', () => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, 'focusInputAndShowResults');
+        spyOn(component, 'focusAndShowResults');
         component.onKeyUp({keyCode: 13});
         tick(1);
-        expect(component.focusInputAndShowResults).toHaveBeenCalled();
+        expect(component.focusAndShowResults).toHaveBeenCalled();
     }));
 
     it('should focus input when down arrow is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
         component.minimumInputLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
-        spyOn(component, 'focusInputAndShowResults');
+        spyOn(component, 'focusAndShowResults');
         component.onKeyUp({keyCode: 40});
         tick(1);
-        expect(component.focusInputAndShowResults).toHaveBeenCalled();
+        expect(component.focusAndShowResults).toHaveBeenCalled();
     }));
 
     it('should delete selected item when delete is pressed', fakeAsync(() => {
@@ -818,11 +820,11 @@ describe('IqSelect2Component', () => {
         component.clientMode = true;
         component.multiple = true;
         component.selectedItems = [selectedItem];
-        component.focusInputAndShowResults();
+        component.focusAndShowResults();
         fixture.detectChanges();
 
         component.removeItem(selectedItem);
-        component.focusInputAndShowResults();
+        component.focusAndShowResults();
         fixture.detectChanges();
 
         expect(component.fullDataList.map(item => item.id).indexOf('16')).toBeGreaterThanOrEqual(0);
