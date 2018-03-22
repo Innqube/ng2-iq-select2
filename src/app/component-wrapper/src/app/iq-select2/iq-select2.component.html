@@ -1,6 +1,5 @@
 <div class="select2-container">
-    <ul [style.min-height]="getMinHeight()"
-        (click)="focusAndShowResults()"
+    <ul (click)="focusAndShowResults()"
         [class]="getCss()"
         [class.simple-selection]="!multiple"
         [class.multiple-selection]="multiple"
@@ -9,9 +8,8 @@
 
         <ng-container *ngIf="!searchFocused || multiple">
             <li *ngFor="let item of selectedItems"
-                class="select2-selected"
-                [class.badge]="multiple"
-                [class.badge-info]="multiple">
+                [class]="'select2-selected ' + getBadgeColor()"
+                [class.badge]="multiple">
 
                 <span class="selectedItemText">{{item.text}}</span>
                 <a class="select2-selection-remove" (click)="removeItem(item)" *ngIf="!disabled">
@@ -25,7 +23,6 @@
             <input #termInput type="text"
                    [placeholder]="getPlaceholder()"
                    [formControl]="term"
-                   [class.hideable]='isHideable()'
                    [class.transparent]="!multiple && selectedItems.length > 0 && !searchFocused"
                    (focus)="onFocus()"
                    (blur)="onBlur()"

@@ -75,6 +75,7 @@ a.select2-selection-remove {
     margin: 0 1px;
     position: relative;
     padding: 4px;
+    bottom: 1px;
 }
 
 .multiple-selection .select2-selected:first-child {

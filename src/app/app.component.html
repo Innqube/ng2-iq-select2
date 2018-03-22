@@ -37,6 +37,7 @@
                         [dataSourceProvider]="listItems"
                         [iqSelect2ItemAdapter]="entityToIqSelect2Item"
                         [clientMode]="true"
+                        [badgeColor]="'dark'"
                         referenceMode='entity' [multiple]='true' (onSelect)="onSelect($event)"
                         (onRemove)="onRemove($event)" [selectedProvider]="getItems"></iq-select2>
         </div>

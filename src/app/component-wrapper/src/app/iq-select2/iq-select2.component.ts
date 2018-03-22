@@ -49,6 +49,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     };
     @Input() resultsCount;
     @Input() clientMode = false;
+    @Input() badgeColor = 'info';
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @ViewChild('termInput') private termInput;
@@ -364,25 +365,8 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         return 'select2-selection-container ' + (this.css === undefined ? '' : this.css);
     }
 
-    getMinHeight(): string {
-        const isInputSm: boolean = this.css === undefined ? false : this.css.indexOf('form-control-sm') !== -1;
-        const isInputLg: boolean = this.css === undefined ? false : this.css.indexOf('form-control-lg') !== -1;
-
-        if (isInputSm) {
-            return '31px';
-        } else if (isInputLg) {
-            return '48px';
-        } else {
-            return '38px';
-        }
-    }
-
     getPlaceholder(): string {
         return this.selectedItems.length > 0 ? this.placeholderSelected : this.placeholder;
-    }
-
-    isHideable(): boolean {
-        return !this.multiple && this.placeholderSelected !== '';
     }
 
     getCountMessage(): string {
@@ -390,6 +374,10 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         msg = msg.replace(Messages.PARTIAL_COUNT_VAR, String(this.listData.length));
         msg = msg.replace(Messages.TOTAL_COUNT_VAR, String(this.resultsCount - this.selectedItems.length));
         return msg;
+    }
+
+    getBadgeColor(): string {
+        return this.multiple ? 'badge-' + this.badgeColor : '';
     }
 
 }

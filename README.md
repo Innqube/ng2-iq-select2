@@ -144,6 +144,8 @@ Configuration options (Inputs and Outputs)
 
 *@Input()* **deleteIcon**: css icon to be used to remove selected option (In single mode)
 
+*@Input()* **badgeColor**: badge bootstrap color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
+
 *@Output()* **onSelect(item: IqSelect2Item)**: event triggered when an item is selected
 
 *@Output()* **onRemove(item: IqSelect2Item)**: event triggered when an item is removed
