@@ -1,0 +1,3 @@
+exclude_patterns:
+- "**/*.spec.*"
+- "karma.conf.js"

@@ -72,6 +72,31 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         this.subscribeToChangesAndLoadDataFromObservable();
     }
 
+    writeValue(selectedValues: any): void {
+        if (selectedValues) {
+            if (this.referenceMode === 'id') {
+                this.populateItemsFromIds(selectedValues);
+            } else {
+                this.populateItemsFromEntities(selectedValues);
+            }
+        } else {
+            this.placeholderSelected = '';
+            this.selectedItems = [];
+        }
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChangeCallback = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        this.onTouchedCallback = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+    }
+
     private subscribeToChangesAndLoadDataFromObservable() {
         const observable = this.term.valueChanges.pipe(
             debounceTime(this.searchDelay),
@@ -126,19 +151,6 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         items.map((item) => this.iqSelect2ItemAdapter(item))
             .forEach((iqSelect2Item) => convertedItems.push(iqSelect2Item));
         return convertedItems;
-    }
-
-    writeValue(selectedValues: any): void {
-        if (selectedValues) {
-            if (this.referenceMode === 'id') {
-                this.populateItemsFromIds(selectedValues);
-            } else {
-                this.populateItemsFromEntities(selectedValues);
-            }
-        } else {
-            this.placeholderSelected = '';
-            this.selectedItems = [];
-        }
     }
 
     private populateItemsFromEntities(selectedValues: any) {
@@ -196,18 +208,6 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
                 });
             });
         }
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChangeCallback = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouchedCallback = fn;
-    }
-
-    setDisabledState(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 
     private alreadySelected(item: IqSelect2Item): boolean {
@@ -297,14 +297,20 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         this.onTouchedCallback();
     }
 
-    getInputWidth(): string {
-        const searchEmpty = this.selectedItems.length === 0 && (this.term.value === null || this.term.value.length === 0);
-        const length = this.term.value === null ? 0 : this.term.value.length;
-        if (!this.multiple) {
-            return '100%';
-        } else {
-            return searchEmpty ? '100%' : (1 + length * .6) + 'em';
+    focus() {
+        if (!this.disabled) {
+            this.termInput.nativeElement.focus();
+            this.resultsVisible = false;
         }
+        this.searchFocused = !this.disabled;
+    }
+
+    focusAndShowResults() {
+        if (!this.disabled) {
+            this.termInput.nativeElement.focus();
+            this.subscribeToResults(of(''));
+        }
+        this.searchFocused = !this.disabled;
     }
 
     onKeyUp(ev) {
@@ -333,26 +339,11 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
         }
 
         if (ev.keyCode === KEY_CODE_DELETE) {
-            if ((!this.term.value || this.term.value.length === 0) && this.selectedItems.length > 0) {
+            const textEntered = !this.term.value || this.term.value.length === 0;
+            if (textEntered && this.selectedItems.length > 0) {
                 this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
             }
         }
-    }
-
-    focus() {
-        if (!this.disabled) {
-            this.termInput.nativeElement.focus();
-            this.resultsVisible = false;
-        }
-        this.searchFocused = !this.disabled;
-    }
-
-    focusAndShowResults() {
-        if (!this.disabled) {
-            this.termInput.nativeElement.focus();
-            this.subscribeToResults(of(''));
-        }
-        this.searchFocused = !this.disabled;
     }
 
     onKeyPress(ev) {
