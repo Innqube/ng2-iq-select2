@@ -5,13 +5,14 @@
 [![codecov](https://codecov.io/gh/Innqube/ng2-iq-select2/branch/master/graph/badge.svg)](https://codecov.io/gh/Innqube/ng2-iq-select2)
 [![Code Climate](https://codeclimate.com/github/Innqube/ng2-iq-select2/badges/gpa.svg)](https://codeclimate.com/github/Innqube/ng2-iq-select2)
 
-Angular 2 native select 2 implementation based on bootstrap 3
+Angular 2 native select 2 implementation based on bootstrap 4
 
 * Easily filter on a remote webservice (can be used with a local list too)
 * Works with ids or complete entities
 * Single or multiple modes
 * Forms integration
 * MIT License
+* Last bootstrap 3 compatible version is 7.0.0
 
 
 [Take a look at the demo page](https://innqube.github.io/ng2-iq-select2-demo)
