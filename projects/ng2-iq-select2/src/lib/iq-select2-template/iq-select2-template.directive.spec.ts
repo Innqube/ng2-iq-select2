@@ -2,12 +2,12 @@
 import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IqSelect2Component} from '../iq-select2/iq-select2.component';
 import {IqSelect2TemplateDirective} from './iq-select2-template.directive';
+import {DataService} from '../data.service';
 
 describe('IqSelect2TemplateDirective', () => {
     let component: IqSelect2Component;
@@ -27,8 +27,7 @@ describe('IqSelect2TemplateDirective', () => {
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 }]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     const adapter = function () {

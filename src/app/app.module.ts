@@ -1,25 +1,24 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+
 import {AppComponent} from './app.component';
 import {DataService} from './data.service';
-import {IqSelect2Module} from './component-wrapper/src/app/iq-select2.module';
+import {IqSelect2Module} from '../../projects/ng2-iq-select2/src/lib/iq-select2.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    ReactiveFormsModule,
-    IqSelect2Module
-  ],
-  providers: [
-    DataService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        IqSelect2Module,
+        ReactiveFormsModule
+    ],
+    providers: [
+        DataService
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

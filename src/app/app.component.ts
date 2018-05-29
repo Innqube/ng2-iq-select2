@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Country, DataService} from './data.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IqSelect2Item} from './component-wrapper/src/app/iq-select2/iq-select2-item';
-import {IqSelect2Component} from './component-wrapper/src/app/iq-select2/iq-select2.component';
-import { map, tap } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
+import {Country, DataService} from './data.service';
+import {IqSelect2Item} from '../../projects/ng2-iq-select2/src/lib/iq-select2/iq-select2-item';
+import {IqSelect2Component} from '../../projects/ng2-iq-select2/src/lib/iq-select2/iq-select2.component';
 
 @Component({
     selector: 'app-root',
@@ -76,8 +76,8 @@ export class AppComponent implements OnInit {
             return this.dataService
                 .listDataMax(term, 3 + selectedCount)
                 .pipe(
-                tap(response => this.count = response.count),
-                map((response) => response.results)
+                    tap(response => this.count = response.count),
+                    map((response) => response.results)
                 );
         };
         this.getItems = (ids: string[]) => this.dataService.getItems(ids);

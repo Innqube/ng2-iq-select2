@@ -3,12 +3,11 @@ import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angula
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {DataService} from '../../../../data.service';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {empty} from 'rxjs/observable/empty';
-import {of} from 'rxjs/observable/of';
+import {EMPTY, of} from 'rxjs';
+import {DataService} from '../data.service';
 
 describe('IqSelect2Component', () => {
     let component: IqSelect2Component;
@@ -301,7 +300,7 @@ describe('IqSelect2Component', () => {
 
     it('should not repeat same request', fakeAsync(() => {
         spyOn(component, 'dataSourceProvider').and.returnValue(of({
-            map: () => empty()
+            map: () => EMPTY
         }));
 
         component.term.setValue('arg');
@@ -315,7 +314,7 @@ describe('IqSelect2Component', () => {
 
     it('should make another request after change', fakeAsync(() => {
         spyOn(component, 'dataSourceProvider').and.returnValue(of({
-            map: () => empty()
+            map: () => EMPTY
         }));
 
         component.term.setValue('arg');
@@ -889,7 +888,7 @@ describe('IqSelect2Component', () => {
     it('should include selected results when requesting new ones - no selection', fakeAsync(() => {
         component.searchFocused = true;
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(EMPTY);
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', null);
     }));
@@ -901,7 +900,7 @@ describe('IqSelect2Component', () => {
             text: 'Tunisia'
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(EMPTY);
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', '1');
     }));
@@ -915,7 +914,7 @@ describe('IqSelect2Component', () => {
             text: 'Tunisia'
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(EMPTY);
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', ['1']);
     }));
@@ -933,7 +932,7 @@ describe('IqSelect2Component', () => {
             }
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(EMPTY);
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', {
             id: '1',
@@ -955,7 +954,7 @@ describe('IqSelect2Component', () => {
             }
         }];
         component.term.setValue('arg');
-        spyOn(component, 'dataSourceProvider').and.returnValue(empty());
+        spyOn(component, 'dataSourceProvider').and.returnValue(EMPTY);
         tick(250);
         expect(component.dataSourceProvider).toHaveBeenCalledWith('arg', [{
             id: '1',

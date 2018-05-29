@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {IqSelect2Item} from '../iq-select2/iq-select2-item';
 
 @Component({
@@ -13,7 +13,7 @@ export class IqSelect2ResultsComponent implements OnInit {
     @Input() selectedItems: IqSelect2Item[];
     @Input() templateRef: TemplateRef<any>;
     @Output() itemSelectedEvent: EventEmitter<any> = new EventEmitter();
-    activeIndex: number = 0;
+    activeIndex = 0;
     private ussingKeys = false;
 
     constructor() {
@@ -47,8 +47,8 @@ export class IqSelect2ResultsComponent implements OnInit {
     }
 
     scrollToElement() {
-        let element = document.getElementById('item_' + this.activeIndex);
-        let container = document.getElementById('resultsContainer');
+        const element = document.getElementById('item_' + this.activeIndex);
+        const container = document.getElementById('resultsContainer');
 
         if (element) {
             container.scrollTop = element.offsetTop;
